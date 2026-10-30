@@ -1,25 +1,13 @@
 import { useRef, useState } from "react";
+import SocialMediaIcons from "../../Nav-Logo-Footer/SocialMediaIcons/SocialMediaIcons";
 import "./HeroSection.css";
 
 // Top-of-page photo gallery: swipe (native scroll-snap), arrows, or dots move
-// between pictures. No caption or price on the photos — only the tour's
-// average rating in gold stars, centred along the bottom edge.
-const GoldStars = ({ stars }) => (
-	<div className="hero-stars" aria-label={`Rated ${stars} out of 5`}>
-		{[0, 1, 2, 3, 4].map((i) => (
-			<span key={i} className={`gold-star ${i < stars ? "filled" : "empty"}`}>
-				&#9733;
-			</span>
-		))}
-	</div>
-);
-
-const HeroSection = ({ gallery, reviews }) => {
+// between pictures. No caption or price on the photos — only JOA's social
+// icons, centred along the bottom edge (the rating sits by the title).
+const HeroSection = ({ gallery }) => {
 	const trackRef = useRef(null);
 	const [index, setIndex] = useState(0);
-	const averageStars = reviews.length
-		? Math.round(reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length)
-		: 0;
 
 	// Slide under the viewport right now, read from the scroll position
 	const current = () => {
@@ -79,7 +67,9 @@ const HeroSection = ({ gallery, reviews }) => {
 			</button>
 
 			<div className="hero-gallery-footer">
-				<GoldStars stars={averageStars} />
+				<div className="hero-social">
+					<SocialMediaIcons only={["Facebook", "Instagram", "TikTok", "YouTube"]} />
+				</div>
 				<div className="hero-gallery-dots">
 					{gallery.map((item, i) => (
 						<button

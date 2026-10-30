@@ -24,7 +24,7 @@ const FormHeading = () => {
 				</li>
 				<li>
 					<span className="contact-info-label">Replies</span>
-					<span>Within a day, Morocco time</span>
+					<span>Within 24 hours</span>
 				</li>
 			</ul>
 			<SocialMediaIcons />

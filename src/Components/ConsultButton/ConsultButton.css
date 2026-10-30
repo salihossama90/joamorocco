@@ -45,3 +45,16 @@
         bottom: 6rem;
     }
 }
+
+/* Home page on phones: the Custom panel's own button already opens the
+   contact form, and the floating one would sit on top of it */
+@media (max-width: 779px) {
+    .App:has(.show-case) .floating-consult-btn {
+        display: none;
+    }
+}
+
+/* Contact page: the form itself is the consultation booking */
+.App:has(.contact-page) .floating-consult-btn {
+    display: none;
+}

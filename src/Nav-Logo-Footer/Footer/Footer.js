@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SocialMediaIcons from "../SocialMediaIcons/SocialMediaIcons";
 import "./Footer.css";
 
 const Footer = () => {
@@ -15,6 +16,7 @@ const Footer = () => {
 							you the time to feel them.
 						</p>
 					</article>
+					<div className="footer-contact">
 					<ul>
 						<li>
 							<a href="mailto:joamorocco@gmail.com">joamorocco@gmail.com</a>
@@ -26,6 +28,10 @@ const Footer = () => {
 							<span>580 Riverview Dr, Columbus, OH, USA</span>
 						</li>
 					</ul>
+					<div className="footer-social">
+						<SocialMediaIcons only={["Facebook", "Instagram", "TikTok", "YouTube"]} />
+					</div>
+					</div>
 				</div>
 				<nav className="footer-legal">
 					<Link to="/terms">Terms &amp; Conditions</Link>

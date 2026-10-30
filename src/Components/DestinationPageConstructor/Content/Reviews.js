@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import useInView from "../../../hooks/useInView";
+import React, { useState, useEffect, useRef } from "react";
 import { api } from "../../../lib/api";
 import { useToast } from "../../Toast/ToastProvider";
 import "./Reviews.css";
@@ -33,18 +32,95 @@ const StarInput = ({ value, onChange }) => {
 };
 
 const ReviewItem = ({ review }) => {
-	const [ref, inView] = useInView();
 	return (
-		<div ref={ref} className={`review-item anim fade-up ${inView ? "anim-in" : ""}`}>
-			<div className="review-avatar">{review.name.charAt(0).toUpperCase()}</div>
-			<div className="review-info">
-				<h4 className="review-name">
-					{review.name}
-					{review.verified && <span className="verified-badge">✓ Verified traveler</span>}
-				</h4>
-				<StarDisplay stars={review.stars} />
-				<p className="review-review">{review.review}</p>
+		<div className="review-item">
+			<div className="review-head">
+				<div className="review-avatar">{review.name.charAt(0).toUpperCase()}</div>
+				<div className="review-info">
+					<h4 className="review-name">
+						{review.name}
+						{review.verified && <span className="verified-badge">✓ Verified traveler</span>}
+					</h4>
+					<StarDisplay stars={review.stars} />
+				</div>
 			</div>
+			<p className="review-review">{review.review}</p>
+		</div>
+	);
+};
+
+// Reviews read sideways: swipe (native scroll-snap) or the arrows move one
+// card; the counter says how far you've read, so the list never feels endless.
+// Wider screens show two or three cards at once, so everything is read from
+// the scroll position itself.
+const ReviewCarousel = ({ reviews }) => {
+	const trackRef = useRef(null);
+	const [pos, setPos] = useState({ index: 0, visible: 1, atStart: true, atEnd: true });
+
+	// One card plus the gap after it — the distance a swipe or arrow moves
+	const cardStep = (track) => {
+		const [a, b] = track.children;
+		return b ? b.offsetLeft - a.offsetLeft : track.clientWidth;
+	};
+
+	const measure = () => {
+		const track = trackRef.current;
+		if (!track || !track.children.length) return;
+		const w = cardStep(track);
+		setPos({
+			index: Math.round(track.scrollLeft / w),
+			visible: Math.max(1, Math.round(track.clientWidth / w)),
+			atStart: track.scrollLeft <= 4,
+			atEnd: track.scrollLeft + track.clientWidth >= track.scrollWidth - 4,
+		});
+	};
+
+	useEffect(() => {
+		measure();
+		window.addEventListener("resize", measure);
+		return () => window.removeEventListener("resize", measure);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [reviews.length]);
+
+	// Card an arrow is still smoothly scrolling to (null once settled), so
+	// taps during the animation stack up instead of repeating the same move
+	const target = useRef(null);
+	const settle = useRef(0);
+
+	const step = (delta) => {
+		const track = trackRef.current;
+		if (!track) return;
+		const last = Math.max(0, reviews.length - pos.visible);
+		const n = Math.max(0, Math.min(last, (target.current ?? pos.index) + delta));
+		target.current = n;
+		clearTimeout(settle.current);
+		settle.current = setTimeout(() => (target.current = null), 700);
+		track.scrollTo({ left: n * cardStep(track), behavior: "smooth" });
+	};
+
+	const fits = pos.atStart && pos.atEnd;
+	const seen = pos.atEnd ? reviews.length : Math.min(reviews.length, pos.index + pos.visible);
+
+	return (
+		<div className="review-carousel" aria-roledescription="carousel" aria-label="Traveler reviews">
+			<div className="review-content" ref={trackRef} onScroll={measure}>
+				{reviews.map((review, i) => (
+					<ReviewItem key={i} review={review} />
+				))}
+			</div>
+			{!fits && (
+				<div className="review-carousel-nav">
+					<button type="button" className="review-arrow" aria-label="Previous review"
+						disabled={pos.atStart} onClick={() => step(-1)}>
+						&#8249;
+					</button>
+					<span className="review-counter">{seen} / {reviews.length}</span>
+					<button type="button" className="review-arrow" aria-label="Next review"
+						disabled={pos.atEnd} onClick={() => step(1)}>
+						&#8250;
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };
@@ -188,11 +264,7 @@ const ReviewsContent = ({ info, tour }) => {
 				</form>
 			</div>
 
-			<div className="review-content">
-				{allReviews.map((review, index) => (
-					<ReviewItem key={index} review={review} />
-				))}
-			</div>
+			<ReviewCarousel reviews={allReviews} />
 		</div>
 	);
 };

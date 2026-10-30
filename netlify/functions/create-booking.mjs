@@ -1,7 +1,6 @@
 import { getDb } from "./_lib/db.mjs";
 import { json, error, requireMethod, parseBody } from "./_lib/respond.mjs";
 import { encrypt, hmacEmail, makeReference } from "./_lib/crypto.mjs";
-import { getSessionUser } from "./_lib/session.mjs";
 import { processPayment } from "./_lib/payment.mjs";
 import { serializeBooking } from "./_lib/bookings.mjs";
 import { isValidTour, tourDays } from "../../shared/tourMeta.mjs";
@@ -52,7 +51,6 @@ export const handler = async (event) => {
   if (!pay.ok) return error(402, pay.error);
 
   const db = await getDb();
-  const session = getSessionUser(event);
   const reference = makeReference();
 
   // ── Atomic conflict-check + insert in a SINGLE statement ──
@@ -81,7 +79,7 @@ export const handler = async (event) => {
       quote.totalCents,
       JSON.stringify(quote),
       (body.specialRequests || "").trim().slice(0, 2000) || null,
-      session ? session.uid : null,
+      null, // user_id: customer accounts were removed (29 Oct 2026); every booking is a guest booking
       encrypt(name),
       encrypt(email),
       hmacEmail(email),

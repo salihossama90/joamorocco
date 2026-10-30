@@ -20,6 +20,8 @@ function encryptionKey() {
   return Buffer.from(valid ? hex : DEV_ENCRYPTION_KEY, "hex");
 }
 
+// SESSION_SECRET keys the email lookup hash (hmacEmail). The name predates the
+// removal of customer accounts; changing it would orphan every stored hash.
 export function sessionSecret() {
   return process.env.SESSION_SECRET && !/YOUR/i.test(process.env.SESSION_SECRET)
     ? process.env.SESSION_SECRET
@@ -61,21 +63,6 @@ export function hmacEmail(email) {
     .createHmac("sha256", sessionSecret())
     .update(String(email).trim().toLowerCase())
     .digest("hex");
-}
-
-// ── Password hashing (scrypt) — "salt:hash" hex ──
-export function hashPassword(password) {
-  const salt = crypto.randomBytes(16);
-  const hash = crypto.scryptSync(String(password), salt, 64);
-  return `${salt.toString("hex")}:${hash.toString("hex")}`;
-}
-
-export function verifyPassword(password, stored) {
-  if (!stored || !stored.includes(":")) return false;
-  const [saltHex, hashHex] = stored.split(":");
-  const hash = Buffer.from(hashHex, "hex");
-  const test = crypto.scryptSync(String(password), Buffer.from(saltHex, "hex"), 64);
-  return hash.length === test.length && crypto.timingSafeEqual(hash, test);
 }
 
 // Confirmation reference: JOA-XXXX-XXXX from a crypto-strong source.

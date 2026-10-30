@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SocialMediaIcons from "../SocialMediaIcons/SocialMediaIcons";
-import { useAuth } from "../../context/AuthContext";
 import "./Navbar.css";
 
 // Rewritten from a class component that scanned every DOM node with
@@ -11,8 +10,6 @@ import "./Navbar.css";
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
-	const { user, logout } = useAuth();
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		let ticking = false;
@@ -30,12 +27,6 @@ export default function Navbar() {
 	}, []);
 
 	const close = () => setIsOpen(false);
-
-	const doLogout = async () => {
-		close();
-		await logout();
-		navigate("/");
-	};
 
 	return (
 		<nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
@@ -56,18 +47,7 @@ export default function Navbar() {
 					<li><Link to="/about" onClick={close}>About</Link></li>
 					<li><Link to="/contact" onClick={close}>Contact</Link></li>
 					<li><Link to="/book" onClick={close}>Book</Link></li>
-					{user ? (
-						<>
-							<li><Link to="/account" onClick={close}>My Trips</Link></li>
-							<li>
-								<button type="button" className="nav-linkbtn" onClick={doLogout}>
-									Log out
-								</button>
-							</li>
-						</>
-					) : (
-						<li><Link to="/login" onClick={close}>Log in</Link></li>
-					)}
+					<li><Link to="/find-booking" onClick={close}>Find booking</Link></li>
 				</ul>
 				<div className="nav-social">
 					<SocialMediaIcons />

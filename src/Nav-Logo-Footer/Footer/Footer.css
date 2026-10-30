@@ -34,7 +34,8 @@ footer {
     padding: 0;
 }
 
-.footer-about-container ul {
+.footer-contact > ul {
+    list-style: none;
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
@@ -52,6 +53,32 @@ footer {
 
 .footer-about-container a:hover {
     color: var(--primary-color);
+}
+
+/* Social icons under the address */
+.footer-social .media-icons ul {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+}
+.footer-social .media-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    font-style: normal;
+    color: rgba(255, 255, 255, 0.75);
+    transition: color 0.2s, border-color 0.2s;
+}
+.footer-social .media-icons a:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .footer-legal {
@@ -95,8 +122,11 @@ footer {
         flex: 1;
     }
 
-    .footer-about-container ul {
-        margin-top: 0;
+    .footer-contact {
         min-width: 200px;
+    }
+
+    .footer-contact > ul {
+        margin-top: 0;
     }
 }

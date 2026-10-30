@@ -10,6 +10,22 @@
     color: var(--primary-text-color);
 }
 
+/* ── Luxury gold stars under the title ── */
+.title-stars {
+    display: inline-flex;
+    gap: 3px;
+    margin: 0 0 0.5rem;
+    text-decoration: none;
+}
+.title-stars .gold-star { font-size: 1.4rem; line-height: 1; }
+.gold-star.filled {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.title-stars .gold-star.empty { color: #ddd; }
+
 .information-destination-page h4 {
     margin: 0 0 1.5rem;
     font-style: italic;

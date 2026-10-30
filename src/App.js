@@ -6,7 +6,6 @@ import Footer from "./Nav-Logo-Footer/Footer/Footer";
 import PopularAdventuresSection from "./Nav-Logo-Footer/PopularSection";
 import ScrollToTop from "./ScrollToTop";
 import ConsultButton from "./Components/ConsultButton/ConsultButton";
-import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./Components/Toast/ToastProvider";
 import "./App.css";
 
@@ -18,8 +17,6 @@ const TITLES = {
 	"/book": "Book Your Private Tour | JOA Morocco",
 	"/about": "About Us | JOA Morocco",
 	"/contact": "Contact | JOA Morocco",
-	"/login": "Log In | JOA Morocco",
-	"/account": "My Trips | JOA Morocco",
 	"/find-booking": "Find Your Booking | JOA Morocco",
 	"/terms": "Terms & Conditions | JOA Morocco",
 	"/privacy": "Privacy Policy | JOA Morocco",
@@ -29,33 +26,31 @@ function App() {
 	const pathname = useLocation().pathname;
 	const isHome = pathname === "/";
 	// Full-bleed app pages provide their own footer/spacing.
-	const isAppPage = ["/book", "/login", "/account", "/find-booking", "/terms", "/privacy"].includes(pathname);
+	const isAppPage = ["/book", "/find-booking", "/terms", "/privacy"].includes(pathname);
 
 	useEffect(() => {
 		document.title = TITLES[pathname] || TITLES["/"];
 	}, [pathname]);
 
 	return (
-		<AuthProvider>
-			<ToastProvider>
-				<div className="App">
-					<ScrollToTop />
-					<div className="header">
-						<Logo />
-						<Navbar color="#fff" />
-					</div>
-					<Outlet />
-					{!isHome && !isAppPage && (
-						<>
-							<PopularAdventuresSection />
-							<Footer />
-						</>
-					)}
-					{isAppPage && <Footer />}
-					<ConsultButton />
+		<ToastProvider>
+			<div className="App">
+				<ScrollToTop />
+				<div className="header">
+					<Logo />
+					<Navbar color="#fff" />
 				</div>
-			</ToastProvider>
-		</AuthProvider>
+				<Outlet />
+				{!isHome && !isAppPage && (
+					<>
+						<PopularAdventuresSection />
+						<Footer />
+					</>
+				)}
+				{isAppPage && <Footer />}
+				<ConsultButton />
+			</div>
+		</ToastProvider>
 	);
 }
 

@@ -11,7 +11,7 @@
 }
 
 @media (min-width: 780px) {
-    .show-case--duo {
+    .show-case--trio {
         flex-direction: row;
     }
 }
@@ -25,10 +25,10 @@
     transition: flex-grow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* On desktop, hovering a panel lets it grow and gently push its sibling. */
+/* On desktop, hovering a panel lets it grow and gently push its siblings. */
 @media (min-width: 780px) {
-    .show-case--duo:hover .show-case-item { flex-grow: 0.85; }
-    .show-case--duo .show-case-item:hover { flex-grow: 1.35; }
+    .show-case--trio:hover .show-case-item { flex-grow: 0.85; }
+    .show-case--trio .show-case-item:hover { flex-grow: 1.35; }
 }
 
 /* Video sits on top of the background-image fallback, fading in when playing. */
@@ -64,7 +64,7 @@
 }
 .show-case-item:hover::after { opacity: 0.82; }
 
-/* Subtle separator between the two panels */
+/* Subtle separator between panels */
 @media (min-width: 780px) {
     .show-case-item + .show-case-item::before {
         content: '';
@@ -161,3 +161,15 @@
     border-color: var(--primary-color);
 }
 .show-case .book-btn:active { transform: scale(0.97); }
+
+/* Phones stack three panels in one screen — tighten so each fits its third,
+   and sit the text low so the logo never covers the first title */
+@media (max-width: 779px) {
+    .show-case-content { justify-content: flex-end; gap: 0.3rem; padding: 1rem 1.25rem; }
+    .show-case-eyebrow { font-size: 0.65rem; }
+    .show-case h2 { max-width: 20ch; font-size: clamp(1.5rem, 7vw, 2rem); }
+    /* the subtitle is dropped here so the first title clears the logo */
+    .show-case h4 { display: none; }
+    .show-case-price { font-size: 0.72rem; letter-spacing: 1px; }
+    .show-case .book-btn { margin-top: 0.4rem; height: 40px; min-width: 170px; }
+}

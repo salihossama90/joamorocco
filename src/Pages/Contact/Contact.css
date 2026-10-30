@@ -88,7 +88,7 @@
 
 /* ── Body layout ── */
 .contact-body {
-	max-width: 1060px;
+	max-width: 1240px;
 	margin: 0 auto;
 	padding: clamp(2.5rem, 7vw, 5rem) 1.25rem clamp(3.5rem, 9vw, 6rem);
 	display: grid;
@@ -98,6 +98,11 @@
 }
 
 /* ── Postcard ── */
+.postcard-wrap {
+	min-width: 0; /* long select options must not widen the grid column */
+	scroll-margin-top: 5.5rem; /* land below the fixed top bar */
+}
+
 .postcard-heading {
 	display: flex;
 	align-items: flex-end;
@@ -130,6 +135,7 @@
 		"address"
 		"message"
 		"send";
+	grid-template-columns: minmax(0, 1fr);
 	gap: 1.5rem;
 }
 
@@ -195,6 +201,69 @@
 }
 .address-line input::placeholder {
 	color: #b9ab97;
+}
+
+.address-line select {
+	flex: 1;
+	min-width: 0;
+	border: none;
+	border-bottom: 1px solid var(--sand-deep);
+	background: transparent;
+	font-family: inherit;
+	font-size: 0.95rem;
+	color: var(--ink);
+	padding: 0.35rem 0;
+	border-radius: 0;
+}
+.address-line select:focus {
+	outline: none;
+	border-bottom-color: var(--primary-color);
+}
+
+/* Phones: only the top lines sit beside the stamp; About and below
+   take the full width */
+.postcard-address > :nth-child(n + 4) {
+	margin-right: calc(-1 * clamp(72px, 18vw, 96px));
+}
+
+/* About: one choice, as pill buttons */
+.address-line[role="radiogroup"] {
+	align-items: center;
+}
+.postcard-pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+}
+.postcard-pill {
+	position: relative;
+	font-size: 0.82rem;
+	color: var(--ink-soft);
+	border: 1px solid var(--sand-deep);
+	border-radius: 999px;
+	padding: 0.4rem 0.8rem;
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.postcard-pill input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+.postcard-pill:has(input:checked) {
+	background: var(--primary-color);
+	border-color: var(--primary-color);
+	color: #fff;
+}
+.postcard-pill:has(input:focus-visible) {
+	outline: 2px solid var(--primary-color);
+	outline-offset: 2px;
+}
+
+.postcard-note {
+	font-size: 0.78rem;
+	font-style: italic;
+	color: var(--ink-soft);
 }
 
 /* Message side */
@@ -348,21 +417,18 @@
 	color: var(--primary-color);
 }
 
-/* ── ≥ 860px: true postcard proportions ── */
+/* ── ≥ 860px: postcard layout — message left, address side right. The
+   address side holds the consultation choices, so it gets the wider half
+   and the card grows with its content instead of a fixed ratio ── */
 @media (min-width: 860px) {
-	.contact-body {
-		grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-		gap: 3.5rem;
-	}
-
 	.postcard {
 		grid-template-areas:
 			"message address"
 			"send    send";
-		grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+		grid-template-columns: minmax(0, 9fr) minmax(0, 11fr);
 		gap: 0 2rem;
 		padding: 1.75rem 1.75rem 1.5rem;
-		aspect-ratio: 16 / 10;
+		min-height: 420px;
 	}
 
 	/* Dashed divider between message and address, like the printed line */
@@ -372,6 +438,9 @@
 		padding-right: 0;
 		padding-top: 4.6rem; /* clear the stamp */
 	}
+	.postcard-address > :nth-child(n + 4) {
+		margin-right: 0;
+	}
 
 	.postcard-message textarea {
 		flex: 1;
@@ -380,5 +449,13 @@
 
 	.postcard-send {
 		margin-top: 1.25rem;
+	}
+}
+
+/* ── ≥ 1180px: room for the Find us card beside the postcard ── */
+@media (min-width: 1180px) {
+	.contact-body {
+		grid-template-columns: minmax(0, 5fr) minmax(0, 2fr);
+		gap: 3rem;
 	}
 }

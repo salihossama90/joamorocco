@@ -34,7 +34,7 @@ const BookCta = ({ tour }) => {
 				<ul className="book-cta-points">
 					<li>Completely private — your group only</li>
 					<li>{t?.days}-day guided journey</li>
-					<li>Free date changes before payment</li>
+					<li>Free date changes up to 2 weeks before your trip, subject to availability</li>
 				</ul>
 				<Link className="book-cta-btn" to={`/book?tour=${tour}`}>
 					Start booking
@@ -52,10 +52,10 @@ const ContentSection = ({ information, tourPlan, reviews, tour }) => (
 		<div className="content-destination-page">
 			<div className="content-container">
 				<div className="content">
-					<InformationContent info={information} />
+					<InformationContent info={information} reviews={reviews} />
 					<h2 className="content-heading">Tour Plan</h2>
 					<TourPlanContent info={tourPlan} />
-					<h2 className="content-heading">Reviews</h2>
+					<h2 className="content-heading" id="tour-reviews">Reviews</h2>
 					<ReviewsContent info={reviews} tour={tour} />
 				</div>
 				<BookCta tour={tour} />

@@ -1,4 +1,4 @@
-// Tiny fetch wrapper. Always sends cookies (for sessions) and throws an Error
+// Tiny fetch wrapper. Throws an Error
 // whose `.message` is the server's friendly text and `.status` / `.data` carry
 // the rest, so callers can `try/catch` and show the message directly.
 

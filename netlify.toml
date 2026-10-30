@@ -28,7 +28,7 @@
   to     = "/.netlify/functions/:splat"
   status = 200
 
-# SPA fallback: client-side routes (/book, /account, …) must serve the app
+# SPA fallback: client-side routes (/book, /find-booking, …) must serve the app
 # on hard refresh / direct links. Must come AFTER the /api rule.
 [[redirects]]
   from   = "/*"

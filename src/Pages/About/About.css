@@ -1,15 +1,16 @@
-/* ══════════════════════════════════════════════
-   About — warm travel-editorial. Mobile-first;
-   every section clips its own decoration so the
-   page can never scroll horizontally.
-══════════════════════════════════════════════ */
-.about-container {
+/* About — one column on the site's cream paper. The top padding
+   clears the fixed logo (left) and menu icon (right) on phones. */
+.about-page {
 	--sand-paper: #fbf5ea;
-	--sand-deep: #efe3cd;
 	--ink: #3b2f23;
 	--ink-soft: #6f6152;
-	overflow-x: clip;
 	background: var(--sand-paper);
+	padding: 7rem 1.5rem 4rem;
+}
+
+.about-article {
+	max-width: 680px;
+	margin: 0 auto;
 }
 
 .about-eyebrow {
@@ -19,293 +20,49 @@
 	letter-spacing: 3px;
 	text-transform: uppercase;
 	color: var(--primary-color);
-	margin-bottom: 0.75rem;
+	margin-bottom: 0.5rem;
 }
 
-/* ── Hero ── */
-.about-hero {
-	position: relative;
-	background-size: cover;
-	background-position: center 40%;
-	background-color: #1a1208;
-	min-height: 72vh;
-	display: flex;
-	align-items: flex-end;
-	overflow: hidden;
-}
-
-.about-hero::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(
-		to bottom,
-		rgba(26, 14, 4, 0.15) 0%,
-		rgba(26, 14, 4, 0.25) 55%,
-		rgba(26, 14, 4, 0.68) 100%
-	);
-	pointer-events: none;
-}
-
-.about-hero-text {
-	position: relative;
-	z-index: 2;
-	padding: 0 1.5rem clamp(5rem, 14vw, 9rem);
-	max-width: var(--max-width-content);
-	width: 100%;
-	margin: 0 auto;
-	animation: fadeUp 0.9s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.about-hero-text h1 {
-	font-size: clamp(2.2rem, 8.5vw, 4.8rem);
+.about-article h1 {
 	font-family: var(--heading-font);
-	font-weight: 400;
-	color: #fff;
-	margin: 0 0 0.6rem;
-	line-height: 1.08;
-	max-width: 16ch;
-	text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
-}
-
-.about-hero-text p {
-	font-size: clamp(0.95rem, 2.4vw, 1.15rem);
-	color: rgba(255, 244, 228, 0.88);
-	margin: 0;
-	font-style: italic;
-	opacity: 1;
-	padding: 0;
-	max-width: 44ch;
-}
-
-.about-hero .about-eyebrow {
-	color: #ffb98a;
-}
-
-.about-hero-dunes {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -1px;
-	z-index: 1;
-	pointer-events: none;
-}
-
-/* ── Journey timeline ── */
-.journey-section {
-	position: relative;
-	padding: clamp(3.5rem, 9vw, 6.5rem) 1.5rem clamp(3rem, 8vw, 5rem);
-	max-width: 880px;
-	margin: 0 auto;
-}
-
-.journey-compass {
-	position: absolute;
-	top: clamp(2rem, 6vw, 4rem);
-	right: -34px;
-	width: clamp(110px, 22vw, 190px);
-	color: var(--primary-color);
-	opacity: 0.14;
-	animation: compassDrift 14s ease-in-out infinite alternate;
-}
-@keyframes compassDrift {
-	from { transform: rotate(-6deg); }
-	to { transform: rotate(6deg); }
-}
-
-.journey-heading h2 {
-	font-size: clamp(1.7rem, 5.5vw, 2.6rem);
-	margin: 0 0 2.25rem;
+	font-size: clamp(1.8rem, 5vw, 2.6rem);
+	line-height: 1.1;
 	color: var(--ink);
-	max-width: 20ch;
+	margin: 0 0 1.75rem;
 }
 
-.journey-list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	position: relative;
-}
-
-/* The route: one dashed line running through every marker */
-.journey-list::before {
-	content: "";
-	position: absolute;
-	top: 14px;
-	bottom: 40px;
-	left: 13px;
-	border-left: 1px dashed color-mix(in srgb, var(--primary-color) 55%, transparent);
-}
-
-.journey-stop {
-	position: relative;
-	display: flex;
-	gap: 1.1rem;
-	padding: 0 0 2.4rem;
-}
-.journey-stop:last-child {
-	padding-bottom: 0.5rem;
-}
-
-.journey-marker {
-	position: relative;
-	z-index: 1;
-	flex-shrink: 0;
-	width: 27px;
-	display: flex;
-	justify-content: center;
-	padding-top: 7px;
-}
-
-.journey-dot {
-	width: 13px;
-	height: 13px;
-	border-radius: 50%;
-	background: var(--primary-color);
-	box-shadow: 0 0 0 4px var(--sand-paper), 0 0 0 5px color-mix(in srgb, var(--primary-color) 45%, transparent);
-}
-
-.journey-index {
+.about-photo {
 	display: block;
-	font-size: 0.72rem;
-	font-weight: 700;
-	letter-spacing: 2px;
-	color: color-mix(in srgb, var(--primary-color) 75%, var(--ink));
-	margin-bottom: 0.3rem;
-}
-
-.journey-body h3 {
-	font-size: clamp(1.15rem, 3.6vw, 1.45rem);
-	margin: 0 0 0.45rem;
-	color: var(--ink);
-}
-
-.journey-body p {
-	margin: 0;
-	font-size: 0.94rem;
-	line-height: 1.7;
-	color: var(--ink-soft);
-	opacity: 1;
-	max-width: 52ch;
-}
-
-/* ── Story (arch image + copy) ── */
-.story-section {
-	position: relative;
-	background: var(--surface-card);
-	padding: clamp(3.5rem, 9vw, 7rem) 1.5rem clamp(3rem, 7vw, 5.5rem);
-	overflow: hidden;
-}
-
-.story-grid {
-	max-width: 1020px;
-	margin: 0 auto;
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 2.75rem;
-	align-items: center;
-}
-
-.story-figure {
-	position: relative;
-	max-width: 340px;
-	margin: 0 auto;
 	width: 100%;
+	height: auto;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	object-position: center 60%;
+	border-radius: 12px;
+	margin-bottom: 2rem;
+	background: #efe3cd;
 }
 
-.story-arch {
-	color: var(--sand-deep);
-	filter: drop-shadow(0 18px 30px rgba(59, 47, 35, 0.18));
-}
-
-.story-stamp {
-	position: absolute;
-	top: -18px;
-	right: -10px;
-	width: clamp(84px, 22vw, 112px);
-	color: var(--primary-color);
-	transform: rotate(12deg);
-}
-
-.story-text h2 {
-	font-size: clamp(1.7rem, 5.5vw, 2.6rem);
-	margin: 0 0 1.1rem;
-	color: var(--ink);
-	line-height: 1.15;
-}
-
-.story-text p {
-	font-size: 0.96rem;
+.about-article p {
+	font-size: 1rem;
 	line-height: 1.75;
 	color: var(--ink-soft);
-	margin: 0 0 1rem;
+	margin: 0 0 1.1rem;
 	opacity: 1;
-	max-width: 58ch;
 }
 
-/* ── Field notes ── */
-.field-notes {
-	list-style: none;
-	margin: clamp(2.5rem, 7vw, 4.5rem) auto 0;
-	padding: 1.4rem 1rem;
-	max-width: 880px;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	row-gap: 0.8rem;
-	border-top: 1px solid var(--sand-deep);
-	border-bottom: 1px solid var(--sand-deep);
-}
-
-.field-notes li {
+.about-article .about-closing {
 	font-family: var(--heading-font);
-	font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+	font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+	line-height: 1.4;
 	color: var(--ink);
-	white-space: nowrap;
-	display: flex;
-	align-items: center;
+	margin: 2.5rem 0 0;
+	padding-top: 1.75rem;
+	border-top: 1px solid #efe3cd;
 }
 
-/* Diamond separators between notes, drawn not bordered */
-.field-notes li + li::before {
-	content: "";
-	width: 6px;
-	height: 6px;
-	margin: 0 clamp(0.8rem, 3vw, 1.6rem);
-	background: var(--primary-color);
-	transform: rotate(45deg);
-	flex-shrink: 0;
-}
-
-/* ── ≥ 780px ── */
 @media (min-width: 780px) {
-	.about-hero {
-		min-height: 78vh;
-	}
-	.about-hero-text {
-		padding-left: 4rem;
-		padding-right: 4rem;
-	}
-
-	.journey-section {
-		padding-left: 2rem;
-		padding-right: 2rem;
-	}
-	.journey-list::before {
-		left: 17px;
-	}
-	.journey-marker {
-		width: 35px;
-	}
-	.journey-stop {
-		gap: 1.6rem;
-	}
-
-	.story-grid {
-		grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-		gap: 4.5rem;
-	}
-	.story-figure {
-		margin: 0;
+	.about-page {
+		padding: 9rem 2rem 6rem;
 	}
 }

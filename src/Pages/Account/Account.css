@@ -13,7 +13,12 @@
 	gap: 1rem;
 	margin-bottom: 1.75rem;
 }
-.account-header h1 { margin: 0 0 0.3rem; }
+/* Same page-title scale as the legal and contact pages */
+.account-header h1 {
+	margin: 0 0 0.3rem;
+	font-family: var(--heading-font);
+	font-size: clamp(1.8rem, 5vw, 2.6rem);
+}
 .account-header p { margin: 0; }
 
 .account-empty {

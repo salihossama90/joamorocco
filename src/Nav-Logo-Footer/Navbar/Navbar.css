@@ -28,8 +28,15 @@
     height: 1px;
     border: 1px solid white;
     background-color: white;
+    /* soft shadow keeps white lines visible once a page scrolls onto light content */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.45);
     transition: all 0.3s ease;
     z-index: 12;
+}
+/* Pages that open on a light background: dark lines, or the icon vanishes */
+.App:has(.about-page, .legal-page, .booking-page, .account-page) .hamburger:not(.open) .line {
+    background-color: #2b1f10;
+    border-color: #2b1f10;
 }
 .line:nth-child(2) { width: 60%; }
 .line:nth-child(3) { width: 44%; }
@@ -37,6 +44,7 @@
 .hamburger.open .line {
     background-color: black !important;
     border-color: black;
+    box-shadow: none;
 }
 .hamburger:not(.open):hover .line:nth-child(1) {
     transform: rotate(90deg) translate(10px, 0px);
@@ -112,25 +120,14 @@
     to { opacity: 1; transform: translateX(0); }
 }
 
-.nav-links a,
-.nav-links .nav-linkbtn {
+.nav-links a {
     text-decoration: none;
     color: #222;
     font-weight: 600;
     font-family: 'Playfair Display', Georgia, serif;
     transition: color 0.2s;
 }
-.nav-links a:hover,
-.nav-links .nav-linkbtn:hover { color: var(--primary-color); }
-
-/* Logout button styled to match nav links */
-.nav-linkbtn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: inherit;
-    padding: 0;
-}
+.nav-links a:hover { color: var(--primary-color); }
 
 .nav-social { margin-top: 2rem; }
 
@@ -188,8 +185,7 @@
         animation: none !important;
     }
 
-    .nav-links a,
-    .nav-links .nav-linkbtn {
+    .nav-links a {
         color: rgba(255, 255, 255, 0.88);
         font-family: var(--font-family) !important;
         font-size: 0.78rem;
@@ -211,8 +207,7 @@
         background: var(--primary-color);
         transition: width 0.25s ease;
     }
-    .nav-links a:hover,
-    .nav-links .nav-linkbtn:hover { color: #fff; }
+    .nav-links a:hover { color: #fff; }
     .nav-links a:hover::after { width: 100%; }
 
     /* Hide social icons in horizontal nav */

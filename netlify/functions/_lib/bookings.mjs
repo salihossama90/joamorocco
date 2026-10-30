@@ -1,14 +1,12 @@
-// Shared booking helpers: ownership resolution (logged-in user OR guest
-// reference+email) and safe serialization for API responses.
-import { getSessionUser } from "./session.mjs";
+// Shared booking helpers: ownership resolution (reference + booking email)
+// and safe serialization for API responses.
 import { decrypt, hmacEmail } from "./crypto.mjs";
 
-// Find a booking the caller is allowed to act on. Two paths:
-//  1) Logged-in user whose id matches the booking's user_id.
-//  2) Anyone who presents the correct reference + the email it was booked with.
+// Find a booking the caller is allowed to act on: they must present the
+// correct reference + the email it was booked with. `_event` is unused since
+// customer accounts were removed (29 Oct 2026); kept so callers stay unchanged.
 // Returns the raw DB row or null (caller maps null -> generic 404/403).
-export async function findOwnedBooking(db, event, body = {}) {
-  const session = getSessionUser(event);
+export async function findOwnedBooking(db, _event, body = {}) {
   const reference = (body.reference || "").trim().toUpperCase();
   const email = (body.email || "").trim();
 
@@ -19,10 +17,6 @@ export async function findOwnedBooking(db, event, body = {}) {
     });
     const row = res.rows[0];
     if (!row) return null;
-    // Guest path requires the matching email; logged-in owner may skip it.
-    if (session && row.user_id != null && Number(row.user_id) === Number(session.uid)) {
-      return row;
-    }
     if (email && row.contact_email_hmac === hmacEmail(email)) {
       return row;
     }

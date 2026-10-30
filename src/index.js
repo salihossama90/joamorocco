@@ -11,8 +11,6 @@ import ContactPage from "./Pages/Contact/Contact";
 import KingdomPage from "./Pages/Kingdom/Kingdom";
 import DesertPage from "./Pages/Desert/DesertPage";
 import BookingWizard from "./Pages/Booking/BookingWizard";
-import AuthPage from "./Pages/Auth/AuthPage";
-import AccountPage from "./Pages/Account/AccountPage";
 import FindBookingPage from "./Pages/Account/FindBookingPage";
 import LegalPage from "./Pages/Legal/LegalPage";
 
@@ -29,14 +27,15 @@ const router = createBrowserRouter([
 			{ path: "desert", element: <DesertPage /> },
 
 			{ path: "book", element: <BookingWizard /> },
-			{ path: "login", element: <AuthPage /> },
-			{ path: "account", element: <AccountPage /> },
 			{ path: "find-booking", element: <FindBookingPage /> },
 			{ path: "terms", element: <LegalPage doc="terms" /> },
 			{ path: "privacy", element: <LegalPage doc="privacy" /> },
 
 			// Legacy redirect
 			{ path: "moroccan-odyssey", element: <Navigate to="/kingdom-of-morocco" replace /> },
+			// Accounts were removed (29 Oct 2026); old links land on the guest lookup
+			{ path: "login", element: <Navigate to="/find-booking" replace /> },
+			{ path: "account", element: <Navigate to="/find-booking" replace /> },
 		],
 	},
 ]);

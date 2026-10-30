@@ -15,7 +15,7 @@ const FloatingBookBtn = ({ tour }) => (
 // reviews stacked in order — no tabs.
 const DestinationPage = ({ reviews, information, tourPlan, gallery, theme, tour }) => (
 	<div className={`destination-page-container${theme ? ` theme-${theme}` : ""}`}>
-		<HeroSection gallery={gallery} reviews={reviews} />
+		<HeroSection gallery={gallery} />
 		<ContentSection
 			information={information}
 			tourPlan={tourPlan}

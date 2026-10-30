@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { computeQuote } from "@shared/pricing.mjs";
 import { getTour } from "../../data/tours";
-import { useAuth } from "../../context/AuthContext";
 
 import WizardProgress from "./WizardProgress";
 import PriceSummary from "./PriceSummary";
@@ -44,7 +43,6 @@ function loadDraft() {
 export default function BookingWizard() {
 	const [params] = useSearchParams();
 	const navigate = useNavigate();
-	const { user } = useAuth();
 
 	const [data, setData] = useState(loadDraft);
 	const [step, setStep] = useState(1);
@@ -61,20 +59,6 @@ export default function BookingWizard() {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	// Prefill contact from the logged-in user.
-	useEffect(() => {
-		if (user) {
-			setData((d) => ({
-				...d,
-				contact: {
-					...d.contact,
-					name: d.contact.name || user.name || "",
-					email: d.contact.email || user.email || "",
-				},
-			}));
-		}
-	}, [user]);
 
 	// Persist the draft (never persist the final result).
 	useEffect(() => {

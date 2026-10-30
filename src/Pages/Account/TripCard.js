@@ -11,7 +11,7 @@ async function downloadPdf(booking) {
 	downloadBookingPdf(booking);
 }
 
-// `auth` is { email } for guest-lookup context; omitted for logged-in owner.
+// `auth` is { email }: the booking email the guest looked the trip up with.
 export default function TripCard({ booking, onChanged, auth }) {
 	const tour = getTour(booking.tourKey);
 	const [open, setOpen] = useState(false);

@@ -15,7 +15,22 @@ const InformationItem = ({ title, description, index }) => {
 	);
 };
 
-const InformationContent = ({ info }) => {
+// Tour's average rating in gold, right under the title; taps through to the reviews
+const TitleStars = ({ reviews = [] }) => {
+	if (!reviews.length) return null;
+	const stars = Math.round(reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length);
+	return (
+		<a className="title-stars" href="#tour-reviews" aria-label={`Rated ${stars} out of 5 — read reviews`}>
+			{[0, 1, 2, 3, 4].map((i) => (
+				<span key={i} className={`gold-star ${i < stars ? "filled" : "empty"}`}>
+					&#9733;
+				</span>
+			))}
+		</a>
+	);
+};
+
+const InformationContent = ({ info, reviews }) => {
 	const [descRef, descInView] = useInView();
 	const {
 		title,
@@ -34,6 +49,7 @@ const InformationContent = ({ info }) => {
 				className={`description anim fade-up ${descInView ? "anim-in" : ""}`}
 			>
 				<h1>{title}</h1>
+				<TitleStars reviews={reviews} />
 				<h4>{price} / person</h4>
 				{(Array.isArray(description) ? description : [description]).map(
 					(paragraph, index) => (

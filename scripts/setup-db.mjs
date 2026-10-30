@@ -45,6 +45,8 @@ function resolveClient() {
 }
 
 const STATEMENTS = [
+  // users + bookings.user_id are unused since customer accounts were removed
+  // (29 Oct 2026); kept so existing databases need no migration.
   `CREATE TABLE IF NOT EXISTS users (
      id INTEGER PRIMARY KEY AUTOINCREMENT,
      email TEXT NOT NULL UNIQUE,

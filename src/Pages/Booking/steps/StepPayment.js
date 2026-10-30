@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { api, ApiError } from "../../../lib/api";
-import { useAuth } from "../../../context/AuthContext";
 import { useToast } from "../../../Components/Toast/ToastProvider";
 import { centsToUSD } from "@shared/pricing.mjs";
 import { sendConfirmationEmail } from "../../../lib/sendConfirmationEmail";
@@ -35,7 +33,6 @@ const formatExpiry = (v) => {
 };
 
 export default function StepPayment({ data, update, back, onConfirmed, quote }) {
-	const { user } = useAuth();
 	const toast = useToast();
 	const [submitting, setSubmitting] = useState(false);
 	const [shake, setShake] = useState(false);
@@ -106,12 +103,6 @@ export default function StepPayment({ data, update, back, onConfirmed, quote }) 
 				<h1>Contact & payment</h1>
 				<p>Your dates are held while you complete this step.</p>
 			</header>
-
-			{!user && (
-				<div className="login-hint">
-					Have an account? <Link to="/login?next=/book">Log in</Link> to autofill and track this trip.
-				</div>
-			)}
 
 			<div className="pay-grid">
 				<section className="pay-block">

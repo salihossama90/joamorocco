@@ -5,11 +5,9 @@ import { centsToUSD } from "@shared/pricing.mjs";
 import { getTour } from "../../../data/tours";
 import { burstConfetti } from "../../../lib/confetti";
 import { useToast } from "../../../Components/Toast/ToastProvider";
-import { useAuth } from "../../../context/AuthContext";
 
 export default function StepConfirmation({ result, onStartOver }) {
 	const toast = useToast();
-	const { user } = useAuth();
 	const [copied, setCopied] = useState(false);
 
 	useEffect(() => {
@@ -108,16 +106,12 @@ export default function StepConfirmation({ result, onStartOver }) {
 				<button type="button" className="btn-primary" onClick={downloadPdf}>
 					Download PDF itinerary
 				</button>
-				{user ? (
-					<Link to="/account" className="btn-ghost">
-						View in My Trips
-					</Link>
-				) : (
-					<Link to="/login?next=/account" className="btn-ghost">
-						Create an account to manage this trip
-					</Link>
-				)}
 			</div>
+
+			<p className="confirm-sub">
+				Everything has been emailed to you. Reopen this trip any time with your confirmation code and
+				email at <Link to="/find-booking">Find your booking</Link>.
+			</p>
 
 			<button type="button" className="link-btn" onClick={onStartOver}>
 				Book another tour

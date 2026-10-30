@@ -18,10 +18,11 @@ const NETWORKS = [
 	{ name: "YouTube", link: "https://www.youtube.com/", icon: faYoutube },
 ];
 
-const SocialMediaIcons = () => (
+// `only` narrows to the named networks (the footer shows four, no X)
+const SocialMediaIcons = ({ only }) => (
 	<div className="media-icons">
 		<ul>
-			{NETWORKS.map(({ name, link, icon }) => (
+			{NETWORKS.filter(({ name }) => !only || only.includes(name)).map(({ name, link, icon }) => (
 				<li key={name}>
 					<a href={link} target="_blank" rel="noopener noreferrer" aria-label={name}>
 						<FontAwesomeIcon icon={icon} />
