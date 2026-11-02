@@ -3,9 +3,27 @@ import { Link } from "react-router-dom";
 import "./PopularSection.css";
 
 import { TOUR_LIST } from "../data/tours";
+import Images from "../images";
+
+// No fixed itinerary or price — it opens the contact form, like the Custom
+// panel in the home page hero.
+const CUSTOM_TRIP = {
+	name: "Your Custom Journey",
+	city: "Anywhere in Morocco",
+	route: "/contact?topic=custom",
+	heroImage: Images.CustomHero,
+	description:
+		"Your dates, your pace, your budget. Tell us what you dream of seeing and we'll design a private trip around you — from a long weekend in Marrakech to weeks across the whole Kingdom.",
+	badge: "Any Length",
+	price: "Tailored to you",
+	perk: "Free consultation",
+	caption: "Built around you",
+	length: "Any length",
+	cta: "Plan My Trip",
+};
 
 const PopularAdventuresSection = () => {
-	const adventures = TOUR_LIST;
+	const adventures = [...TOUR_LIST, CUSTOM_TRIP];
 
 	const [current, setCurrent] = useState(0);
 	const count = adventures.length;
@@ -34,12 +52,13 @@ const PopularAdventuresSection = () => {
 	return (
 		<section ref={sectionRef} className="popular-adventures-section">
 			<div className="heading-container max-width">
-				<h5>Two Journeys, Entirely Private</h5>
+				<h5>Three Ways to Travel, Entirely Private</h5>
 				<h3>Choose Your Morocco</h3>
 				<p>
 					From the golden dunes of the Sahara to the blue streets of
-					Chefchaouen — two carefully crafted private tours, reserved
-					exclusively for you and your group.
+					Chefchaouen — two carefully crafted private tours, or a custom
+					journey designed around you. Every trip is reserved exclusively for
+					you and your group.
 				</p>
 			</div>
 
@@ -70,17 +89,17 @@ const PopularAdventuresSection = () => {
 						style={{ backgroundImage: `url(${adv.heroImage})` }}
 					>
 						<div className="carousel-image-overlay" />
-						<div className="carousel-badge">{adv.days} Days</div>
+						<div className="carousel-badge">{adv.badge || `${adv.days} Days`}</div>
 					</div>
 					<div className="carousel-body">
 						<h3>{adv.name}</h3>
 						<p className="carousel-location">{adv.city}</p>
 						<div className="carousel-meta">
-							<span className="carousel-price">{adv.priceRange} / person</span>
-							<span className="carousel-seats">Kids 50% off</span>
+							<span className="carousel-price">{adv.price || `${adv.priceRange} / person`}</span>
+							<span className="carousel-seats">{adv.perk || "Kids 50% off"}</span>
 						</div>
 					</div>
-					<div className="carousel-book-btn">Explore &amp; Book</div>
+					<div className="carousel-book-btn">{adv.cta || "Explore & Book"}</div>
 				</Link>
 			</div>
 
@@ -102,16 +121,18 @@ const PopularAdventuresSection = () => {
 						<div className="middle-section">
 							<h3>
 								{adventure.name}
-								<span>{adventure.priceRange} / person</span>
+								<span>{adventure.price || `${adventure.priceRange} / person`}</span>
 							</h3>
 							<figcaption>
-								{"★".repeat(adventure.rating)} {adventure.rating} / 5 · {adventure.city}
+								{adventure.caption ||
+									`${"★".repeat(adventure.rating)} ${adventure.rating} / 5`}{" "}
+								· {adventure.city}
 							</figcaption>
 							<p>{adventure.description}</p>
 						</div>
 						<div className="bottom-section">
 							<p>
-								{adventure.days} Days / {adventure.nights} Nights
+								{adventure.length || `${adventure.days} Days / ${adventure.nights} Nights`}
 								<span>Private &amp; Exclusive</span>
 							</p>
 						</div>

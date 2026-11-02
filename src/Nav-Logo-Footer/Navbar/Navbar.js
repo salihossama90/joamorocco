@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SocialMediaIcons from "../SocialMediaIcons/SocialMediaIcons";
 import "./Navbar.css";
 
@@ -10,6 +10,11 @@ import "./Navbar.css";
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
+	const location = useLocation();
+
+	// Any navigation (including the logo, which lives outside this menu)
+	// closes the menu, so the new page isn't hidden behind it
+	useEffect(() => setIsOpen(false), [location.key]);
 
 	useEffect(() => {
 		let ticking = false;

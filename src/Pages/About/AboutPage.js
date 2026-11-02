@@ -23,10 +23,6 @@ const AboutPage = () => {
 					Morocco truly has to give.
 				</p>
 				<p>
-					No standard itineraries. No tourist checklists. No one-size-fits-all
-					trips.
-				</p>
-				<p>
 					Our journeys are built by guides, not marketers. Our guides grew up
 					in the places they share with you. They know the streets, the
 					people, the hidden corners, the traditions, and the stories no tour

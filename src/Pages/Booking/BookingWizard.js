@@ -129,7 +129,9 @@ export default function BookingWizard() {
 				</div>
 
 				{step >= 2 && step <= 5 && quote && (
-					<PriceSummary data={data} quote={quote} />
+					// No guests or total until the guest step — before that it'd just
+					// be the default 2 adults, which reads like a price already chosen
+					<PriceSummary data={data} quote={quote} showPrice={maxReached >= 3} />
 				)}
 			</div>
 		</main>

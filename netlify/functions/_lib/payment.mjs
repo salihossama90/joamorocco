@@ -41,7 +41,13 @@ function expiryInFuture(expiry) {
 export function processPayment(payment = {}) {
   const method = payment.method;
 
-  if (method === "card" || method === "apple_pay") {
+  // Apple Pay sends no card fields — the wallet sheet handles the card.
+  // STRIPE-INTEGRATION-POINT: confirm the Apple Pay PaymentIntent here.
+  if (method === "apple_pay") {
+    return { ok: true, method, txStatus: "test", last4: null, instructions: "" };
+  }
+
+  if (method === "card") {
     const number = String(payment.cardNumber || "").replace(/\s/g, "");
     if (!luhnValid(number)) {
       return { ok: false, error: "That card number doesn't look valid." };

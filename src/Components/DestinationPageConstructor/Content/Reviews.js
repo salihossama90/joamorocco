@@ -50,7 +50,7 @@ const ReviewItem = ({ review }) => {
 };
 
 // Reviews read sideways: swipe (native scroll-snap) or the arrows move one
-// card; the counter says how far you've read, so the list never feels endless.
+// card. No "n / total" counter — it just slides.
 // Wider screens show two or three cards at once, so everything is read from
 // the scroll position itself.
 const ReviewCarousel = ({ reviews }) => {
@@ -99,7 +99,6 @@ const ReviewCarousel = ({ reviews }) => {
 	};
 
 	const fits = pos.atStart && pos.atEnd;
-	const seen = pos.atEnd ? reviews.length : Math.min(reviews.length, pos.index + pos.visible);
 
 	return (
 		<div className="review-carousel" aria-roledescription="carousel" aria-label="Traveler reviews">
@@ -114,7 +113,6 @@ const ReviewCarousel = ({ reviews }) => {
 						disabled={pos.atStart} onClick={() => step(-1)}>
 						&#8249;
 					</button>
-					<span className="review-counter">{seen} / {reviews.length}</span>
 					<button type="button" className="review-arrow" aria-label="Next review"
 						disabled={pos.atEnd} onClick={() => step(1)}>
 						&#8250;

@@ -242,19 +242,58 @@
 	padding: 0.3rem 0.6rem;
 	border-radius: 5px;
 }
+.tour-choice {
+	display: flex;
+	flex-direction: column;
+}
 .tour-choice-check {
 	position: absolute;
 	top: 0.7rem; right: 0.7rem;
-	width: 30px; height: 30px;
-	background: var(--primary-color);
+	width: 32px; height: 32px;
+	background: rgba(255,255,255,0.85);
+	border: 2.5px solid #fff;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 	color: #fff;
 	border-radius: 50%;
 	display: grid; place-items: center;
 	font-weight: 800;
+	transition: background 0.2s ease, border-color 0.2s ease;
+}
+.tour-choice.selected .tour-choice-check {
+	background: var(--primary-color);
+	border-color: var(--primary-color);
 	animation: pop 0.3s cubic-bezier(0.22,1.4,0.5,1) both;
 }
+.tour-choice-select {
+	margin: auto 1.25rem 1.25rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.6rem;
+	padding: 0.75rem 1rem;
+	border: 2px solid var(--primary-color);
+	border-radius: 10px;
+	color: var(--primary-color);
+	font-weight: 700;
+	font-size: 0.92rem;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+.tour-choice-radio {
+	width: 18px; height: 18px;
+	border: 2px solid currentColor;
+	border-radius: 50%;
+	display: grid; place-items: center;
+	flex-shrink: 0;
+}
+.tour-choice.selected .tour-choice-select { background: var(--primary-color); color: #fff; }
+.tour-choice.selected .tour-choice-radio::after {
+	content: "";
+	width: 8px; height: 8px;
+	border-radius: 50%;
+	background: currentColor;
+}
 @keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
-.tour-choice-body { padding: 1.1rem 1.25rem 1.4rem; }
+.tour-choice-body { padding: 1.1rem 1.25rem 1rem; }
 .tour-choice-body h3 { margin: 0 0 0.3rem; font-size: 1.25rem; }
 .tour-choice-tag { margin: 0 0 0.75rem; font-size: 0.85rem; }
 .tour-choice-highlights { list-style: none; margin: 0 0 1rem; padding: 0; }
@@ -431,10 +470,40 @@
 	color: var(--secondary-text-color);
 }
 .pay-sim-note { font-size: 0.76rem; color: #999; margin: 0.25rem 0 0; }
+.wallet-pane { display: flex; flex-direction: column; gap: 0.6rem; }
+.wallet-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	width: 100%;
+	min-height: 50px;
+	border: none;
+	border-radius: 10px;
+	font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+	font-size: 1.2rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: opacity 0.15s ease;
+}
+.wallet-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.wallet-apple { background: #000; color: #fff; }
+.wallet-apple svg { font-size: 1.35rem; margin-top: -3px; }
+.wallet-paypal { background: #ffc439; color: #003087; font-style: italic; font-weight: 800; }
+.wallet-paypal svg { color: #009cde; }
+.wallet-btn .btn-spinner { border-color: rgba(127,127,127,0.35); border-top-color: currentColor; }
+.zelle-steps strong:first-child { display: block; color: var(--primary-text-color); margin-bottom: 0.5rem; }
+.zelle-steps ol { margin: 0 0 0.6rem; padding-left: 1.2rem; }
+.zelle-steps li { margin-bottom: 0.35rem; }
 .btn-pay { min-width: 160px; }
 
 /* ── Price summary sidebar ── */
 .price-summary { position: sticky; top: 96px; }
+/* Single column (phones): trip details and total sit above the step, so
+   they're read before the Continue / Pay buttons rather than after them */
+@media (max-width: 899px) {
+	.price-summary { order: -1; position: static; }
+}
 .price-summary-inner {
 	background: var(--surface-card);
 	border-radius: 16px;
@@ -456,6 +525,7 @@
 }
 .ps-total span { font-weight: 600; }
 .ps-total-amount { font-family: var(--heading-font); font-size: 1.5rem; color: var(--primary-color); }
+.ps-pending { margin: 1rem 0 0; font-size: 0.85rem; color: var(--secondary-text-color); }
 .ps-note { font-size: 0.74rem; color: #aaa; margin: 0.75rem 0 0; }
 
 /* ── Step 6: confirmation ── */

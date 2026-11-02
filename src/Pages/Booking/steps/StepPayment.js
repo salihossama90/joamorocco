@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { api, ApiError } from "../../../lib/api";
 import { useToast } from "../../../Components/Toast/ToastProvider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faApple, faPaypal } from "@fortawesome/free-brands-svg-icons";
 import { centsToUSD } from "@shared/pricing.mjs";
 import { sendConfirmationEmail } from "../../../lib/sendConfirmationEmail";
 
@@ -44,7 +46,10 @@ export default function StepPayment({ data, update, back, onConfirmed, quote }) 
 	const setPayment = (patch) => update({ payment: { ...p, ...patch } });
 	const mark = (k) => setTouched((t) => ({ ...t, [k]: true }));
 
-	const isCard = p.method === "card" || p.method === "apple_pay";
+	const isCard = p.method === "card";
+	// Apple Pay and PayPal pay through their own button, so the generic one hides
+	const hasOwnButton = p.method === "apple_pay" || p.method === "paypal";
+	const total = centsToUSD(quote.totalCents);
 	const cardOk = !isCard || (luhn(p.cardNumber || "") && /^\d{2}\/\d{2}$/.test(p.expiry) && /^\d{3,4}$/.test(p.cvc));
 	const contactOk = c.name.trim() && EMAIL_RE.test(c.email.trim()) && c.phone.trim();
 	const canPay = contactOk && cardOk && !submitting;
@@ -146,7 +151,7 @@ export default function StepPayment({ data, update, back, onConfirmed, quote }) 
 
 				<section className="pay-block">
 					<h3>Payment method</h3>
-					<div className="method-tabs" role="tablist">
+					<div className="method-tabs" role="tablist" aria-label="Payment method">
 						{METHODS.map((m) => (
 							<button
 								key={m.id}
@@ -216,15 +221,66 @@ export default function StepPayment({ data, update, back, onConfirmed, quote }) 
 						</div>
 					)}
 
-					{p.method === "paypal" && (
-						<div className="method-note">
-							You'll receive a PayPal request by email after booking. Your dates are held now.
+					{p.method === "apple_pay" && (
+						<div className="wallet-pane">
+							{/* STRIPE-INTEGRATION-POINT: mount the Payment Request / Apple Pay button here */}
+							<button
+								type="button"
+								className={`wallet-btn wallet-apple ${shake ? "shake" : ""}`}
+								onClick={submit}
+								disabled={!canPay}
+								aria-label={`Pay ${total} with Apple Pay`}
+							>
+								{submitting ? (
+									<span className="btn-spinner" aria-label="Processing" />
+								) : (
+									<>
+										<FontAwesomeIcon icon={faApple} /> Pay
+									</>
+								)}
+							</button>
+							<p className="pay-sim-note">
+								{contactOk
+									? `You'll confirm ${total} with Face ID or Touch ID. Test mode — no real charge.`
+									: "Fill in your contact details above to continue."}
+							</p>
 						</div>
 					)}
+
+					{p.method === "paypal" && (
+						<div className="wallet-pane">
+							<button
+								type="button"
+								className={`wallet-btn wallet-paypal ${shake ? "shake" : ""}`}
+								onClick={submit}
+								disabled={!canPay}
+								aria-label={`Pay ${total} with PayPal`}
+							>
+								{submitting ? (
+									<span className="btn-spinner" aria-label="Processing" />
+								) : (
+									<>
+										<FontAwesomeIcon icon={faPaypal} /> PayPal
+									</>
+								)}
+							</button>
+							<p className="pay-sim-note">
+								{contactOk
+									? `Your dates are held now and we'll email you a PayPal request for ${total}.`
+									: "Fill in your contact details above to continue."}
+							</p>
+						</div>
+					)}
+
 					{p.method === "zelle" && (
-						<div className="method-note">
-							Send your Zelle payment to <strong>payments@joamorocco.com</strong> using your
-							confirmation code as the memo. Your dates are held now.
+						<div className="method-note zelle-steps">
+							<strong>How to pay with Zelle</strong>
+							<ol>
+								<li>Tap <strong>Reserve {total}</strong> below to hold your dates and get your confirmation code.</li>
+								<li>In your bank's app, send <strong>{total}</strong> by Zelle to <strong>payments@joamorocco.com</strong>.</li>
+								<li>Put your confirmation code in the memo so we can match your payment.</li>
+							</ol>
+							<span>We'll email you once your payment is received.</span>
 						</div>
 					)}
 				</section>
@@ -234,18 +290,20 @@ export default function StepPayment({ data, update, back, onConfirmed, quote }) 
 				<button type="button" className="btn-ghost" onClick={back} disabled={submitting}>
 					Back
 				</button>
-				<button
-					type="button"
-					className={`btn-primary btn-pay ${shake ? "shake" : ""}`}
-					onClick={submit}
-					disabled={!canPay}
-				>
-					{submitting ? (
-						<span className="btn-spinner" aria-label="Processing" />
-					) : (
-						`${p.method === "paypal" || p.method === "zelle" ? "Reserve" : "Pay"} ${centsToUSD(quote.totalCents)}`
-					)}
-				</button>
+				{!hasOwnButton && (
+					<button
+						type="button"
+						className={`btn-primary btn-pay ${shake ? "shake" : ""}`}
+						onClick={submit}
+						disabled={!canPay}
+					>
+						{submitting ? (
+							<span className="btn-spinner" aria-label="Processing" />
+						) : (
+							`${p.method === "zelle" ? "Reserve" : "Pay"} ${total}`
+						)}
+					</button>
+				)}
 			</div>
 		</div>
 	);

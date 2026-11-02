@@ -30,7 +30,7 @@ function useCountUp(target) {
 	return value;
 }
 
-export default function PriceSummary({ data, quote }) {
+export default function PriceSummary({ data, quote, showPrice }) {
 	const tour = getTour(data.tour);
 	const animatedTotal = useCountUp(quote.totalCents);
 
@@ -56,42 +56,55 @@ export default function PriceSummary({ data, quote }) {
 						<span>Duration</span>
 						<strong>{tour?.days} days</strong>
 					</div>
-					<div className="ps-fact">
-						<span>Guests</span>
-						<strong>
-							{data.adults}A · {data.children}C · {data.toddlers}T
-						</strong>
-					</div>
-				</div>
-
-				<div className="ps-lines">
-					<div className="ps-line">
-						<span>Per person ({quote.perPersonLabel})</span>
-					</div>
-					{quote.adults > 0 && (
-						<div className="ps-line">
-							<span>Adults × {quote.adults}</span>
-							<span>{centsToUSD(quote.adultsCents)}</span>
+					{showPrice ? (
+						<div className="ps-fact">
+							<span>Guests</span>
+							<strong>
+								{data.adults}A · {data.children}C · {data.toddlers}T
+							</strong>
 						</div>
-					)}
-					{quote.children > 0 && (
-						<div className="ps-line">
-							<span>Children × {quote.children} (50%)</span>
-							<span>{centsToUSD(quote.childrenCents)}</span>
-						</div>
-					)}
-					{quote.toddlers > 0 && (
-						<div className="ps-line ps-muted">
-							<span>Toddlers × {quote.toddlers}</span>
-							<span>Free</span>
+					) : (
+						<div className="ps-fact ps-muted">
+							<span>Guests</span>
+							<strong>Not selected</strong>
 						</div>
 					)}
 				</div>
 
-				<div className="ps-total">
-					<span>Total</span>
-					<strong className="ps-total-amount">{centsToUSD(animatedTotal)}</strong>
-				</div>
+				{showPrice ? (
+					<>
+						<div className="ps-lines">
+							<div className="ps-line">
+								<span>Per person ({quote.perPersonLabel})</span>
+							</div>
+							{quote.adults > 0 && (
+								<div className="ps-line">
+									<span>Adults × {quote.adults}</span>
+									<span>{centsToUSD(quote.adultsCents)}</span>
+								</div>
+							)}
+							{quote.children > 0 && (
+								<div className="ps-line">
+									<span>Children × {quote.children} (50%)</span>
+									<span>{centsToUSD(quote.childrenCents)}</span>
+								</div>
+							)}
+							{quote.toddlers > 0 && (
+								<div className="ps-line ps-muted">
+									<span>Toddlers × {quote.toddlers}</span>
+									<span>Free</span>
+								</div>
+							)}
+						</div>
+
+						<div className="ps-total">
+							<span>Total</span>
+							<strong className="ps-total-amount">{centsToUSD(animatedTotal)}</strong>
+						</div>
+					</>
+				) : (
+					<p className="ps-pending">Your total appears once you choose who's travelling.</p>
+				)}
 				<p className="ps-note">Private tour · reserved exclusively for your group</p>
 			</div>
 		</aside>
