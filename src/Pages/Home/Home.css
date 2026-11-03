@@ -344,38 +344,50 @@
 	background: var(--home-white);
 	padding: 0 0 var(--home-section);
 }
-.home-reviews .home-col { max-width: 32rem; }
+/* reference computed review block: 343px wide, 140px tall */
+.home-reviews .home-col { max-width: calc(343px + 2 * var(--home-gutter)); }
+/* sized to the reference quote icon (~14 × 11px); our own Georgia glyph,
+   not the reference's drawn path */
 .home-quote-mark {
 	display: block;
-	height: 2.5rem;
+	height: 14px;
+	margin-bottom: 12.75px;
 	font-family: Georgia, serif;
-	font-size: 4rem;
-	line-height: 1;
+	font-size: 34px;
+	line-height: 34px;
 	color: var(--home-accent);
 }
+/* quote mark (14px + 12.75px) + this = the reference's 140px block */
 .home-review {
 	margin: 0;
-	min-height: 8rem;
+	height: calc(140px - 14px - 12.75px);
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	animation: homeFade 0.45s ease both;
 }
 @keyframes homeFade { from { opacity: 0; } to { opacity: 1; } }
+/* reference computed review quote */
 .home-review blockquote {
 	margin: 0 0 1.25rem;
 	font-family: var(--home-sans);
-	font-size: clamp(1.05rem, 3.8vw, 1.2rem);
-	font-weight: 600;
-	line-height: 1.55;
-	letter-spacing: 0.12em;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 19.5px;
+	letter-spacing: 1.5px;
 	text-transform: uppercase;
-	color: #555;
+	text-align: center;
+	color: #52575c;
 }
+/* reference computed reviewer name (colour kept JOA orange; reference teal #379c8a) */
 .home-review figcaption {
+	font-size: 13px;
 	font-style: italic;
-	font-weight: 500;
-	letter-spacing: 0.06em;
+	font-weight: 700;
+	letter-spacing: 1.5px;
+	line-height: 19.5px;
+	text-transform: none;
+	text-align: center;
 	color: var(--home-accent);
 }
 .home-stars {
@@ -405,10 +417,13 @@
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 9px;
-	height: 9px;
+	/* reference computed dot (inactive): 10px, #cacccf, 1px white border */
+	width: 10px;
+	height: 10px;
+	box-sizing: border-box;
+	border: 1px solid #fff;
 	border-radius: 50%;
-	background: #d0d0d0;
+	background: #cacccf;
 	transform: translate(-50%, -50%);
 	transition: background 0.2s ease;
 }

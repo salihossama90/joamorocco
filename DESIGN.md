@@ -48,8 +48,11 @@ Loaded from Google Fonts in `src/index.css`.
 | Text-section body | See **Text sections** below |
 | Emphasis | Josefin Sans italic, same size, a few words per section only |
 | Subtitle (dark) | Josefin Sans italic 400, `clamp(1.05rem, 3.6vw, 1.35rem)` |
-| Review quote | Josefin Sans 600, uppercase, `letter-spacing: 0.12em`, `1.05–1.2rem` |
-| Reviewer | Josefin Sans italic 500, accent color, `letter-spacing: 0.06em` |
+| Review quote | Reference computed: `13px`, `700`, letter-spacing `1.5px`, line-height `19.5px`, uppercase, centred, `#52575c` |
+| Quote mark | Reference is an SVG icon ~`14 × 11px` in teal. Ours: a Georgia “ sized to match (`34px` glyph in a `14px`-tall box), JOA orange. Their drawn path isn't copied |
+| Review block | Reference computed: `343px` wide, `140px` tall (quote mark + quote + name), text top-aligned so the dots don't move between reviews |
+| Review dots | Reference computed (inactive): `10px` circle, `background: #cacccf`, `1px solid #fff`. Active dot `#111` (not yet captured) |
+| Reviewer | Reference computed: `13px` italic, `700`, letter-spacing `1.5px`, line-height `19.5px`, centred. Colour JOA orange (reference teal `#379c8a`) |
 
 ## Text sections (standard)
 
