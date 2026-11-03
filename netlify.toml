@@ -15,7 +15,7 @@
   port       = 8899
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "22"
 
 # @libsql/client ships native bindings that must not be bundled by esbuild.
 [functions]
