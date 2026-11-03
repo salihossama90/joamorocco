@@ -284,9 +284,11 @@
 }
 /* Text-section standard (DESIGN.md): 56px / 90px padding; heading and body
    values come from the reference site's CSS (heading = its `.h5` rule) */
+/* top: the reference `.section` padding (60px at every width), so the gap
+   under the video matches; bottom keeps the text-section values */
 .home-about {
 	background: var(--home-white);
-	padding: 56px 0;
+	padding: 60px 0 56px;
 }
 .home-about .home-col { max-width: calc(820px + 2 * var(--home-gutter)); }
 .home-statement {
@@ -336,7 +338,7 @@
 .home-about-copy p:last-child { margin-bottom: 0; }
 .home-about-copy em { font-style: italic; }
 @media (min-width: 768px) {
-	.home-about { padding: 90px 0; }
+	.home-about { padding: 60px 0 90px; }
 }
 
 /* ════════ 4. Reviews ════════ */
@@ -344,8 +346,21 @@
 	background: var(--home-white);
 	padding: 0 0 var(--home-section);
 }
-/* reference computed review block: 343px wide, 140px tall */
-.home-reviews .home-col { max-width: calc(343px + 2 * var(--home-gutter)); }
+/* The carousel: content width (max 1369px, reference side padding), one row
+   of equal-width reviews that slides. Reference at 1062px: 4 × 253px, no gap */
+.home-reviews-view {
+	max-width: 1369px;
+	margin: 0 auto;
+	padding: 0 var(--rv-pad, 15px);
+}
+.home-reviews-clip { overflow: hidden; }
+@media (min-width: 769px) {
+	.home-reviews-view { --rv-pad: 25.5px; }
+}
+.home-reviews-track {
+	display: flex;
+	transition: transform 0.5s ease;
+}
 /* sized to the reference quote icon (~14 × 11px); our own Georgia glyph,
    not the reference's drawn path */
 .home-quote-mark {
@@ -357,15 +372,20 @@
 	line-height: 34px;
 	color: var(--home-accent);
 }
-/* quote mark (14px + 12.75px) + this = the reference's 140px block */
+/* One review: centred; at one-up the text keeps the reference's 343px
+   width, side by side each gets 12.75px inner padding. Min-height keeps the
+   reference's 140px block so the dots don't move between reviews */
 .home-review {
+	flex: 0 0 100%;
 	margin: 0;
-	height: calc(140px - 14px - 12.75px);
+	padding: 0 12.75px;
+	min-height: 140px;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
-	animation: homeFade 0.45s ease both;
+	align-items: center;
+	text-align: center;
 }
+.home-review > * { max-width: 343px; }
 @keyframes homeFade { from { opacity: 0; } to { opacity: 1; } }
 /* reference computed review quote */
 .home-review blockquote {
@@ -710,6 +730,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.home-review, .home-hero-content { animation: none; }
+	.home-reviews-track { transition: none; }
 	.home-hero-video { transition: none; }
 	.home-hero-bar.is-active span { animation: none; width: 100%; }
 	.hbtn, .home-round-arrow, .home-hero-arrow, .home-trip-desc, .home-trip-price { transition: none; }

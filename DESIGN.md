@@ -85,6 +85,9 @@ Page reset (scoped to the page root, placed before all section rules):
 | Footer copyright | Sans | 11px / 16.5px | 700 | 0.6px | upper | #adadad |
 | Footer link | Sans | 12px / 18px | 400 | 0.6px | upper | #adadad |
 
+Numbers always use Josefin Sans with letter-spacing from the scale above
+(0.6px, 0.85px, 1.2px, 1.5px, 2.25px); League Gothic is for headlines only.
+
 Uppercase headings with letter-spacing get `padding-left` equal to their
 letter-spacing so the trailing space doesn't push them off-centre.
 
@@ -115,11 +118,14 @@ Spacing steps used: `6.375px`, `12.75px`, `25.5px`, `60px`, `85.5px`, `90px`.
 |---|---|---|
 | Content max-width | 1369px | 1369px |
 | Side padding (hero, trips) | 15px | 25.5px |
-| Text-section padding (top / bottom) | 56px / 56px | 90px / 90px (≥ 768px) |
+| Text-section padding (top / bottom) | 60px / 56px | 60px / 90px (≥ 768px) |
 | Text column | 820px max | 820px max |
 | Dark/card section padding | 60px top / 85.5px bottom | 60px / 60px (≥ 1024px) |
 
 Text sections (About):
+- Space under the hero/video: `60px` at every width (the reference's
+  `.section { padding: 60px 0 }`); same on tour pages between the video and
+  the title.
 - Heading → first paragraph: `6.375px`
 - Between paragraphs: `25.5px`
 - Last paragraph → button: `20px`
@@ -191,12 +197,19 @@ Text sections (About):
   previous left), arrows above the card text layer.
 
 ### Reviews
-- Block `343px` wide, `140px` tall (quote mark + quote + name), so the dots
-  never move. Quote mark: JOA orange, ~14px wide. Stars below in accent.
-- Dots only (no arrows): `10px` circles, `1px #fff` border, `#cacccf`;
-  active `#2f2f2f`. Swipe on touch screens.
-- Rotates every `5s` for everyone, including while hovered; any dot click or
-  swipe restarts the timer.
+- A sliding row of reviews across the content width (max 1369px, side
+  padding 15px / 25.5px), clipped at the content edge. How many show at once
+  depends on the carousel's width: **4** at ≥ 980px and **1** below 560px
+  (measured on the reference: 4 × 253px with no gap at a 1062px window, one
+  476px review at 534px); 3 at 720–979px and 2 at 560–719px are by eye.
+- Each review: quote mark (JOA orange, ~14px wide), uppercase quote, italic
+  accent name, stars in accent; centred; text column max `343px`; `12.75px`
+  inner side padding; min-height `140px`.
+- Moves one review every `5s` for everyone (including while hovered), slides
+  over `0.5s`, loops back to the start. Swipe on touch screens; any dot click
+  or swipe restarts the timer. Reduced motion: jumps instead of sliding.
+- Dots, one per stop (reviews − shown + 1; e.g. 8 reviews, 4 shown → 5 dots):
+  `10px` circles, `1px #fff` border, `#cacccf`; active `#2f2f2f`. No arrows.
 
 ## 10. Footer
 
@@ -217,9 +230,9 @@ Single centred column at every width.
 | Breakpoint | What changes |
 |---|---|
 | < 600px tall | Hero text gets extra top/bottom room |
-| ≤ 768px | Side padding 15px; text sections 56px padding |
+| ≤ 768px | Side padding 15px; text sections 56px bottom padding |
 | < 780px | Phone header (icon menu) |
-| ≥ 768/769px | Side padding 25.5px; text sections 90px padding |
+| ≥ 768/769px | Side padding 25.5px; text sections 90px bottom padding |
 | ≥ 780px | Desktop header (inline links) |
 | ≥ 1024px | Trips switch to the two-column layout |
 | ≥ 1100px | Header links centred |
@@ -250,39 +263,43 @@ yet converted keep their old look. A tour opts in with the `design` prop on
   page's own heading ("Choose Your Morocco"), subtitle and intro paragraph
   (`17px / 25.5px`, `#fff`, `12.75px` above). Titles longer than 18
   characters may wrap on desktop.
-- **Photo gallery**: homepage hero scrim; arrows are the homepage hero arrows
-  (`40px`, `rgba(0,0,0,.3)`, `1px rgba(255,255,255,.1)`); dots are the review
-  dots (`10px`, `#cacccf` / active `#2f2f2f`, `1px #fff` border, `8px` apart);
-  social icons `22px` white, `2rem` apart. Controls sit `25.5px` from the
-  bottom and side padding from the edges.
+- **Top of the page**: one looping video instead of the photo gallery
+  (Kingdom: the palace video, palace photo as poster), set up like the
+  homepage hero — muted, looping, inline, poster only for reduced motion —
+  under the homepage hero scrim. Same height as the gallery it replaces
+  (`60vh`, `65vh` from 780px; min 320px, max 620px). No arrows or dots.
+  Social icons are the homepage footer icons: `22px`, `#adadad`, hover
+  accent, `2rem` apart, 44px tap area, `25.5px` from the bottom.
+  (Tours still using the photo gallery style its arrows like the hero arrows
+  and its dots like the review dots.)
 - **Content area**: max-width `1369px`, side padding `15px` / `25.5px`,
-  `56px` / `90px` top and bottom (text-section padding); `51px` between the
+  `60px` above the title (same as under the homepage video), `56px` / `90px`
+  at the bottom; `51px` between the
   content column and the booking panel on desktop.
 
 | Element | Style |
 |---|---|
-| Tour title | Hero headline style in `#2f2f2f`: League Gothic `45px` / `40.5px`, `2.5px`, uppercase, `12.75px` below |
+| Tour title | The homepage "About JOA" heading: Josefin Sans `18px` / `1.28`, `700`, `1.8px`, uppercase, `#2f2f2f`, `6.375px` below. Left-aligned (About JOA is centred) |
 | Title stars | `16px`, accent (empty `#cacccf`) |
-| Price line | Text-section heading style: `18px`, `700`, `1.8px`, uppercase, `#2f2f2f`, `25.5px` below |
-| Description | Body: `17px` / `25.5px`, `0.85px`, `#52575c`, `25.5px` between paragraphs |
+| Price line | Homepage card price style, one step up: Josefin Sans italic `17px` / `25.5px`, `400`, `0.85px`, normal case, `#2f2f2f`, `25.5px` below |
+| Description | Identical to the About JOA paragraphs: `17px` / `25.5px`, `0.85px`, `#52575c`, `25.5px` between paragraphs; left-aligned |
 | Info labels (Destination…) | Card meta style in `#2f2f2f`: `12px`, `700`, `0.6px`, uppercase |
-| Info text | Body |
+| Info text | `14px` / `21px`, `0.85px`, `#52575c` (the homepage footer-contact size; one step under the description) |
 | Dividers | `1px solid rgba(0,0,0,.08)` |
 | Section headings (Tour Plan, Reviews) | Text-section heading, `90px` above (`56px` on phones), `25.5px` below |
-| Day number | `32px` circle, `#2f2f2f`, white `12px` / `700` |
+| Day number | `32px` circle, `#2f2f2f`, white `12px` / `700` / `0.6px` (homepage card-label numbers) |
 | Day title | Card title style in `#2f2f2f`: `16px` / `22.4px`, `700`, `1.5px`, uppercase |
 | Day details | Body; ✔ bullets in accent |
 | "Expand all days" | `12px`, `700`, `1.2px`, uppercase, `#2f2f2f`, underlined; hover accent |
-| Rating average | League Gothic `45px`, `#2f2f2f` |
+| Rating average | Josefin Sans `45px` / `45px`, `700`, `2.25px`, `#2f2f2f` (League Gothic stays headline-only) |
 | Rating bars | `3px`, track `#cacccf`, fill `#2f2f2f`; labels `12px` / `700` uppercase |
 | Review stars | `14px`, accent |
-| Review form panel | `#f9f9f9`, `25.5px` padding, no border; heading = text-section heading |
+| Review form ("Share your experience") | Same content, laid out as a centred text section: white, `820px` column, `56px` / `90px` padding, divider below; heading and intro centred (heading = text-section heading, intro = body); fields `25.5px` apart, two per row from 600px; black button centred |
 | Form labels | `12px`, `700`, `0.6px`, uppercase, `#2f2f2f` |
-| Form inputs | `1px solid #cacccf`, `border-radius: 3px`, `10px 12.75px` padding, `15px` text; focus border `#2f2f2f` |
-| Review cards | `25.5px` padding, `1px rgba(0,0,0,.08)` border, no radius, `25.5px` apart; avatar `40px` `#2f2f2f`; name = review-quote style in `#2f2f2f`; text `14px` / `21px` |
-| Review arrows | `40px` circles, `1px #cacccf` border, white, `#2f2f2f` icon |
+| Form inputs | `40px` tall (review box `120px` min), `1px solid #cacccf`, `border-radius: 3px`, `10px 12.75px` padding, `15px` text; focus border `#2f2f2f`; rating stars `26px`, accent / `#cacccf` |
+| Reviews carousel | The homepage reviews component itself (§9 Reviews): several side by side by width (3 in the desktop content column, 2 at ~1062px, 1 on phones), quote mark, uppercase quote, italic accent name (name only, no tour), stars, dots, moves every `5s`; no extra side padding inside the content column. Features the newest 8 five-star reviews (guest-posted first, then the page's own); the rating summary still counts every review |
 | Booking panel | `#f9f9f9`, `25.5px` padding, no border/radius/shadow; sticky `90px` from top on desktop |
-| Price tiers | rows `14px` / `21px`; prices `18px` / `700`, `#2f2f2f`; row dividers as above |
+| Price tiers | rows `14px` / `21px`; prices `18px` / `700` / `0.85px`, `#2f2f2f`; row dividers as above |
 | Family deal badge | Accent fill, `10px` / `700` / `0.5px`, uppercase, `border-radius: 3px` |
 | Start booking / Post review / Book Now | Standard `40px` black button; hover accent |
 | "Find an existing booking" | `12px`, `0.6px`, uppercase, underlined, `#52575c` |

@@ -211,22 +211,40 @@ const About = () => (
 );
 
 // ════════ 4. Reviews ════════
-// Rotates on its own every 5s for everyone, even while hovered (owner's
-// choice); any change (timer, dot, swipe) restarts the countdown.
+// Reviews carousel, also used on converted tour pages (wrapped in `.home`).
+// Like the reference it shows several reviews side by side on wide screens:
+// how many depends on the carousel's own width (4 at ≥ 980px and 1 below
+// 560px are measured from the reference; 3 and 2 in between are by eye).
+// The row moves one review every 5s for everyone, even while hovered, and
+// loops; a dot click or swipe restarts the countdown.
 const REVIEW_MS = 5000;
+const perViewFor = (w) => (w >= 980 ? 4 : w >= 720 ? 3 : w >= 560 ? 2 : 1);
 
-const Reviews = () => {
+// Caption is "Name, Tour" when a review carries a tour.
+export const ReviewQuotes = ({ reviews }) => {
 	const [i, setI] = useState(0);
+	const [perView, setPerView] = useState(1);
+	const viewRef = useRef(null);
 	const touchX = useRef(null);
-	const n = REVIEWS.length;
-	const go = (d) => setI((x) => (x + d + n) % n);
-	const r = REVIEWS[i];
+	const n = reviews.length;
+	const show = Math.min(perView, Math.max(n, 1));
+	const positions = Math.max(n - show + 1, 1); // slide stops: one dot each
+	const at = i % positions; // the list can grow (posted reviews load later)
+	const go = (d) => setI((x) => ((x % positions) + d + positions) % positions);
 
 	useEffect(() => {
-		if (n < 2) return;
-		const t = setTimeout(() => setI((x) => (x + 1) % n), REVIEW_MS);
+		const el = viewRef.current;
+		if (!el) return;
+		const ro = new ResizeObserver(([e]) => setPerView(perViewFor(e.contentRect.width)));
+		ro.observe(el);
+		return () => ro.disconnect();
+	}, []);
+
+	useEffect(() => {
+		if (positions < 2) return;
+		const t = setTimeout(() => setI((x) => ((x % positions) + 1) % positions), REVIEW_MS);
 		return () => clearTimeout(t);
-	}, [i, n]);
+	}, [i, positions]);
 
 	if (!n) return null;
 	return (
@@ -237,7 +255,7 @@ const Reviews = () => {
 			aria-label="Traveler reviews"
 		>
 			<div
-				className="home-col"
+				className="home-reviews-view"
 				onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
 				onTouchEnd={(e) => {
 					if (touchX.current == null) return;
@@ -246,33 +264,47 @@ const Reviews = () => {
 					touchX.current = null;
 				}}
 			>
-				<span className="home-quote-mark" aria-hidden="true">“</span>
-				<figure className="home-review" key={i} aria-live="polite">
-					<blockquote>{r.review}</blockquote>
-					<figcaption>
-						{r.name}, {r.tour}
-					</figcaption>
-				</figure>
-				<div className="home-stars" aria-label={`${r.stars} out of 5 stars`}>
-					{"★".repeat(r.stars)}
+				{/* clips at the content edge, so the next review doesn't peek into the padding */}
+				<div className="home-reviews-clip" ref={viewRef}>
+				<div
+					className="home-reviews-track"
+					style={{ transform: `translateX(-${(at * 100) / show}%)` }}
+					aria-live="polite"
+				>
+					{reviews.map((r, k) => (
+						<figure
+							className="home-review"
+							key={k}
+							style={{ flexBasis: `${100 / show}%` }}
+							aria-hidden={k < at || k >= at + show}
+						>
+							<span className="home-quote-mark" aria-hidden="true">“</span>
+							<blockquote>{r.review}</blockquote>
+							<figcaption>{r.tour ? `${r.name}, ${r.tour}` : r.name}</figcaption>
+							<div className="home-stars" aria-label={`${r.stars} out of 5 stars`}>
+								{"★".repeat(r.stars)}
+							</div>
+						</figure>
+					))}
 				</div>
-				{n > 1 && (
-					<div className="home-review-nav">
-						<div className="home-dots">
-							{REVIEWS.map((_, d) => (
-								<button
-									key={d}
-									type="button"
-									className={`home-dot ${d === i ? "active" : ""}`}
-									onClick={() => setI(d)}
-									aria-label={`Review ${d + 1}`}
-									aria-current={d === i}
-								/>
-							))}
-						</div>
-					</div>
-				)}
+				</div>
 			</div>
+			{positions > 1 && (
+				<div className="home-review-nav">
+					<div className="home-dots">
+						{Array.from({ length: positions }, (_, d) => (
+							<button
+								key={d}
+								type="button"
+								className={`home-dot ${d === at ? "active" : ""}`}
+								onClick={() => setI(d)}
+								aria-label={`Show review ${d + 1}`}
+								aria-current={d === at}
+							/>
+						))}
+					</div>
+				</div>
+			)}
 		</section>
 	);
 };
@@ -372,7 +404,7 @@ export default function HomePage() {
 		<main className="home">
 			<Hero />
 			<About />
-			<Reviews />
+			<ReviewQuotes reviews={REVIEWS} />
 			<Explore />
 		</main>
 	);

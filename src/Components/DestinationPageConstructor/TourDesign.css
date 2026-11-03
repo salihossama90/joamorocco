@@ -110,10 +110,28 @@
 	background: #cacccf;
 }
 .ds-page .hero-gallery-dots button.active { background: #2f2f2f; }
-/* social icons: 22px, like the homepage footer, white on photos */
+/* social icons: exactly the homepage footer icons (22px, #adadad, hover
+   accent, 2rem apart, 44px tap area) */
 .ds-page .hero-social .media-icons ul { gap: 2rem; }
-.ds-page .hero-social .media-icons a { width: 44px; height: 44px; color: #fff; filter: none; }
+.ds-page .hero-social .media-icons a {
+	width: 44px;
+	height: 44px;
+	color: #adadad;
+	filter: none;
+	transition: color 0.2s;
+}
+.ds-page .hero-social .media-icons a:hover { color: var(--primary-color); }
 .ds-page .hero-social .media-icons svg { width: 22px; height: 22px; }
+
+/* Video instead of the photo gallery (same height as the gallery) */
+.ds-page .tour-video {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.ds-page .tour-video-hero::after { z-index: 1; }
 
 /* ════════ Content area ════════ */
 .ds-page .content-destination-page {
@@ -122,23 +140,25 @@
 	padding: 0 var(--ds-pad);
 	background: #fff;
 }
-/* text-section padding: 56px phone, 90px from 768px */
-.ds-page .content-container { padding: 56px 0; }
+/* 60px under the video (same as the homepage About section), then the
+   text-section bottom padding: 56px phone, 90px from 768px */
+.ds-page .content-container { padding: 60px 0 56px; }
 @media (min-width: 768px) {
-	.ds-page .content-container { padding: 90px 0; }
+	.ds-page .content-container { padding: 60px 0 90px; }
 }
 @media (min-width: 780px) {
 	.ds-page .content-container { gap: 51px; }
 }
 
 /* Title, stars, price, description */
+/* the homepage "About JOA" heading (text-section heading) */
 .ds-page .information-destination-page h1 {
-	margin: 0 0 12.75px;
-	font-family: var(--ds-display);
-	font-weight: 400;
-	font-size: 45px;
-	line-height: 40.5px;
-	letter-spacing: 2.5px;
+	margin: 0 0 6.375px;
+	font-family: var(--ds-sans);
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 1.28;
+	letter-spacing: 1.8px;
 	text-transform: uppercase;
 	color: #2f2f2f;
 }
@@ -146,14 +166,16 @@
 .ds-page .title-stars .gold-star { font-size: 16px; }
 .ds-page .gold-star.filled { background: none; color: var(--primary-color); }
 .ds-page .title-stars .gold-star.empty { color: #cacccf; }
+/* price line: the homepage card price style (italic, normal case), one
+   step up to body size since it's this page's main price */
 .ds-page .information-destination-page h4 {
 	margin: 0 0 25.5px;
-	font-size: 18px;
-	font-style: normal;
-	font-weight: 700;
-	letter-spacing: 1.8px;
-	line-height: 1.28;
-	text-transform: uppercase;
+	font-size: 17px;
+	font-style: italic;
+	font-weight: 400;
+	letter-spacing: 0.85px;
+	line-height: 25.5px;
+	text-transform: none;
 	color: #2f2f2f;
 }
 .ds-page .description p {
@@ -182,9 +204,11 @@
 	text-transform: uppercase;
 	color: #2f2f2f;
 }
+/* supporting details: the homepage's 14px / 21px size (footer contact,
+   booking panel rows), one step under the 17px description */
 .ds-page .information-destination-page li p {
-	font-size: 17px;
-	line-height: 25.5px;
+	font-size: 14px;
+	line-height: 21px;
 	letter-spacing: 0.85px;
 	color: #52575c;
 }
@@ -216,9 +240,10 @@
 	margin-top: 5px;
 	background-color: #2f2f2f;
 	font-family: var(--ds-sans);
+	/* homepage card-label numbers: 12px / 700 / 0.6px */
 	font-size: 12px;
 	font-weight: 700;
-	letter-spacing: 0;
+	letter-spacing: 0.6px;
 }
 .ds-page .day-content h3 {
 	font-size: 16px;
@@ -262,9 +287,11 @@
 	margin-bottom: 25.5px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
+/* the homepage's text font at section-title size (League Gothic is kept
+   for headlines only) */
 .ds-page .reviews-avg strong {
-	font-family: var(--ds-display);
-	font-weight: 400;
+	font-family: var(--ds-sans);
+	font-weight: 700;
 	font-size: 45px;
 	line-height: 45px;
 	letter-spacing: 2.25px;
@@ -284,30 +311,51 @@
 .ds-page .star.filled { background: none; color: var(--primary-color); }
 .ds-page .star.empty { color: #cacccf; }
 
-/* "Share your experience" */
+/* "Share your experience": a centred homepage text section (white, heading
+   and intro centred, form in the 820px column, black button) */
 .ds-page .add-review-card {
-	background: #f9f9f9;
+	max-width: 820px;
+	margin: 0 auto 25.5px;
+	padding: 56px 0;
+	background: transparent;
 	border-left: 0;
-	padding: 25.5px;
-	margin-bottom: 25.5px;
+	/* the rating summary above already draws the top line */
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	text-align: center;
+}
+@media (min-width: 768px) {
+	.ds-page .add-review-card { padding: 90px 0; }
 }
 .ds-page .add-review-card h3 {
 	margin: 0 0 6.375px;
+	padding-left: 1.8px; /* re-centres the trailing letter-spacing */
 	font-size: 18px;
 	font-weight: 700;
 	letter-spacing: 1.8px;
 	line-height: 1.28;
 	text-transform: uppercase;
+	text-align: center;
 	color: #2f2f2f;
 }
 .ds-page .add-review-sub {
 	margin: 0 0 25.5px;
-	font-size: 14px;
-	line-height: 21px;
+	font-size: 17px;
+	line-height: 25.5px;
 	letter-spacing: 0.85px;
+	text-align: center;
 	color: #52575c;
 }
-.ds-page .review-form-field { margin-bottom: 12.75px; }
+.ds-page .review-success {
+	border: 1px solid var(--primary-color);
+	border-radius: 3px;
+	background: transparent;
+	color: #2f2f2f;
+	font-size: 14px;
+	line-height: 21px;
+}
+.ds-page .add-review-form { text-align: left; }
+.ds-page .review-form-row { gap: 0 25.5px; }
+.ds-page .review-form-field { margin-bottom: 25.5px; }
 .ds-page .review-form-field label {
 	margin-bottom: 6.375px;
 	font-size: 12px;
@@ -319,6 +367,7 @@
 }
 .ds-page .add-review-form input,
 .ds-page .add-review-form textarea {
+	height: 40px;
 	padding: 10px 12.75px;
 	border: 1px solid #cacccf;
 	border-radius: 3px;
@@ -326,13 +375,22 @@
 	font-size: 15px;
 	letter-spacing: 0.85px;
 	color: #2f2f2f;
+	transition: border-color 0.25s ease;
 }
+.ds-page .add-review-form textarea { height: auto; min-height: 120px; }
 .ds-page .add-review-form input:focus,
 .ds-page .add-review-form textarea:focus { border-color: #2f2f2f; }
+.ds-page .star-input { height: 40px; align-items: center; }
 .ds-page .star-btn { font-size: 26px; color: #cacccf; }
 .ds-page .star-btn.active { color: var(--primary-color); }
-.ds-page .review-submit-btn { align-self: flex-start; margin-top: 6.375px; }
-.ds-page .review-error { font-size: 14px; }
+.ds-page .review-error { font-size: 14px; text-align: center; }
+.ds-page .review-submit-btn { align-self: center; margin-top: 0; }
+
+/* Featured reviews: the homepage carousel, given room inside the content column */
+.ds-page .tour-review-quotes { background: transparent; }
+.ds-page .tour-review-quotes .home-reviews { background: transparent; padding: 25.5px 0 0; }
+/* the content column already has the side padding */
+.ds-page .home-reviews-view { padding: 0; }
 
 /* Review cards */
 .ds-page .review-content { gap: 25.5px; }
@@ -425,7 +483,7 @@
 	font-family: var(--ds-sans);
 	font-size: 18px;
 	font-weight: 700;
-	letter-spacing: 1px;
+	letter-spacing: 0.85px;
 	color: #2f2f2f;
 }
 .ds-page .price-tiers td span { font-size: 12px; color: #52575c; }

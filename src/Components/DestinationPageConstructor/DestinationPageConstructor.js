@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
+import VideoHero from "./VideoHero";
 import ContentSection from "./Content/ContentSection";
 
 import "./DestinationPageConstructor.css";
@@ -16,14 +17,20 @@ const FloatingBookBtn = ({ tour }) => (
 // reviews stacked in order — no tabs.
 // `design`: use the homepage design system (DESIGN.md), scoped under `.ds-page`
 // so tours that haven't been converted keep their current look.
-const DestinationPage = ({ reviews, information, tourPlan, gallery, theme, tour, design }) => (
+// `video`: a looping video at the top instead of the photo gallery.
+const DestinationPage = ({ reviews, information, tourPlan, gallery, theme, tour, design, video, poster }) => (
 	<div className={`destination-page-container${theme ? ` theme-${theme}` : ""}${design ? " ds-page" : ""}`}>
-		<HeroSection gallery={gallery} />
+		{video ? (
+			<VideoHero video={video} poster={poster} title={information.title} />
+		) : (
+			<HeroSection gallery={gallery} />
+		)}
 		<ContentSection
 			information={information}
 			tourPlan={tourPlan}
 			reviews={reviews}
 			tour={tour}
+			design={design}
 		/>
 		<FloatingBookBtn tour={tour} />
 	</div>

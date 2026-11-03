@@ -47,7 +47,7 @@ const BookCta = ({ tour }) => {
 	);
 };
 
-const ContentSection = ({ information, tourPlan, reviews, tour }) => (
+const ContentSection = ({ information, tourPlan, reviews, tour, design }) => (
 	<section className="content-section" data-tone="light">
 		<div className="content-destination-page">
 			<div className="content-container">
@@ -56,7 +56,7 @@ const ContentSection = ({ information, tourPlan, reviews, tour }) => (
 					<h2 className="content-heading">Tour Plan</h2>
 					<TourPlanContent info={tourPlan} />
 					<h2 className="content-heading" id="tour-reviews">Reviews</h2>
-					<ReviewsContent info={reviews} tour={tour} />
+					<ReviewsContent info={reviews} tour={tour} design={design} />
 				</div>
 				<BookCta tour={tour} />
 			</div>

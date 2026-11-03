@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { api } from "../../../lib/api";
 import { useToast } from "../../Toast/ToastProvider";
 import "./Reviews.css";
+import { ReviewQuotes } from "../../../Pages/Home/HomePage";
+
+// Converted tour pages feature 8 reviews in the homepage carousel: the newest
+// five-star ones (guest-posted first, then the page's own)
+const FEATURED = 8;
 
 const StarDisplay = ({ stars }) => (
 	<div className="review-rating">
@@ -125,7 +130,7 @@ const ReviewCarousel = ({ reviews }) => {
 
 const EMPTY_FORM = { reference: "", email: "", name: "", stars: 5, review: "" };
 
-const ReviewsContent = ({ info, tour }) => {
+const ReviewsContent = ({ info, tour, design }) => {
 	const toast = useToast();
 	const [dbReviews, setDbReviews] = useState([]);
 	const [form, setForm] = useState(EMPTY_FORM);
@@ -262,7 +267,13 @@ const ReviewsContent = ({ info, tour }) => {
 				</form>
 			</div>
 
-			<ReviewCarousel reviews={allReviews} />
+			{design ? (
+				<div className="home tour-review-quotes">
+					<ReviewQuotes reviews={allReviews.filter((r) => r.stars === 5).slice(0, FEATURED)} />
+				</div>
+			) : (
+				<ReviewCarousel reviews={allReviews} />
+			)}
 		</div>
 	);
 };
