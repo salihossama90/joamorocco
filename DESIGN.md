@@ -51,7 +51,8 @@ Loaded from Google Fonts in `src/index.css`.
 | Review quote | Reference computed: `13px`, `700`, letter-spacing `1.5px`, line-height `19.5px`, uppercase, centred, `#52575c` |
 | Quote mark | Reference is an SVG icon ~`14 × 11px` in teal. Ours: a Georgia “ sized to match (`34px` glyph in a `14px`-tall box), JOA orange. Their drawn path isn't copied |
 | Review block | Reference computed: `343px` wide, `140px` tall (quote mark + quote + name), text top-aligned so the dots don't move between reviews |
-| Review dots | Reference computed (inactive): `10px` circle, `background: #cacccf`, `1px solid #fff`. Active dot `#111` (not yet captured) |
+| Review navigation | Dots only, no arrows (like the reference); swipe on touch screens |
+| Review dots | Reference computed (inactive): `10px` circle, `background: #cacccf`, `1px solid #fff`. Active: `background: #2f2f2f`, same size and border (reference computed) |
 | Reviewer | Reference computed: `13px` italic, `700`, letter-spacing `1.5px`, line-height `19.5px`, centred. Colour JOA orange (reference teal `#379c8a`) |
 
 ## Text sections (standard)
@@ -210,6 +211,16 @@ Each slide has its own eyebrow (`11 Days · Private`), headline and buttons
   rgba(255,255,255,.1)`, no blur, `transition: color, background-color .25s
   ease-in-out`, with a `16 × 16px` chevron icon. Gaps between bars and
   between arrows are by eye.
+
+## Footer (homepage)
+
+| Element | Value |
+|---|---|
+| Social icons | Reference computed: `22 × 22px`, `#adadad`. Centred in their band. Hover JOA orange (ours). Tap area stays 44px |
+| Order | Social icons, then address, email, phone, then the italic line, copyright, and the legal links (Terms & Conditions, Privacy Policy only; the other pages are in the menu bar) |
+| Contact lines (address, email, phone) | Reference computed (address): `14px`, `400`, letter-spacing `0.85px`, line-height `21px`, `#adadad`, `max-width: 800px`, centred. Centred at every width in an `800px` column (captured at 534px and ~1011px; phone line identical to address) |
+| Bottom links | Reference computed ("Epic Tomato"): `12px`, `400`, letter-spacing `0.6px`, line-height `18px`, uppercase, `#adadad`. Hover JOA orange |
+| Copyright | Reference computed: `11px`, `700`, letter-spacing `0.6px`, line-height `16.5px`, uppercase, centred, `#adadad`. Gap below (`1.75rem`) ours |
 
 ## Motion
 

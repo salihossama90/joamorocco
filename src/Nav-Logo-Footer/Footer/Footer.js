@@ -14,15 +14,15 @@ const CONTACT = [
 
 const SOCIAL = ["Facebook", "Instagram", "TikTok", "YouTube"];
 
+// Homepage footer: legal links only (everything else is in the menu bar)
 const LINKS = [
-	{ label: "Tours", to: "/#explore-trips" },
-	{ label: "About", to: "/about" },
-	{ label: "Contact", to: "/contact" },
-	{ label: "Book", to: "/book" },
-	{ label: "Find booking", to: "/find-booking" },
-	{ label: "Privacy Policy", to: "/privacy" },
 	{ label: "Terms & Conditions", to: "/terms" },
+	{ label: "Privacy Policy", to: "/privacy" },
 ];
+
+// Homepage footer shows the address first, then email and phone
+const [EMAIL, PHONE, ADDRESS] = CONTACT;
+const HOME_CONTACT = [ADDRESS, EMAIL, PHONE];
 
 const year = new Date().getFullYear();
 
@@ -35,7 +35,7 @@ const HomeFooter = () => (
 		</div>
 		<div className="fh-body">
 			<ul className="fh-contact">
-				{CONTACT.map(({ label, href }) => (
+				{HOME_CONTACT.map(({ label, href }) => (
 					<li key={label}>{href ? <a href={href}>{label}</a> : <span>{label}</span>}</li>
 				))}
 			</ul>

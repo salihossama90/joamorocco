@@ -145,6 +145,7 @@ footer {
 }
 .fh-social .media-icons ul {
     display: flex;
+    justify-content: center;
     gap: 2rem;
     list-style: none;
     margin: 0 auto;
@@ -157,10 +158,11 @@ footer {
     justify-content: center;
     min-width: 44px;
     min-height: 44px;
-    font-size: 1.7rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: #adadad; /* reference computed icon colour */
     transition: color 0.2s;
 }
+/* reference computed icon: 22 × 22px */
+.fh-social .media-icons svg { width: 22px; height: 22px; }
 .fh-social .media-icons a:hover { color: var(--primary-color); }
 
 .fh-body {
@@ -168,27 +170,39 @@ footer {
     max-width: var(--max-width-content);
     margin: 0 auto;
 }
+/* reference computed address/phone lines: 14px / 21px, 0.85px, #adadad,
+   centred in an 800px column at every width (captured at 534px and 1011px) */
 .fh-contact {
     list-style: none;
-    margin: 0 0 2rem;
+    margin: 0 auto 2rem;
+    max-width: 800px;
     padding: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1.1rem;
-    font-size: 1.05rem;
-    letter-spacing: 0.03em;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.85px;
+    line-height: 21px;
+    text-align: center;
+    color: #adadad;
 }
+.fh-contact span { color: #adadad; }
 .fh-contact a {
-    color: rgba(255, 255, 255, 0.8);
+    color: #adadad;
     text-decoration: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.45);
     padding-bottom: 2px;
     transition: color 0.2s, border-color 0.2s;
 }
 .fh-contact a:hover { color: var(--primary-color); border-color: var(--primary-color); }
+/* centred in the same 800px column as the contact lines; sizes still ours
+   until the reference values are captured */
 .fh-small {
-    margin: 0;
-    max-width: 40rem;
+    margin: 0 auto;
+    max-width: 800px;
+    text-align: center;
     font-family: inherit;
     font-style: italic;
     font-weight: 300;
@@ -203,29 +217,36 @@ footer {
     padding: 2.5rem 1.5rem 3rem;
     text-align: center;
 }
+/* reference computed copyright line */
 .fh-copyright {
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    line-height: 16.5px;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.75);
+    text-align: center;
+    color: #adadad;
     margin-bottom: 1.75rem;
 }
 .fh-links {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.25rem 1rem;
-    max-width: 30rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 2.25rem;
     margin: 0 auto;
 }
+/* reference computed bottom link ("Epic Tomato") */
 .fh-links a {
     display: block;
     padding: 0.7rem 0.25rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: #adadad;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-size: 0.82rem;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    line-height: 18px;
+    text-align: center;
     transition: color 0.2s;
 }
 .fh-links a:hover { color: var(--primary-color); }
@@ -233,14 +254,9 @@ footer {
 @media (min-width: 780px) {
     .fh-social .media-icons ul, .fh-body { padding-left: 4rem; padding-right: 4rem; }
     .fh-body {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 5rem;
-        align-items: start;
         padding-top: 4rem;
         padding-bottom: 3.5rem;
     }
-    .fh-contact { margin: 0; }
     .fh-links {
         display: flex;
         flex-wrap: wrap;

@@ -243,9 +243,6 @@ const Reviews = () => {
 				</div>
 				{n > 1 && (
 					<div className="home-review-nav">
-						<button type="button" className="home-arrow" onClick={() => go(-1)} aria-label="Previous review">
-							‹
-						</button>
 						<div className="home-dots">
 							{REVIEWS.map((_, d) => (
 								<button
@@ -258,9 +255,6 @@ const Reviews = () => {
 								/>
 							))}
 						</div>
-						<button type="button" className="home-arrow" onClick={() => go(1)} aria-label="Next review">
-							›
-						</button>
 					</div>
 				)}
 			</div>

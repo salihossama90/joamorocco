@@ -427,27 +427,9 @@
 	transform: translate(-50%, -50%);
 	transition: background 0.2s ease;
 }
-.home-dot.active::after { background: var(--home-ink); }
+.home-dot.active::after { background: #2f2f2f; } /* reference computed active dot */
 
-.home-arrow {
-	width: 44px;
-	height: 44px;
-	display: grid;
-	place-items: center;
-	border: 1.5px solid #cfcfcf;
-	border-radius: 0;
-	background: transparent;
-	color: var(--home-ink);
-	font-size: 1.6rem;
-	line-height: 1;
-	cursor: pointer;
-	transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-}
-.home-arrow:hover:not(:disabled) { border-color: var(--home-ink); }
-.home-arrow:disabled { opacity: 0.3; cursor: default; }
-.home-arrow:focus-visible, .home-dot:focus-visible { outline: 2px solid var(--home-accent); outline-offset: 2px; }
-.home-arrow--light { border-color: rgba(255, 255, 255, 0.5); color: #fff; }
-.home-arrow--light:hover:not(:disabled) { border-color: #fff; background: #fff; color: var(--home-ink); }
+.home-dot:focus-visible { outline: 2px solid var(--home-accent); outline-offset: 2px; }
 
 /* ════════ 5. Explore Our Trips ════════ */
 /* Gutter, max-width and gap are the reference's `.container` / `.grid`
@@ -721,5 +703,5 @@
 	.home-review, .home-hero-content { animation: none; }
 	.home-hero-video { transition: none; }
 	.home-hero-bar.is-active span { animation: none; width: 100%; }
-	.hbtn, .home-arrow, .home-round-arrow, .home-hero-arrow, .home-trip-desc, .home-trip-price { transition: none; }
+	.hbtn, .home-round-arrow, .home-hero-arrow, .home-trip-desc, .home-trip-price { transition: none; }
 }
