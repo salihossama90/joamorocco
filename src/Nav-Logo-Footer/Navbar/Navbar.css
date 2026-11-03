@@ -222,6 +222,26 @@
 .navbar--home {
     height: 65px;
 }
+/* Frosted band behind the bar once scrolled past the top, so content passing
+   underneath blurs instead of clashing with the links. No colour, just blur.
+   It's a pseudo-element: a backdrop-filter on the nav itself would trap the
+   full-screen phone menu inside the 65px bar */
+.navbar--home::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    /* fade the band's lower edge so it has no hard line */
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+    mask-image: linear-gradient(to bottom, #000 60%, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.navbar--home.scrolled::before { opacity: 1; }
+.navbar--home.menu-open::before { opacity: 0; }
 .navbar--home .nav-consult {
     position: fixed;
     z-index: 11;

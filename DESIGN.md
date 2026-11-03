@@ -51,7 +51,7 @@ Loaded from Google Fonts in `src/index.css`.
 | Review quote | Reference computed: `13px`, `700`, letter-spacing `1.5px`, line-height `19.5px`, uppercase, centred, `#52575c` |
 | Quote mark | Reference is an SVG icon ~`14 × 11px` in teal. Ours: a Georgia “ sized to match (`34px` glyph in a `14px`-tall box), JOA orange. Their drawn path isn't copied |
 | Review block | Reference computed: `343px` wide, `140px` tall (quote mark + quote + name), text top-aligned so the dots don't move between reviews |
-| Review navigation | Dots only, no arrows (like the reference); swipe on touch screens |
+| Review navigation | Dots only, no arrows (like the reference); swipe on touch screens. Auto-rotates every `5s` for everyone (including reduced-motion users and while hovered, owner's choice); restarts after any change. The quote fade is still skipped for reduced motion |
 | Review dots | Reference computed (inactive): `10px` circle, `background: #cacccf`, `1px solid #fff`. Active: `background: #2f2f2f`, same size and border (reference computed) |
 | Reviewer | Reference computed: `13px` italic, `700`, letter-spacing `1.5px`, line-height `19.5px`, centred. Colour JOA orange (reference teal `#379c8a`) |
 
@@ -138,8 +138,9 @@ else is matched to the reference screenshot until that section's CSS is sent.
 
 ## Header
 
-No background at any scroll position (owner's choice: seamless, no white
-bar). Logo left, "Free Consultation" (accent button) and menu right, fixed on
+No background colour at any scroll position (owner's choice: seamless, no
+white bar). Once scrolled past 60px a colourless frosted blur (`blur(12px)`)
+sits behind the bar so content passing underneath doesn't clash with it. Logo left, "Free Consultation" (accent button) and menu right, fixed on
 screen. Over light sections (`data-tone="light"`: About, reviews) the menu
 icon and desktop links turn dark; over the video, Explore Our Trips and the
 footer they stay white.

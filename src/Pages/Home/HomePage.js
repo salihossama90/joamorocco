@@ -211,6 +211,10 @@ const About = () => (
 );
 
 // ════════ 4. Reviews ════════
+// Rotates on its own every 5s for everyone, even while hovered (owner's
+// choice); any change (timer, dot, swipe) restarts the countdown.
+const REVIEW_MS = 5000;
+
 const Reviews = () => {
 	const [i, setI] = useState(0);
 	const touchX = useRef(null);
@@ -218,9 +222,20 @@ const Reviews = () => {
 	const go = (d) => setI((x) => (x + d + n) % n);
 	const r = REVIEWS[i];
 
+	useEffect(() => {
+		if (n < 2) return;
+		const t = setTimeout(() => setI((x) => (x + 1) % n), REVIEW_MS);
+		return () => clearTimeout(t);
+	}, [i, n]);
+
 	if (!n) return null;
 	return (
-		<section className="home-reviews" data-tone="light" aria-roledescription="carousel" aria-label="Traveler reviews">
+		<section
+			className="home-reviews"
+			data-tone="light"
+			aria-roledescription="carousel"
+			aria-label="Traveler reviews"
+		>
 			<div
 				className="home-col"
 				onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
