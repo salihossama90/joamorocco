@@ -72,7 +72,8 @@ first). These are exact values, not ranges.
 | Body color | `#52575c`, centered | same |
 | Body max-width | `820px` | `820px` |
 | Between paragraphs | `25.5px` | `25.5px` |
-| Last paragraph → button | `40px` | `40px` |
+| Last paragraph → button | `20px` (reference "Get in Touch" margin-top) | `20px` |
+| Button | Reference computed "Get in Touch": `#000` fill, `1px solid #000`, `border-radius: 3px`, `height: 40px`, `padding: 10px 20px`, `12px` / `700` / letter-spacing `1.2px` / line-height `12px`, uppercase, `#fff`, `transition .5s ease` | same |
 | Emphasis | Italic (`<em>`), a few words only | same |
 
 ## Buttons
@@ -133,9 +134,79 @@ else is matched to the reference screenshot until that section's CSS is sent.
 
 ## Header
 
-Transparent over the hero; logo left, "Free Consultation" (accent button) and
-menu right. After 60px of scroll it turns solid white with dark menu icon and
-links.
+No background at any scroll position (owner's choice: seamless, no white
+bar). Logo left, "Free Consultation" (accent button) and menu right, fixed on
+screen. Over light sections (`data-tone="light"`: About, reviews) the menu
+icon and desktop links turn dark; over the video, Explore Our Trips and the
+footer they stay white.
+
+### Menu bar (reference computed, captured at a 534px window)
+
+Bar height, logo and button apply at every width (the reference desktop bar
+uses the same small logo and slim button). Below 780px: 17px side padding and
+the menu icon. 780px and up: button on the right, links just before it; from 1100px
+the links are centred in the bar (as on the reference), `3rem` side padding (by eye).
+
+| Property | Value |
+|---|---|
+| Height | `65px`, no background at any scroll position |
+| Side padding | `17px` |
+| Layout | `display: flex; align-items: center` |
+| Text | `15px`, line-height `22.5px`, letter-spacing `0.85px`, `#fff` |
+| Transition | `transform 0.5s ease 0.15s` (the reference bar slides; not implemented here) |
+| Free Consultation button | Reference computed ("Enquire Now"): `height`/`min-height: 32px`, `padding: 10px 20px`, `1px solid transparent` border, `border-radius: 3px`, `10px` / `700` / letter-spacing `0.5px` / line-height `10px`, uppercase, `#fff` text, `transition .5s ease`. Background kept JOA orange (reference is `#e7247a`) |
+| Menu icon line | Reference computed (one line): `2px` tall, `14px` wide, `#fff`, `position: absolute; bottom: 0; right: 0`, `transition: all .25s ease-in-out`. Applied: all three lines `2px` with no border, bottom line `14px`. Other lines and the icon box still to capture |
+| Logo | `height: 30px; width: auto` (reference computed). JOA's logo is about 2:1, so it renders ~62px wide |
+| Menu links (desktop) | Reference computed ("Destinations"): `12px`, `600`, letter-spacing `0.85px`, line-height `18px`, uppercase, `#fff`, `transition: color .25s ease`. Gap between links `21px` (measured on the reference at 1062px: Destinations 283–377, Experiences 398–486, About 507–551) |
+| Phone number | `+1 614 601 7897` (tel link) before the button. Reference computed: `13px`, `700`, letter-spacing `0.85px`, line-height `19.5px`, uppercase, `#fff`, `margin-right: 25.5px`. Hidden below 1200px, where it would collide with the centred links (the reference also hides it on narrower screens); dark over light sections |
+| Ours | logo `17px` from the left, menu icon `17px` from the right, Free Consultation button `12.75px` before the icon, all centred on the 65px bar |
+
+## Hero slideshow
+
+Eyebrow (e.g. "11 Days · Private"), reference computed: `14px`, `700`,
+letter-spacing `1.4px`, line-height `21px`, uppercase, `#fff`, margin-bottom
+`12.75px`.
+
+Headline, reference computed: League Gothic (reference: AlternateGotNo1D →
+League Gothic), `45px`, line-height `40.5px`, letter-spacing `2.5px`, `400`,
+uppercase, `#fff`, margin-bottom `12.75px`, text block `504px` wide. Same at
+every width (the old size grew from ~50px to 128px).
+
+Buttons, reference computed ("Explore Our Trips"): `height`/`min-height: 40px`,
+`padding: 10px 20px`, `1px solid #fff`, `border-radius: 3px`, `12px` / `700` /
+letter-spacing `1.2px` / line-height `12px`, uppercase, `transition .5s ease`.
+Applied to both hero buttons (Plan My Trip keeps its black fill until
+captured). They size to their text; gap between them `12.75px` by eye.
+
+"NEXT" label, reference computed: `12px`, `700`, letter-spacing `1.5px`,
+line-height `12px`, uppercase.
+
+Text container, reference computed: `display: flex; align-items: center`
+(text centred vertically in the full-height hero), `max-width: 1369px`, side
+padding `15px` (≤ 768px) / `25.5px`, no vertical padding, `z-index: 2`. Next
+controls and arrows line up with the same edges. Screens under 600px tall get
+80px / 140px top/bottom room so the text clears the bar and controls.
+
+Next-slide name, reference computed ("Home"): `16px` italic, `400`,
+letter-spacing `1.2px`, line-height `21.6px`, `min-height: 22px`,
+`margin-top: 6px`.
+
+Three slides, one per trip: The Kingdom of Morocco Tour (palace video),
+Sahara Dreams (desert-sand video), Your Custom Journey (Chefchaouen video).
+Each slide has its own eyebrow (`11 Days · Private`), headline and buttons
+(trip button + Plan My Trip; on Custom: Plan My Trip + Explore Our Trips).
+
+- Advances every `8s`; any click restarts the countdown. Videos crossfade
+  (`opacity 1000ms`, from the reference hero slides); only the visible one plays, the others don't preload.
+- Bottom-left: "NEXT" + next trip name in italics, then one bar per slide;
+  the active bar fills over the 8s. Clicking "Next" or a bar changes slide.
+- Bottom-right: round frosted arrows (same style as Explore Our Trips).
+- Reduced motion: no auto-advance, no video (posters only), bars static.
+- Reference computed: progress bar `36px × 3px`, track `rgba(255,255,255,.35)`;
+  arrows `40px` circles, `background: rgba(0,0,0,.3)`, `1px solid
+  rgba(255,255,255,.1)`, no blur, `transition: color, background-color .25s
+  ease-in-out`, with a `16 × 16px` chevron icon. Gaps between bars and
+  between arrows are by eye.
 
 ## Motion
 

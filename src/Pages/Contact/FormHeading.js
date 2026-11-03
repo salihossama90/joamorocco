@@ -20,7 +20,7 @@ const FormHeading = () => {
 				</li>
 				<li>
 					<span className="contact-info-label">Phone</span>
-					<a href="tel:+16143809363">+1 614-380-9363</a>
+					<a href="tel:+16146017897">+1 614-601-7897</a>
 				</li>
 				<li>
 					<span className="contact-info-label">Replies</span>

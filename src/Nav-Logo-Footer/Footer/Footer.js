@@ -8,7 +8,7 @@ const ABOUT =
 
 const CONTACT = [
 	{ label: "joamorocco@gmail.com", href: "mailto:joamorocco@gmail.com" },
-	{ label: "+1 614-380-9363", href: "tel:+16143809363" },
+	{ label: "+1 614-601-7897", href: "tel:+16146017897" },
 	{ label: "580 Riverview Dr, Columbus, OH, USA" },
 ];
 

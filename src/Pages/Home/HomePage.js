@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { TOUR_LIST, TOURS } from "../../data/tours";
-import Images, { KingdomVideo } from "../../images";
+import Images, { KingdomVideo, DesertVideo, CustomVideo } from "../../images";
 import AboutCopy from "../About/AboutCopy";
 import kingdomReviews from "../Kingdom/reviews";
 import desertReviews from "../Desert/reviews";
@@ -55,54 +55,141 @@ const scrollToTrips = () =>
 		?.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
 
 // ════════ 1. Hero ════════
-const Hero = () => {
-	const videoRef = useRef(null);
+// A slideshow of the three trips, one video each. It advances every 8s
+// (restarting after any click); "Next" and the round arrows move it by hand.
+// Reduced motion: no auto-advance and no video, just the posters.
+const HERO_VIDEOS = { kingdom: KingdomVideo, desert: DesertVideo, custom: CustomVideo };
+const SLIDES = TRIPS.map((t) => ({
+	...t,
+	title: t.key === "custom" ? "Your Custom Journey" : t.name,
+	video: HERO_VIDEOS[t.key],
+}));
+const SLIDE_MS = 8000;
 
+const SlideActions = ({ slide }) =>
+	slide.key === "custom" ? (
+		<>
+			<Link to={slide.route} className="hbtn hbtn--outline-light">
+				Plan My Trip
+			</Link>
+			<a
+				href="#explore-trips"
+				className="hbtn hbtn--solid-dark hbtn--on-image"
+				onClick={(e) => {
+					e.preventDefault();
+					scrollToTrips();
+				}}
+			>
+				Explore Our Trips
+			</a>
+		</>
+	) : (
+		<>
+			<Link to={slide.route} className="hbtn hbtn--outline-light">
+				{slide.cta}
+			</Link>
+			<Link to="/contact?topic=custom" className="hbtn hbtn--solid-dark hbtn--on-image">
+				Plan My Trip
+			</Link>
+		</>
+	);
+
+// 16 × 16 chevron, like the reference hero arrow icons
+const Chevron = ({ dir }) => (
+	<svg className="home-hero-arrow-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+		<path
+			d={dir === "left" ? "M10 3 5 8l5 5" : "M6 3l5 5-5 5"}
+			fill="none"
+			stroke="currentColor"
+			strokeWidth="1.6"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+	</svg>
+);
+
+const Hero = () => {
+	const [i, setI] = useState(0);
+	const [reduced] = useState(prefersReducedMotion);
+	const videos = useRef([]);
+	const n = SLIDES.length;
+	const go = (d) => setI((x) => (x + d + n) % n);
+	const slide = SLIDES[i];
+	const next = SLIDES[(i + 1) % n];
+
+	// Only the visible slide's video plays
 	useEffect(() => {
-		const el = videoRef.current;
-		if (!el) return;
-		// Reduced motion: keep the poster still instead of looping footage
-		if (prefersReducedMotion()) {
-			el.pause();
-			return;
-		}
-		el.muted = true; // iOS only autoplays when the muted *property* is set
-		el.play().catch(() => {});
-	}, []);
+		videos.current.forEach((v, k) => {
+			if (!v) return;
+			if (k === i && !reduced) {
+				v.muted = true; // iOS only autoplays when the muted *property* is set
+				v.play().catch(() => {});
+			} else {
+				v.pause();
+			}
+		});
+	}, [i, reduced]);
+
+	// Auto-advance; changing slide (by timer or click) restarts the countdown
+	useEffect(() => {
+		if (reduced) return;
+		const t = setTimeout(() => setI((x) => (x + 1) % n), SLIDE_MS);
+		return () => clearTimeout(t);
+	}, [i, reduced, n]);
 
 	return (
-		<section className="home-hero">
-			<video
-				ref={videoRef}
-				className="home-hero-video"
-				src={KingdomVideo}
-				poster={Images.KingdomHero}
-				autoPlay
-				muted
-				loop
-				playsInline
-				preload="auto"
-				aria-hidden="true"
-			/>
+		<section className="home-hero" aria-roledescription="carousel" aria-label="Our trips">
+			{SLIDES.map((s, k) => (
+				<video
+					key={s.key}
+					ref={(el) => (videos.current[k] = el)}
+					className={`home-hero-video ${k === i ? "is-active" : ""}`}
+					src={s.video}
+					poster={s.image}
+					muted
+					loop
+					playsInline
+					preload={k === i ? "auto" : "none"}
+					aria-hidden="true"
+				/>
+			))}
 			<div className="home-hero-scrim" />
-			<div className="home-hero-content">
-				<p className="home-eyebrow">Private Guided Tours of Morocco</p>
-				<h1 className="home-hero-title">Choose Your Morocco</h1>
+			<div className="home-hero-content" key={slide.key}>
+				<p className="home-eyebrow">{slide.meta}</p>
+				<h1 className="home-hero-title">{slide.title}</h1>
 				<div className="home-hero-actions">
-					<a
-						href="#explore-trips"
-						className="hbtn hbtn--outline-light"
-						onClick={(e) => {
-							e.preventDefault();
-							scrollToTrips();
-						}}
-					>
-						Explore Our Trips
-					</a>
-					<Link to="/contact?topic=custom" className="hbtn hbtn--solid-dark hbtn--on-image">
-						Plan My Trip
-					</Link>
+					<SlideActions slide={slide} />
 				</div>
+			</div>
+
+			<div className="home-hero-controls">
+				<button type="button" className="home-hero-next" onClick={() => go(1)}>
+					<span className="home-hero-next-label">Next</span>
+					<span className="home-hero-next-name">{next.title}</span>
+				</button>
+				<div className="home-hero-bars">
+					{SLIDES.map((s, k) => (
+						<button
+							key={s.key}
+							type="button"
+							className={`home-hero-bar ${k === i ? "is-active" : ""}`}
+							onClick={() => setI(k)}
+							aria-label={`Show ${s.title}`}
+							aria-current={k === i}
+						>
+							{/* key restarts the fill animation on every slide change */}
+							<span key={k === i ? `on-${i}` : "off"} style={{ animationDuration: `${SLIDE_MS}ms` }} />
+						</button>
+					))}
+				</div>
+			</div>
+			<div className="home-hero-arrows">
+				<button type="button" className="home-hero-arrow" onClick={() => go(-1)} aria-label="Previous trip">
+					<Chevron dir="left" />
+				</button>
+				<button type="button" className="home-hero-arrow" onClick={() => go(1)} aria-label="Next trip">
+					<Chevron dir="right" />
+				</button>
 			</div>
 		</section>
 	);
@@ -110,7 +197,7 @@ const Hero = () => {
 
 // ════════ 2–3. About + Get in Touch ════════
 const About = () => (
-	<section className="home-about">
+	<section className="home-about" data-tone="light">
 		<div className="home-col">
 			<h2 className="home-statement">About JOA</h2>
 			<div className="home-about-copy">
@@ -133,7 +220,7 @@ const Reviews = () => {
 
 	if (!n) return null;
 	return (
-		<section className="home-reviews" aria-roledescription="carousel" aria-label="Traveler reviews">
+		<section className="home-reviews" data-tone="light" aria-roledescription="carousel" aria-label="Traveler reviews">
 			<div
 				className="home-col"
 				onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}

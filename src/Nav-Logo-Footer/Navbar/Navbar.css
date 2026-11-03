@@ -215,60 +215,136 @@
 }
 
 /* ══════════════════════════════════════════
-   Homepage header (DESIGN.md): transparent over the hero, solid white once
-   scrolled, Free Consultation button beside the menu
+   Homepage header (DESIGN.md): no background at any scroll position; the
+   menu icon and links turn dark over light sections (`.on-light`)
 ══════════════════════════════════════════ */
+/* Shared by every width: reference computed bar height, logo and button */
 .navbar--home {
-    transition: background 0.25s ease, box-shadow 0.25s ease;
+    height: 65px;
 }
 .navbar--home .nav-consult {
     position: fixed;
-    top: 0.5rem;
-    right: 3.5rem;
     z-index: 11;
-    min-height: 40px;
-    padding: 0.55rem 0.85rem;
-    font-size: 0.68rem;
-    letter-spacing: 0.12em;
+    /* reference computed "Enquire Now" (colour kept JOA orange) */
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    min-height: 32px;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 10px;
+    text-transform: uppercase;
+    transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, opacity 0.5s ease;
 }
 .navbar--home.menu-open .nav-consult { display: none; }
-.navbar--home.scrolled {
-    height: 76px;
-    background: #fff;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
-}
-.navbar--home.scrolled .hamburger:not(.open) .line {
+.navbar--home .line { transition: all 0.3s ease, background-color 0.25s ease, border-color 0.25s ease; }
+.navbar--home.on-light .hamburger:not(.open) .line {
     background-color: #111;
     border-color: #111;
     box-shadow: none;
 }
-.App:has(.navbar--home) .logo-container { width: clamp(7rem, 30vw, 9rem); }
-.App:has(.navbar--home.scrolled) .logo-container { filter: none; }
+.App:has(.navbar--home) .logo-container {
+    width: auto;
+    height: 65px;
+    padding: 0 0 0 17px;
+    display: flex;
+    align-items: center;
+}
+/* reference computed logo: 30px tall, width from its proportions */
+.App:has(.navbar--home) .logo-container img { height: 30px; width: auto; }
+/* block, so the image's text baseline gap doesn't nudge it off-centre */
+.App:has(.navbar--home) .logo-container a,
+.App:has(.navbar--home) .logo-container img { display: block; }
+.App:has(.navbar--home.on-light) .logo-container { filter: none; }
 
-@media (min-width: 500px) {
-    .navbar--home .nav-consult { top: 1.5rem; right: 4.75rem; }
-    .navbar--home.scrolled { height: 88px; }
+/* Phone bar: 17px side padding; logo, button and menu icon centred on it */
+@media (max-width: 779px) {
+    .navbar--home { padding: 0 17px; }
+    .navbar--home .hamburger { top: 16.5px; right: 17px; }           /* 32px icon */
+    /* reference computed menu-icon line: 2px thick, no border, 0.25s ease-in-out;
+       the bottom line is 14px wide (other two lines' widths not captured yet) */
+    .navbar--home .hamburger .line {
+        height: 2px;
+        border: 0;
+        transition: all 0.25s ease-in-out;
+    }
+    .navbar--home .hamburger:not(.open) .line:nth-child(3) { width: 14px; }
+    /* open: two equal 24px arms crossing at the icon's centre (lines sit at
+       5.3px / 16px / 26.7px down the 32px box, so the outer two move 10.67px) */
+    .navbar--home .hamburger.open .line:nth-child(1),
+    .navbar--home .hamburger.open .line:nth-child(3) { width: 24px; transform-origin: center; }
+    .navbar--home .hamburger.open .line:nth-child(1) { transform: translateY(10.67px) rotate(45deg); }
+    .navbar--home .hamburger.open .line:nth-child(3) { transform: translateY(-10.67px) rotate(-45deg); }
+    /* 32px button centred on the bar, 12.75px before the icon */
+    .navbar--home .nav-consult { top: 16.5px; right: 61.75px; }
 }
 
+/* Desktop bar: links centred like the reference, button on the right */
 @media (min-width: 780px) {
     .navbar--home {
+        padding: 0 3rem;
         background: transparent;
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
     }
-    .navbar--home.scrolled {
-        height: auto;
-        background: #fff;
+    .App:has(.navbar--home) .logo-container { padding-left: 3rem; }
+    /* reference: 21px between links (measured: 377→398, 486→507) */
+    .navbar--home .nav-links ul { gap: 21px !important; }
+    /* reference computed menu link ("Destinations") */
+    .navbar--home .nav-links a {
+        font-family: "Josefin Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.85px;
+        line-height: 18px;
+        text-transform: uppercase;
+        color: #fff;
+        padding-bottom: 0;
+        transition: color 0.25s ease;
     }
-    .navbar--home.scrolled .nav-links a { color: #222; }
-    .navbar--home.scrolled .nav-links a:hover { color: var(--primary-color); }
-    .navbar--home .nav-consult {
-        position: static;
-        margin-left: 2.5rem;
-        min-height: 44px;
-        padding: 0.8rem 1.4rem;
-        font-size: 0.75rem;
-        letter-spacing: 0.16em;
+    .navbar--home.on-light .nav-links a { color: #222; }
+    .navbar--home.on-light .nav-links a:hover { color: var(--primary-color); }
+    .navbar--home .nav-consult { position: static; }
+}
+
+/* Centred links only once there's room for them beside logo and button;
+   780–1099px they sit just before the button */
+@media (min-width: 1100px) {
+    .navbar--home .nav-links {
+        position: absolute !important;
+        left: 50%;
+        top: 0;
+        height: 65px !important;
+        transform: translateX(-50%) !important;
     }
-    .App:has(.navbar--home) .logo-container { width: clamp(9rem, 14dvw, 11rem); }
+}
+@media (min-width: 780px) and (max-width: 1099px) {
+    .navbar--home .nav-consult { margin-left: 1.5rem; }
+}
+
+/* Phone number before the button: reference computed values. Like the
+   reference it's hidden on narrower screens; shown from 1200px, where it
+   clears the centred links */
+.navbar--home .nav-phone { display: none; }
+@media (min-width: 1200px) {
+    .navbar--home .nav-phone {
+        display: inline;
+        position: relative;
+        margin-right: 25.5px;
+        font-family: "Josefin Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.85px;
+        line-height: 19.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+        transition: color 0.25s ease;
+    }
+    .navbar--home .nav-phone:hover { color: var(--primary-color); }
+    .navbar--home.on-light .nav-phone { color: #222; }
 }

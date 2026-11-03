@@ -7,7 +7,7 @@ const CONTACT = [
 	"JOA",
 	"Email: joamorocco@gmail.com",
 	"Website: joamorocco.netlify.app",
-	"Phone: +1 614-380-9363",
+	"Phone: +1 614-601-7897",
 	"Address: 580 Riverview Dr, Columbus, OH, USA",
 ];
 
