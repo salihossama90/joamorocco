@@ -202,6 +202,46 @@
 @keyframes heroFill { from { width: 0; } to { width: 100%; } }
 .home-hero-next:focus-visible,
 .home-hero-bar:focus-visible { outline: 2px solid var(--home-accent); outline-offset: 2px; }
+/* Social icons on the video: the footer's frosted bubbles. Desktop: centred
+   on the bottom row with NEXT and the arrows; phones: centred just above that
+   row; very short screens: hidden so they don't meet the headline */
+.home-hero-social {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 25.5px;
+	z-index: 2;
+	pointer-events: none;
+}
+.home-hero-social .media-icons ul {
+	display: flex;
+	justify-content: center;
+	gap: 25.5px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.home-hero-social .media-icons a {
+	pointer-events: auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 43px;
+	height: 43px;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 100%;
+	background: transparent; /* see-through: blends with whatever is behind */
+	color: #fff;
+	transition: color 0.25s ease, border-color 0.25s ease;
+}
+.home-hero-social .media-icons svg { width: 22px; height: 22px; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
+.home-hero-social .media-icons a:hover { color: var(--home-accent); border-color: var(--home-accent); }
+@media (max-width: 779px) {
+	.home-hero-social { bottom: 125px; }
+}
+@media (max-height: 600px) {
+	.home-hero-social { display: none; }
+}
 /* reference computed hero arrow: 40px circle, rgba(0,0,0,.3), faint 1px
    border, no blur; 16px icon */
 .home-hero-arrow {
@@ -342,9 +382,11 @@
 }
 
 /* ════════ 4. Reviews ════════ */
+/* 60px below the dots: the reference `.section` padding, same as the space
+   under the video */
 .home-reviews {
 	background: var(--home-white);
-	padding: 0 0 var(--home-section);
+	padding: 0 0 60px;
 }
 /* The carousel: content width (max 1369px, reference side padding), one row
    of equal-width reviews that slides. Reference at 1062px: 4 × 253px, no gap */
@@ -674,9 +716,7 @@
 	justify-content: center;
 	border: 1px solid rgba(255, 255, 255, 0.25);
 	border-radius: 100%;
-	background: rgba(0, 0, 0, 0.3);
-	-webkit-backdrop-filter: blur(5.41667px);
-	backdrop-filter: blur(5.41667px);
+	background: transparent; /* see-through: blends with whatever is behind */
 	color: #fff;
 	font-size: 1.6rem;
 	line-height: 1;

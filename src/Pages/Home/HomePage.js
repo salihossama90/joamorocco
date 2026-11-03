@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { TOUR_LIST, TOURS } from "../../data/tours";
 import Images, { KingdomVideo, DesertVideo, CustomVideo } from "../../images";
 import AboutCopy from "../About/AboutCopy";
+import SocialMediaIcons from "../../Nav-Logo-Footer/SocialMediaIcons/SocialMediaIcons";
 import kingdomReviews from "../Kingdom/reviews";
 import desertReviews from "../Desert/reviews";
 
@@ -182,6 +183,10 @@ const Hero = () => {
 						</button>
 					))}
 				</div>
+			</div>
+			{/* social icons as frosted bubbles, like the footer */}
+			<div className="home-hero-social">
+				<SocialMediaIcons only={["Facebook", "Instagram", "TikTok", "YouTube"]} />
 			</div>
 			<div className="home-hero-arrows">
 				<button type="button" className="home-hero-arrow" onClick={() => go(-1)} aria-label="Previous trip">

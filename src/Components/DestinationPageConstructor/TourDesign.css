@@ -112,16 +112,20 @@
 .ds-page .hero-gallery-dots button.active { background: #2f2f2f; }
 /* social icons: exactly the homepage footer icons (22px, #adadad, hover
    accent, 2rem apart, 44px tap area) */
-.ds-page .hero-social .media-icons ul { gap: 2rem; }
+/* the footer's frosted bubbles */
+.ds-page .hero-social .media-icons ul { gap: 25.5px; }
 .ds-page .hero-social .media-icons a {
-	width: 44px;
-	height: 44px;
-	color: #adadad;
+	width: 43px;
+	height: 43px;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 100%;
+	background: transparent; /* see-through: blends with whatever is behind */
+	color: #fff;
 	filter: none;
-	transition: color 0.2s;
+	transition: color 0.25s ease, border-color 0.25s ease;
 }
-.ds-page .hero-social .media-icons a:hover { color: var(--primary-color); }
-.ds-page .hero-social .media-icons svg { width: 22px; height: 22px; }
+.ds-page .hero-social .media-icons a:hover { color: var(--primary-color); border-color: var(--primary-color); }
+.ds-page .hero-social .media-icons svg { width: 22px; height: 22px; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
 
 /* Video instead of the photo gallery (same height as the gallery) */
 .ds-page .tour-video {
@@ -140,12 +144,9 @@
 	padding: 0 var(--ds-pad);
 	background: #fff;
 }
-/* 60px under the video (same as the homepage About section), then the
-   text-section bottom padding: 56px phone, 90px from 768px */
-.ds-page .content-container { padding: 60px 0 56px; }
-@media (min-width: 768px) {
-	.ds-page .content-container { padding: 60px 0 90px; }
-}
+/* 60px under the video and 60px after the review dots, like the homepage
+   (the reference `.section` padding) */
+.ds-page .content-container { padding: 60px 0; }
 @media (min-width: 780px) {
 	.ds-page .content-container { gap: 51px; }
 }
@@ -526,9 +527,11 @@
 	text-underline-offset: 4px;
 }
 .ds-page .book-cta-link:hover { color: var(--primary-color); }
+/* phones: the panel stacks under the reviews, 60px after the dots */
+.ds-page .book-cta { margin-top: 60px; }
 @media (min-width: 780px) {
 	/* clears the 65px header */
-	.ds-page .book-cta { top: 90px; }
+	.ds-page .book-cta { top: 90px; margin-top: 0; }
 }
 
 /* ════════ Floating Book Now (phones) ════════ */

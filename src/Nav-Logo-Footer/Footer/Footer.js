@@ -30,15 +30,16 @@ const year = new Date().getFullYear();
 // centered copyright
 const HomeFooter = () => (
 	<footer className="footer--home">
-		<div className="fh-social">
-			<SocialMediaIcons only={SOCIAL} />
-		</div>
 		<div className="fh-body">
 			<ul className="fh-contact">
 				{HOME_CONTACT.map(({ label, href }) => (
 					<li key={label}>{href ? <a href={href}>{label}</a> : <span>{label}</span>}</li>
 				))}
 			</ul>
+			{/* between the contact lines and the small print */}
+			<div className="fh-social">
+				<SocialMediaIcons only={SOCIAL} />
+			</div>
 			<p className="fh-small">{ABOUT}</p>
 		</div>
 		<div className="fh-bottom">

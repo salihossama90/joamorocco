@@ -126,6 +126,8 @@ Text sections (About):
 - Space under the hero/video: `60px` at every width (the reference's
   `.section { padding: 60px 0 }`); same on tour pages between the video and
   the title.
+- Space after the review dots before the next section: also `60px`, on the
+  homepage and tour pages.
 - Heading → first paragraph: `6.375px`
 - Between paragraphs: `25.5px`
 - Last paragraph → button: `20px`
@@ -167,6 +169,12 @@ Text sections (About):
 - Bottom-left, `25.5px` from the bottom: "NEXT" + next trip name (`6px`
   apart), then one progress bar per slide (`36px × 3px`, track
   `rgba(255,255,255,.35)`, fills white over the slide's 8s, `8px` gap).
+- Social icons: the footer's see-through rings (`43px`, transparent inside,
+  `1px rgba(255,255,255,.25)`, white `22px` icon with a soft
+  `drop-shadow(0 1px 2px rgba(0,0,0,.45))` for legibility on video, `25.5px`
+  apart). Desktop: centred on the bottom row, `25.5px` up, between NEXT and
+  the arrows. Phones (< 780px): centred `125px` up, above that row. Hidden on
+  screens under 600px tall.
 - Bottom-right: round arrows, `40px`, `rgba(0,0,0,.3)` fill, `1px
   rgba(255,255,255,.1)` border, `16px` chevron icons, `12.75px` apart,
   `0.25s ease-in-out`.
@@ -217,12 +225,13 @@ Single centred column at every width.
 
 | Part | Value |
 |---|---|
-| Social band | `#141414`, `1.75rem` top/bottom; icons `22 × 22px`, `#adadad`, centred, `2rem` apart, 44px tap area, hover accent |
-| Body | `#0d0d0d`; padding `3rem 1.5rem 2.5rem` (≥ 780px: `4rem 4rem 3.5rem`) |
+| Social icons | No band of their own: centred between the contact lines and the small italic line (`25.5px` above and below). Each is a see-through ring: `43px` circle, **transparent inside** (no fill, no blur), `1px rgba(255,255,255,.25)` border, `22px` white icon, `25.5px` apart; hover: icon and ring turn accent |
+| Body | `#0d0d0d`; padding `60px 1.5rem 25.5px` (≥ 780px: side padding `4rem`). Order: address, email, phone → social icons → small italic line |
+| Rhythm | Top → address `60px`; phone → icons `25.5px`; icons → italic line `25.5px`; italic line → divider `25.5px`; divider → copyright `25.5px`; copyright → links `12.75px`; links → page bottom `25.5px` (links keep a 6px tap padding) |
 | Contact | Address, then email, then phone; centred in an `800px` column, `1.1rem` apart; links underlined `1px rgba(255,255,255,.45)` |
 | Small italic line | centred, `800px` max, Josefin Sans italic 300, `0.95rem` / 1.75, `rgba(255,255,255,.6)` (by eye) |
 | Divider | `1px solid rgba(255,255,255,.06)` |
-| Copyright | "© JOA Morocco {year}", `1.75rem` below |
+| Copyright | "© JOA Morocco {year}", `12.75px` below |
 | Links | Terms & Conditions, Privacy Policy only; centred, `2.25rem` apart, hover accent |
 
 ## 11. Mobile behaviour and breakpoints
@@ -268,13 +277,13 @@ yet converted keep their old look. A tour opts in with the `design` prop on
   homepage hero — muted, looping, inline, poster only for reduced motion —
   under the homepage hero scrim. Same height as the gallery it replaces
   (`60vh`, `65vh` from 780px; min 320px, max 620px). No arrows or dots.
-  Social icons are the homepage footer icons: `22px`, `#adadad`, hover
-  accent, `2rem` apart, 44px tap area, `25.5px` from the bottom.
+  Social icons are the footer's see-through rings (see §10), centred
+  `25.5px` from the bottom.
   (Tours still using the photo gallery style its arrows like the hero arrows
   and its dots like the review dots.)
 - **Content area**: max-width `1369px`, side padding `15px` / `25.5px`,
-  `60px` above the title (same as under the homepage video), `56px` / `90px`
-  at the bottom; `51px` between the
+  `60px` above the title and `60px` after the review dots (same as the
+  homepage); `51px` between the
   content column and the booking panel on desktop.
 
 | Element | Style |
@@ -298,7 +307,7 @@ yet converted keep their old look. A tour opts in with the `design` prop on
 | Form labels | `12px`, `700`, `0.6px`, uppercase, `#2f2f2f` |
 | Form inputs | `40px` tall (review box `120px` min), `1px solid #cacccf`, `border-radius: 3px`, `10px 12.75px` padding, `15px` text; focus border `#2f2f2f`; rating stars `26px`, accent / `#cacccf` |
 | Reviews carousel | The homepage reviews component itself (§9 Reviews): several side by side by width (3 in the desktop content column, 2 at ~1062px, 1 on phones), quote mark, uppercase quote, italic accent name (name only, no tour), stars, dots, moves every `5s`; no extra side padding inside the content column. Features the newest 8 five-star reviews (guest-posted first, then the page's own); the rating summary still counts every review |
-| Booking panel | `#f9f9f9`, `25.5px` padding, no border/radius/shadow; sticky `90px` from top on desktop |
+| Booking panel | `#f9f9f9`, `25.5px` padding, no border/radius/shadow; sticky `90px` from top on desktop; on phones it stacks under the reviews, `60px` after the dots and `60px` before the trips section |
 | Price tiers | rows `14px` / `21px`; prices `18px` / `700` / `0.85px`, `#2f2f2f`; row dividers as above |
 | Family deal badge | Accent fill, `10px` / `700` / `0.5px`, uppercase, `border-radius: 3px` |
 | Start booking / Post review / Book Now | Standard `40px` black button; hover accent |
