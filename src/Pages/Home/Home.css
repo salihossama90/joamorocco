@@ -481,6 +481,14 @@
 	color: #fff;
 }
 
+/* optional intro paragraph under the subtitle (tour pages) */
+.home-explore-intro {
+	margin: 12.75px 0 0;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #fff;
+}
 .home-trips {
 	display: flex;
 	gap: var(--trip-gap);
@@ -680,6 +688,7 @@
 		max-width: 330px;
 	}
 	.home-explore-head .home-section-title { white-space: nowrap; }
+	.home-explore-head--wrap .home-section-title { white-space: normal; }
 	.home-trips {
 		grid-column: 2;
 		max-width: none;

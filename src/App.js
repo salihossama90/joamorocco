@@ -4,6 +4,7 @@ import Logo from "./Nav-Logo-Footer/Logo/Logo";
 import Navbar from "./Nav-Logo-Footer/Navbar/Navbar";
 import Footer from "./Nav-Logo-Footer/Footer/Footer";
 import PopularAdventuresSection from "./Nav-Logo-Footer/PopularSection";
+import { Explore } from "./Pages/Home/HomePage";
 import ScrollToTop from "./ScrollToTop";
 import ConsultButton from "./Components/ConsultButton/ConsultButton";
 import { ToastProvider } from "./Components/Toast/ToastProvider";
@@ -27,6 +28,10 @@ function App() {
 	const isHome = pathname === "/";
 	// Full-bleed app pages provide their own footer/spacing.
 	const isAppPage = ["/book", "/find-booking", "/terms", "/privacy"].includes(pathname);
+	// Pages already converted to the homepage design system (DESIGN.md): they
+	// share its header, trips section and footer
+	const isDesignTour = pathname === "/kingdom-of-morocco";
+	const isDesignPage = isHome || isDesignTour;
 
 	useEffect(() => {
 		document.title = TITLES[pathname] || TITLES["/"];
@@ -38,19 +43,29 @@ function App() {
 				<ScrollToTop />
 				<div className="header">
 					<Logo />
-					<Navbar home={isHome} />
+					<Navbar home={isDesignPage} />
 				</div>
 				<Outlet />
-				{!isHome && !isAppPage && (
+				{!isDesignPage && !isAppPage && (
 					<>
 						<PopularAdventuresSection />
 						<Footer />
 					</>
 				)}
+				{isDesignTour && (
+					<div className="home">
+						{/* Same trips section as the homepage, with this page's own heading */}
+						<Explore
+							title="Choose Your Morocco"
+							subtitle="Three ways to travel, entirely private"
+							intro="From the golden dunes of the Sahara to the blue streets of Chefchaouen — two carefully crafted private tours, or a custom journey designed around you. Every trip is reserved exclusively for you and your group."
+						/>
+					</div>
+				)}
 				{isAppPage && <Footer />}
-				{isHome && <Footer variant="home" />}
-				{/* Home has Free Consultation in its header instead */}
-				{!isHome && <ConsultButton />}
+				{isDesignPage && <Footer variant="home" />}
+				{/* Converted pages carry Free Consultation in their header instead */}
+				{!isDesignPage && <ConsultButton />}
 			</div>
 		</ToastProvider>
 	);

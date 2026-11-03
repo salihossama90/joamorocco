@@ -1,328 +1,290 @@
-# Design System — Homepage
+# Design System
 
-The homepage (`/`) follows an editorial luxury-travel layout: full-bleed video
-hero, a quiet white storytelling column, a single-quote testimonial, a dark
-trip carousel and a black footer. The layout, typography, spacing and mood were
-studied from a reference luxury travel site. Only the *system* was taken: no
-text, logos, images, reviews or contact details from it. All content is
-JOA Morocco's own.
+The homepage (`/`) is finalized. Every value below is what the homepage ships
+with today, taken from `src/Pages/Home/Home.css`, the `navbar--home` rules in
+`src/Nav-Logo-Footer/Navbar/Navbar.css` and the `footer--home` rules in
+`src/Nav-Logo-Footer/Footer/Footer.css`. Other pages adopt this system one at a
+time; until a page is converted it keeps its older Playfair/sand styling.
 
-Scope: homepage only. Inner pages keep the existing Playfair/sand look
-described in `PRODUCT.md`. Note that `PRODUCT.md` lists "dark and moody themes"
-as an anti-reference. The homepage's dark trip section and black footer are a
-deliberate, owner-requested exception; everything above them stays bright.
+Most values were measured from a reference luxury-travel site's computed CSS.
+Only its *system* was used (sizes, spacing, weights): no text, logos, images,
+reviews, artwork or contact details. Where a value was set by eye rather than
+measured it says so.
 
-All tokens live on `.home` in `src/Pages/Home/Home.css`.
-
-## Color
-
-| Token | Value | Use |
-|---|---|---|
-| `--home-ink` | `#111111` | Headings on white, solid-dark button, footer base |
-| `--home-charcoal` | `#1f1f1f` | "Explore Our Trips" section |
-| `--home-charcoal-2` | `#2c2c2c` | Gradient partner for the charcoal section |
-| `--home-footer` | `#0d0d0d` | Footer |
-| `--home-white` | `#ffffff` | Page background, text on dark/imagery |
-| `--home-body` | `#4a4a4a` | Body copy on white |
-| `--home-muted` | `#8a8a8a` | Inactive dots, captions |
-| `--home-accent` | `var(--primary-color)` = `#ff681a` | JOA orange: the one accent. Header CTA, reviewer names, stars, focus |
-
-Rules: one accent only (JOA orange replaces the reference's pink). Imagery
-always carries a dark gradient scrim so white text stays ≥ WCAG AA.
-
-## Typography
+## 1. Fonts
 
 Loaded from Google Fonts in `src/index.css`.
 
-| Role | Family | Style |
+| Role | Family | Weights |
 |---|---|---|
-| Display (hero headline, section titles) | **Bebas Neue** | Condensed, uppercase, `letter-spacing: 0.02em`, `line-height: 0.95` |
-| Everything else | **Josefin Sans** (geometric sans; free stand-in for Brandon Grotesque, which needs a paid license) | 300–700, upright and italic |
+| Display (big condensed headings) | **League Gothic** | 400 |
+| Everything else | **Josefin Sans** | 300, 400, 500, 600, 700 + italic 400/500 |
 
-| Style | Spec |
-|---|---|
-| Hero headline | Bebas Neue, `clamp(3.25rem, 13vw, 8rem)`, white |
-| Section title (dark) | Bebas Neue, `clamp(2.75rem, 10vw, 5rem)`, white |
-| Eyebrow | Josefin Sans 500, uppercase, `letter-spacing: 0.18em`, `0.8–1rem` |
-| Text-section heading | See **Text sections** below (values from the reference CSS) |
-| Text-section body | See **Text sections** below |
-| Emphasis | Josefin Sans italic, same size, a few words per section only |
-| Subtitle (dark) | Josefin Sans italic 400, `clamp(1.05rem, 3.6vw, 1.35rem)` |
-| Review quote | Reference computed: `13px`, `700`, letter-spacing `1.5px`, line-height `19.5px`, uppercase, centred, `#52575c` |
-| Quote mark | Reference is an SVG icon ~`14 × 11px` in teal. Ours: a Georgia “ sized to match (`34px` glyph in a `14px`-tall box), JOA orange. Their drawn path isn't copied |
-| Review block | Reference computed: `343px` wide, `140px` tall (quote mark + quote + name), text top-aligned so the dots don't move between reviews |
-| Review navigation | Dots only, no arrows (like the reference); swipe on touch screens. Auto-rotates every `5s` for everyone (including reduced-motion users and while hovered, owner's choice); restarts after any change. The quote fade is still skipped for reduced motion |
-| Review dots | Reference computed (inactive): `10px` circle, `background: #cacccf`, `1px solid #fff`. Active: `background: #2f2f2f`, same size and border (reference computed) |
-| Reviewer | Reference computed: `13px` italic, `700`, letter-spacing `1.5px`, line-height `19.5px`, centred. Colour JOA orange (reference teal `#379c8a`) |
+Stacks:
+- Display: `"League Gothic", "Oswald", Impact, sans-serif`
+- Sans: `"Josefin Sans", "Helvetica Neue", Helvetica, Arial, sans-serif`
 
-## Text sections (standard)
-
-The standard for every light text section on the homepage (About is the
-first). These are exact values, not ranges.
-
-| Property | Mobile (< 768px) | Desktop (≥ 768px) |
-|---|---|---|
-| Background | `#ffffff` | `#ffffff` |
-| Section padding (top / bottom) | `56px / 56px` | `90px / 90px` |
-| Heading font | Josefin Sans (sans-serif), `font-weight: 700`, uppercase | same |
-| Heading size | `18px` (`1.125rem`) | `18px` |
-| Heading line-height | `1.28` | `1.28` |
-| Heading letter-spacing | `1.8px` (plus `padding-left: 1.8px` so the trailing space doesn't push it off-center) | same |
-| Heading color | `#2f2f2f`, centered (from the reference CSS: `section.section--content h2:first-of-type`) | same |
-| Heading → first paragraph | `6.375px` | `6.375px` |
-| Body font | Josefin Sans, **same family as the heading** (never serif), `font-weight: 400` | same |
-| Body size / line-height | `17px` (`1.0625rem`) / `1.5` | same |
-| Body letter-spacing | `0.85px` | same |
-| Body color | `#52575c`, centered | same |
-| Body max-width | `820px` | `820px` |
-| Between paragraphs | `25.5px` | `25.5px` |
-| Last paragraph → button | `20px` (reference "Get in Touch" margin-top) | `20px` |
-| Button | Reference computed "Get in Touch": `#000` fill, `1px solid #000`, `border-radius: 3px`, `height: 40px`, `padding: 10px 20px`, `12px` / `700` / letter-spacing `1.2px` / line-height `12px`, uppercase, `#fff`, `transition .5s ease` | same |
-| Emphasis | Italic (`<em>`), a few words only | same |
-
-## Buttons
-
-Rectangular, **sharp corners** (`border-radius: 0`), Josefin Sans 600 uppercase,
-`letter-spacing: 0.16em`, `font-size: 0.8–0.85rem`, `padding: 1rem 1.6rem`,
-`min-height: 48px`. Visible focus ring in accent.
-
-| Variant | Look | Used for |
-|---|---|---|
-| `.hbtn--accent` | Orange fill, white text | Header "Free Consultation" |
-| `.hbtn--outline-light` | Transparent, 1.5px white border | Hero "Explore Our Trips", trip cards |
-| `.hbtn--solid-dark` | Black fill, white text (1.5px white border on imagery) | Hero "Plan My Trip", "Get in Touch" |
-
-Hover: outline buttons fill white with ink text; solid buttons lift to
-accent; transitions 0.2s, disabled under reduced motion.
-
-## Spacing & rhythm
-
-- Side gutter: `1.5rem` mobile → `2.5rem` tablet → `4rem` desktop.
-- Section padding: text sections use the exact values above. Other
-  sections: `5rem` mobile → `7rem` tablet → `8.5rem` desktop.
-- Text column: `max-width: 820px`, centered.
-- Hero content has `padding-top: 7.5rem`, so it always clears the fixed
-  header (76px phone / 88px desktop). On short screens the hero grows taller
-  instead of letting the headline slide under the header.
-- Rhythm: bright → bright → bright → dark → black. Hero (video, full screen) →
-  About (white, airy) → Reviews (white, single quote) → Explore (charcoal) →
-  Footer (black).
-
-## Cards (Explore Our Trips)
-
-From the reference CSS: gutter `15px` (≤ 768px) / `25.5px`, max-width
-`1369px`, card gap `25.5px`, title letter-spacing `2px` / weight `700`
-(h1–h6 rule), description `17px`, headline font League Gothic. Everything
-else is matched to the reference screenshot until that section's CSS is sent.
-
-| Element | Value |
-|---|---|
-| Section background | `linear-gradient(#4b4b4b → #363636 → #2a2a2a)`. Reference CSS: the section's inline style is `background-image: url(…/Itineraries-Home-scaled.jpg)`, a photo of a dark contour-map texture. It's the reference's own artwork, so it isn't used; a JOA image or our own texture can replace it |
-| Section padding | `60px` top / `85.5px` bottom on all screens (reference CSS: `.section { padding: 60px 0 }`, overridden at the bottom by `.section.layout-carousel { padding-bottom: 85.5px }`) |
-| Background | `background-size: cover; background-repeat: no-repeat; background-attachment: scroll` (`.section` sets `fixed`, `.section.layout-carousel` overrides to `scroll`) |
-| Section box | `position: relative; overflow: hidden` (reference `.section`) |
-| Title | Reference computed: font `AlternateGotNo1D, "League Gothic", sans-serif` (we use League Gothic), `45px`, line-height `45px`, letter-spacing `2.25px`, weight `400`, uppercase, `#fff`. Captured at one screen size; phone value still to confirm |
-| Subtitle | Reference computed: Brandon Grotesque (we use Josefin Sans), italic, `400`, `17px`, letter-spacing `0.85px`, line-height `25.5px`, no transform, `#fff` |
-| Card | Reference computed (card content layer): `310px` × `460px`, `display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; overflow: hidden`; no radius. Same size on all screens; cards scroll sideways when they don't fit. Text side padding `24px` (reference text is `262px` wide in the `310px` card); bottom padding `24px` assumed equal |
-| Card overlay | whole photo dimmed: `rgba(0,0,0,.4)` → `.45` → `.75` at the bottom |
-| Meta (top-right) | e.g. "11 Days · Private". Reference computed ("12 NIGHTS"): `12px`, `700`, letter-spacing `0.6px`, line-height `19.55px`, uppercase, `#fff`, `text-shadow: rgba(0,0,0,.6) 1px 1px 1px`. Position (`25.5px` from top and right) still eyeballed |
-| Place eyebrow | e.g. "Casablanca → Tangier". Reference computed ("FRANCE"): `11px`, `700`, letter-spacing `1.1px`, line-height `19.55px`, uppercase, `#fff`, margin-bottom `5.667px` |
-| Card title | Reference computed: `16px`, `700`, letter-spacing `1.5px`, line-height `22.4px`, uppercase, `#fff`. Gap below (`0.5rem`) still eyeballed: the computed values were for the title link, whose own margin is 0 |
-| Description | Reference computed: `17px`, `400`, letter-spacing `0.85px`, line-height `19.55px`, margin `0`, `#fff` (text width there: `262px`) |
-| Description + price reveal | Like the reference, both hidden until the card is hovered (`max-height`/`opacity` animate open). Only on devices that can hover; touch screens always show it; keyboard focus inside the card also opens it. Timing `0.5s ease` borrowed from the reference buttons, since the hover rule itself wasn't captured |
-| Price line | Reference computed: italic, `400`, `14px`, letter-spacing `0.85px`, line-height `19.55px`, margin-top `6.375px`, margin-bottom `0`, `#fff` |
-| Button | Reference computed: `height`/`min-height: 40px`, `padding: 10px 20px`, `1px solid #fff` border, `border-radius: 3px`, `12px` / `700` / letter-spacing `1.2px` / line-height `12px`, uppercase, transparent background, `transition: color, background-color, border-color, opacity .5s ease`. Own margin is `0`; the gap above (`1.25rem`) is eyeballed. Note: `3px` corners here override the sharp-corner rule for this one button |
-| Arrows | Reference computed: `position: absolute; left: 25.5px; bottom: 25.5px` inside the section (so it sits in the `85.5px` bottom padding), `43px` circle (`border-radius: 100%`), `background: rgba(0,0,0,.3)`, `backdrop-filter: blur(5.41667px)`, `1px solid rgba(255,255,255,.25)`, `#fff` icon, `transition: opacity, background .5s ease`. Each shows only when it can move; gap between two arrows (`12.75px`) and hover fill are ours |
-| Desktop layout (≥ 1024px) | Matched by eye to the reference's desktop view: two columns, title + subtitle at the right of the left `30%` column with `padding-right: 25.5px` (from the reference title wrapper) so it sits close to the first card, cards in a row in the right column running to the screen edge (`25.5px` end padding), arrows over the cards, vertically centred on them (next on the right, previous on the left), bottom padding `60px`. Card size and text styles stay at the reference CSS values |
-| Measured at | `534px` window width (the reference section was 534px wide when these were captured) |
-
-## Header
-
-No background colour at any scroll position (owner's choice: seamless, no
-white bar). Once scrolled past 60px a colourless frosted blur (`blur(12px)`)
-sits behind the bar so content passing underneath doesn't clash with it. Logo left, "Free Consultation" (accent button) and menu right, fixed on
-screen. Over light sections (`data-tone="light"`: About, reviews) the menu
-icon and desktop links turn dark; over the video, Explore Our Trips and the
-footer they stay white.
-
-### Menu bar (reference computed, captured at a 534px window)
-
-Bar height, logo and button apply at every width (the reference desktop bar
-uses the same small logo and slim button). Below 780px: 17px side padding and
-the menu icon. 780px and up: button on the right, links just before it; from 1100px
-the links are centred in the bar (as on the reference), `3rem` side padding (by eye).
+Base text on every converted page (the page root):
 
 | Property | Value |
 |---|---|
-| Height | `65px`, no background at any scroll position |
-| Side padding | `17px` |
-| Layout | `display: flex; align-items: center` |
-| Text | `15px`, line-height `22.5px`, letter-spacing `0.85px`, `#fff` |
-| Transition | `transform 0.5s ease 0.15s` (the reference bar slides; not implemented here) |
-| Free Consultation button | Reference computed ("Enquire Now"): `height`/`min-height: 32px`, `padding: 10px 20px`, `1px solid transparent` border, `border-radius: 3px`, `10px` / `700` / letter-spacing `0.5px` / line-height `10px`, uppercase, `#fff` text, `transition .5s ease`. Background kept JOA orange (reference is `#e7247a`) |
-| Menu icon line | Reference computed (one line): `2px` tall, `14px` wide, `#fff`, `position: absolute; bottom: 0; right: 0`, `transition: all .25s ease-in-out`. Applied: all three lines `2px` with no border, bottom line `14px`. Other lines and the icon box still to capture |
-| Logo | `height: 30px; width: auto` (reference computed). JOA's logo is about 2:1, so it renders ~62px wide |
-| Menu links (desktop) | Reference computed ("Destinations"): `12px`, `600`, letter-spacing `0.85px`, line-height `18px`, uppercase, `#fff`, `transition: color .25s ease`. Gap between links `21px` (measured on the reference at 1062px: Destinations 283–377, Experiences 398–486, About 507–551) |
-| Phone number | `+1 614 601 7897` (tel link) before the button. Reference computed: `13px`, `700`, letter-spacing `0.85px`, line-height `19.5px`, uppercase, `#fff`, `margin-right: 25.5px`. Hidden below 1200px, where it would collide with the centred links (the reference also hides it on narrower screens); dark over light sections |
-| Ours | logo `17px` from the left, menu icon `17px` from the right, Free Consultation button `12.75px` before the icon, all centred on the 65px bar |
-
-## Hero slideshow
-
-Eyebrow (e.g. "11 Days · Private"), reference computed: `14px`, `700`,
-letter-spacing `1.4px`, line-height `21px`, uppercase, `#fff`, margin-bottom
-`12.75px`.
-
-Headline, reference computed: League Gothic (reference: AlternateGotNo1D →
-League Gothic), `45px`, line-height `40.5px`, letter-spacing `2.5px`, `400`,
-uppercase, `#fff`, margin-bottom `12.75px`, text block `504px` wide. Same at
-every width (the old size grew from ~50px to 128px).
-
-Buttons, reference computed ("Explore Our Trips"): `height`/`min-height: 40px`,
-`padding: 10px 20px`, `1px solid #fff`, `border-radius: 3px`, `12px` / `700` /
-letter-spacing `1.2px` / line-height `12px`, uppercase, `transition .5s ease`.
-Applied to both hero buttons (Plan My Trip keeps its black fill until
-captured). They size to their text; gap between them `12.75px` by eye.
-
-"NEXT" label, reference computed: `12px`, `700`, letter-spacing `1.5px`,
-line-height `12px`, uppercase.
-
-Text container, reference computed: `display: flex; align-items: center`
-(text centred vertically in the full-height hero), `max-width: 1369px`, side
-padding `15px` (≤ 768px) / `25.5px`, no vertical padding, `z-index: 2`. Next
-controls and arrows line up with the same edges. Screens under 600px tall get
-80px / 140px top/bottom room so the text clears the bar and controls.
-
-Next-slide name, reference computed ("Home"): `16px` italic, `400`,
-letter-spacing `1.2px`, line-height `21.6px`, `min-height: 22px`,
-`margin-top: 6px`.
-
-Three slides, one per trip: The Kingdom of Morocco Tour (palace video),
-Sahara Dreams (desert-sand video), Your Custom Journey (Chefchaouen video).
-Each slide has its own eyebrow (`11 Days · Private`), headline and buttons
-(trip button + Plan My Trip; on Custom: Plan My Trip + Explore Our Trips).
-
-- Advances every `8s`; any click restarts the countdown. Videos crossfade
-  (`opacity 1000ms`, from the reference hero slides); only the visible one plays, the others don't preload.
-- Bottom-left: "NEXT" + next trip name in italics, then one bar per slide;
-  the active bar fills over the 8s. Clicking "Next" or a bar changes slide.
-- Bottom-right: round frosted arrows (same style as Explore Our Trips).
-- Reduced motion: no auto-advance, no video (posters only), bars static.
-- Reference computed: progress bar `36px × 3px`, track `rgba(255,255,255,.35)`;
-  arrows `40px` circles, `background: rgba(0,0,0,.3)`, `1px solid
-  rgba(255,255,255,.1)`, no blur, `transition: color, background-color .25s
-  ease-in-out`, with a `16 × 16px` chevron icon. Gaps between bars and
-  between arrows are by eye.
-
-## Footer (homepage)
-
-| Element | Value |
-|---|---|
-| Social icons | Reference computed: `22 × 22px`, `#adadad`. Centred in their band. Hover JOA orange (ours). Tap area stays 44px |
-| Order | Social icons, then address, email, phone, then the italic line, copyright, and the legal links (Terms & Conditions, Privacy Policy only; the other pages are in the menu bar) |
-| Contact lines (address, email, phone) | Reference computed (address): `14px`, `400`, letter-spacing `0.85px`, line-height `21px`, `#adadad`, `max-width: 800px`, centred. Centred at every width in an `800px` column (captured at 534px and ~1011px; phone line identical to address) |
-| Bottom links | Reference computed ("Epic Tomato"): `12px`, `400`, letter-spacing `0.6px`, line-height `18px`, uppercase, `#adadad`. Hover JOA orange |
-| Copyright | Reference computed: `11px`, `700`, letter-spacing `0.6px`, line-height `16.5px`, uppercase, centred, `#adadad`. Gap below (`1.75rem`) ours |
-
-## Motion
-
-Calm only: hero video loop, 0.2s button transitions, fade between reviews.
-Everything respects `prefers-reduced-motion` (the hero video does not
-autoplay; the poster image shows instead).
-
-## Reference CSS values (from the reference site's stylesheets)
-
-Raw values copied from the reference site's own CSS, pasted in by the owner.
-Recorded here as found. Section-specific rules (hero, text section, reviews,
-trips, footer) are still to come; values below are site-wide. Not yet
-applied unless a section above says so.
-
-### Section-specific rules found
-| Section | Selector | Property | Value |
-|---|---|---|---|
-| Text section heading | `section.section--content h2:first-of-type` | color | `#2f2f2f` |
-| Text section heading | `.h5` (applies to the heading) | font-size / weight / letter-spacing / line-height / transform / margin-bottom | `18px` / `700` / `1.8px` / `1.28` / uppercase / `6.375px` (its `#000` color is overridden by the rule above) |
-| All headings | `h1–h6, .h1–.h6` | weight / letter-spacing / transform | `700` / `2px` / uppercase (letter-spacing overridden to `1.8px` by `.h5`) |
-| Everything | `*` | reset | `background-color: transparent; border: 0; box-sizing: border-box; font: inherit; margin: 0; padding: 0`. Applied as `.home *` (homepage only, so other pages' forms and booking wizard keep their styling), placed before all section rules |
-
-| Text section | `.text--base` (on the section) | color | `#52575c !important`; inside it `h1–h6`, `a`, `small` use `color: inherit`. The heading keeps `#2f2f2f` because `section.section--content h2:first-of-type` is more specific; paragraphs get `#52575c` |
-| Everything | `*` | rendering | `font-smoothing: antialiased; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; text-rendering: optimizeLegibility`. Applied in the same `.home *` rule |
-| Page | `html` | rendering | `-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; background-color: #fff; font-size: 100%; text-size-adjust: 100%` (size and size-adjust are browser defaults). `grayscale` smoothing added to `.home *` |
-| Page | `html` (second rule) | text | `color: #2f2f2f; font: 106.25%/1.5 Brandon Grotesque, …` (= 17px / 1.5); overridden by `.p, body`, so nothing visible to apply |
-| Everything | `*, :after, :before` | box-sizing | `border-box` (already set site-wide in `src/index.css`) |
-
-None of these heading rules change with screen width, so phone and desktop use the same values.
-
-### Fonts loaded
-| Family | Source | Weights |
-|---|---|---|
-| Brandon Grotesque | self-hosted (paid) | 400, 500, 700 |
-| Chronicle Display | self-hosted (paid, serif) | 400 |
-| AlternateGotNo1D (Alternate Gothic No.1) | self-hosted (paid, condensed) | 400 |
-| Cabin | Google Fonts | 400, 500, 700 + italics |
-| Josefin Sans | Google Fonts | 400, 500, 700 + italics |
-| League Gothic | Google Fonts | 400 |
-
-Body stack: `Brandon Grotesque, Cabin, Josefin Sans, Helvetica Neue, Helvetica, Arial, sans-serif`.
-
-### Base text
-
-The `.p, body` rule sets color `#52575c` (an older `body` rule in another file sets `#444`; `.p, body` is the one that applies), plus `text-size-adjust: none`. Applied as the base text style on the homepage root (`.home`).
-
-| Property | Value |
-|---|---|
-| Body color | `#52575c` |
+| Font | Josefin Sans |
+| Size / line-height | `17px` / `1.5` (25.5px) |
+| Letter-spacing | `0.85px` |
+| Color | `#52575c` |
 | Text size adjust | `none` |
-| Body size | `17px` (`1.0625rem`) |
-| Body letter-spacing | `0.85px` |
-| Body line-height | `1.5` |
-| `p`, `h1–h6`, lists, `hr` margin-bottom | `25.5px` (`0` when last child) |
-| Link color | `#e7247a` (hover `#444` + underline) |
 
-### Color palette (utility classes)
-| Name | Value |
-|---|---|
-| brand | `#444` |
-| base | `#52575c` |
-| base-dk | `#2f2f2f` |
-| base-bg | `#fff` |
-| headings | `#000` |
-| bright | `#e7247a` |
-| light | `#f9f9f9` |
-| white (`.text--white`, `.text-white`) | `#fff !important`  Applied to all white text on the homepage: hero, Explore Our Trips title, subtitle and trip cards. |
-| success | `#379c8a` (the teal used for reviewer names) |
-| success-dull | `#6a9f99` |
-| danger | `#cc5426` |
-| info | `#1e6e9f` |
-| mid | `#ccc` |
-| purple-dk | `#342c3f` |
-| mid-blue | `#023b66` |
+Rendering on every element: `-webkit-font-smoothing: antialiased`,
+`-moz-osx-font-smoothing: grayscale`, `text-rendering: optimizeLegibility`,
+`-webkit-tap-highlight-color: transparent`.
 
-### Layout
-| Property | Desktop | ≤ 768px |
+Page reset (scoped to the page root, placed before all section rules):
+`background-color: transparent; border: 0; box-sizing: border-box; font: inherit; margin: 0; padding: 0`.
+
+## 2. Colors
+
+| Token | Value | Use |
 |---|---|---|
-| `.container` max-width | `1369px` | `1369px` |
-| `.container` side padding | `25.5px` | `15px` |
-| `.container--large` max-width | `1720px` | — |
-| Column gutter (`.row` / `.col`) | `25.5px` | `15px` |
-| Grid gap (`.grid`) | `25.5px` | `12.75px` (≤ 640px) |
+| Accent | `#ff681a` (`--primary-color`) | Header button, reviewer names, quote mark, stars, hover on links/icons, focus rings |
+| Accent hover | `#e85a10` | Accent button hover |
+| Heading on white | `#2f2f2f` | Text-section headings, active review dot |
+| Body | `#52575c` | Body copy, review quotes |
+| Black | `#000` | Get in Touch button |
+| Ink | `#111111` | Solid-dark buttons, menu icon on light sections |
+| Link dark | `#222` | Menu links / phone over light sections |
+| White | `#ffffff` | Page background, all text on video, photos and dark sections |
+| Dot grey | `#cacccf` | Inactive review dots |
+| Footer grey | `#adadad` | All footer text and icons |
+| Trips section | `linear-gradient(180deg, #4b4b4b 0%, #363636 45%, #2a2a2a 100%)` | Explore Our Trips background |
+| Footer social band | `#141414` | |
+| Footer | `#0d0d0d` | |
 
-Breakpoints used: `480/481`, `500`, `640`, `768/769`, `800`, `1024/1025`, `1127/1128`.
+## 3. Type styles
 
-### Spacing scale (padding/margin utilities)
-| Token | Value |
+| Style | Font | Size / line-height | Weight | Letter-spacing | Case | Color |
+|---|---|---|---|---|---|---|
+| Hero eyebrow | Sans | 14px / 21px | 700 | 1.4px | upper | #fff |
+| Hero headline | Display | 45px / 40.5px | 400 | 2.5px | upper | #fff (max-width 504px) |
+| Section title (dark) | Display | 45px / 45px | 400 | 2.25px | upper | #fff |
+| Section subtitle (dark) | Sans italic | 17px / 25.5px | 400 | 0.85px | none | #fff |
+| Text-section heading | Sans | 18px / 1.28 | 700 | 1.8px | upper | #2f2f2f |
+| Body | Sans | 17px / 25.5px | 400 | 0.85px | none | #52575c |
+| Emphasis | Sans italic | inherits | — | — | — | inherits |
+| Review quote | Sans | 13px / 19.5px | 700 | 1.5px | upper | #52575c |
+| Reviewer | Sans italic | 13px / 19.5px | 700 | 1.5px | none | accent |
+| Card meta ("11 Days · Private") | Sans | 12px / 19.55px | 700 | 0.6px | upper | #fff + `text-shadow: rgba(0,0,0,.6) 1px 1px 1px` |
+| Card place ("Casablanca → Tangier") | Sans | 11px / 19.55px | 700 | 1.1px | upper | #fff |
+| Card title | Sans | 16px / 22.4px | 700 | 1.5px | upper | #fff |
+| Card description | Sans | 17px / 19.55px | 400 | 0.85px | none | #fff |
+| Card price line | Sans italic | 14px / 19.55px | 400 | 0.85px | none | #fff |
+| Slideshow "NEXT" | Sans | 12px / 12px | 700 | 1.5px | upper | #fff |
+| Slideshow next name | Sans italic | 16px / 21.6px | 400 | 1.2px | none | #fff |
+| Menu link | Sans | 12px / 18px | 600 | 0.85px | upper | #fff (#222 on light) |
+| Header phone | Sans | 13px / 19.5px | 700 | 0.85px | upper | #fff (#222 on light) |
+| Footer contact | Sans | 14px / 21px | 400 | 0.85px | none | #adadad |
+| Footer copyright | Sans | 11px / 16.5px | 700 | 0.6px | upper | #adadad |
+| Footer link | Sans | 12px / 18px | 400 | 0.6px | upper | #adadad |
+
+Uppercase headings with letter-spacing get `padding-left` equal to their
+letter-spacing so the trailing space doesn't push them off-centre.
+
+## 4. Buttons
+
+All buttons: Josefin Sans, uppercase, `display: inline-flex`, centred text,
+`border-radius: 3px`, `1px` border.
+
+| Button | Height | Padding | Text | Fill / border | Transition |
+|---|---|---|---|---|---|
+| Standard (hero, trip cards, Get in Touch) | 40px | 10px 20px | 12px / 700 / 1.2px / line-height 12px | see variants | color, background-color, border-color, opacity `0.5s ease` |
+| Header "Free Consultation" | 32px | 10px 20px | 10px / 700 / 0.5px / line-height 10px | accent fill, transparent border | same |
+
+Variants:
+- **Outline light** (on video/photos): transparent, `#fff` text and border; hover fills white with ink text.
+- **Solid dark on image**: `#111` fill, `#fff` border.
+- **Black** (Get in Touch): `#000` fill and border, `#fff` text.
+- **Accent**: `#ff681a` fill, hover `#e85a10`.
+
+Buttons size to their text. Side-by-side buttons sit `12.75px` apart and wrap
+on narrow screens. Focus ring: `2px solid` accent, offset 2–3px.
+
+## 5. Spacing and layout
+
+Spacing steps used: `6.375px`, `12.75px`, `25.5px`, `60px`, `85.5px`, `90px`.
+
+| Item | Phone (≤ 768px) | Desktop |
+|---|---|---|
+| Content max-width | 1369px | 1369px |
+| Side padding (hero, trips) | 15px | 25.5px |
+| Text-section padding (top / bottom) | 56px / 56px | 90px / 90px (≥ 768px) |
+| Text column | 820px max | 820px max |
+| Dark/card section padding | 60px top / 85.5px bottom | 60px / 60px (≥ 1024px) |
+
+Text sections (About):
+- Heading → first paragraph: `6.375px`
+- Between paragraphs: `25.5px`
+- Last paragraph → button: `20px`
+- Everything centred.
+
+## 6. Header (menu bar)
+
+- **Height** `65px`, fixed, at every width.
+- **No background colour** at any scroll position. After 60px of scrolling a
+  colourless frosted band fades in behind it (`backdrop-filter: blur(12px)`,
+  lower edge faded with a `#000 60% → transparent` mask, `0.3s`). It's a
+  `::before` layer, so the full-screen phone menu still works.
+- **Logo**: `30px` tall, width from its proportions (~62px), vertically centred.
+- **Over light sections** (`data-tone="light"`: About, reviews) the menu icon,
+  links and phone turn dark (`#111` / `#222`); over the video, trips and
+  footer they stay white. The switch fades over `0.25s`.
+- **Phone (< 780px)**: `17px` side padding. Logo left; Free Consultation `32px`
+  button `12.75px` before the menu icon; icon at the right edge. Menu-icon lines
+  are `2px` thick with no border, bottom line `14px`; open state is an even X
+  (two 24px arms). The full-screen menu hides the header button.
+- **Desktop (≥ 780px)**: `3rem` side padding; links `21px` apart.
+  780–1099px: links sit just before the button (`1.5rem` gap).
+  ≥ 1100px: links centred in the bar.
+  ≥ 1200px: phone number `+1 614 601 7897` shown `25.5px` before the button.
+- The floating "Free Consultation" button used on other pages is hidden on
+  converted pages, since the header carries it.
+
+## 7. Hero (homepage)
+
+- Full-screen (`100svh`) slideshow of the three trips, one video each, with
+  the trip photo as poster. Videos crossfade with `opacity 1000ms`; only the
+  visible one plays, the others don't preload. Advances every `8s`; any click
+  restarts the timer. Reduced motion: no video, no auto-advance.
+- Scrim: `linear-gradient(to bottom, rgba(0,0,0,.45) 0%, transparent 22%)` over
+  `linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,.1) 75%)`.
+- Text block vertically centred, left-aligned, max-width 1369px, side
+  padding 15px / 25.5px. Eyebrow → headline → buttons, each `12.75px` apart.
+  Screens under 600px tall add 80px / 140px top/bottom room.
+- Bottom-left, `25.5px` from the bottom: "NEXT" + next trip name (`6px`
+  apart), then one progress bar per slide (`36px × 3px`, track
+  `rgba(255,255,255,.35)`, fills white over the slide's 8s, `8px` gap).
+- Bottom-right: round arrows, `40px`, `rgba(0,0,0,.3)` fill, `1px
+  rgba(255,255,255,.1)` border, `16px` chevron icons, `12.75px` apart,
+  `0.25s ease-in-out`.
+
+## 8. Image treatment
+
+- Photos and video always carry a dark scrim so white text reads (≥ WCAG AA).
+- **Trip cards**: `310 × 460px`, no radius, photo `cover`; overlay
+  `linear-gradient(to bottom, rgba(0,0,0,.4) 0%, rgba(0,0,0,.45) 50%, rgba(0,0,0,.75) 100%)`.
+- No rounded corners on images; no borders; no shadows.
+
+## 9. Components
+
+### Trip cards (Explore Our Trips)
+- Card `310 × 460px`, cards `25.5px` apart in a sideways scroll-snap row.
+- Meta label top-right, `25.5px` in. Bottom block `24px` padding (text 262px
+  wide): place → title (`5.667px` gap) → description → price (`6.375px` above)
+  → button (`1.25rem` above, by eye).
+- **Hover reveal** (mouse/trackpad only): description and price stay hidden
+  until the card is hovered or focused, then open over `0.5s`. Touch screens
+  always show them.
+- Arrows: `43px` frosted circles (`rgba(0,0,0,.3)`, `blur(5.41667px)`,
+  `1px rgba(255,255,255,.25)`), each shown only when it can move.
+  Phone: bottom-left, `25.5px` in, inside the 85.5px bottom padding.
+  Desktop (≥ 1024px): two columns — title block at the right of the left `30%`
+  column (`25.5px` before the cards, title on one line), cards on the right
+  running to the screen edge, arrows centred on the cards (next right,
+  previous left), arrows above the card text layer.
+
+### Reviews
+- Block `343px` wide, `140px` tall (quote mark + quote + name), so the dots
+  never move. Quote mark: JOA orange, ~14px wide. Stars below in accent.
+- Dots only (no arrows): `10px` circles, `1px #fff` border, `#cacccf`;
+  active `#2f2f2f`. Swipe on touch screens.
+- Rotates every `5s` for everyone, including while hovered; any dot click or
+  swipe restarts the timer.
+
+## 10. Footer
+
+Single centred column at every width.
+
+| Part | Value |
 |---|---|
-| xxs | `5.667px` |
-| xs | `6.375px` |
-| sm | `12.75px` |
-| mob-gutter | `15px` |
-| md-sm | `25px` |
-| base | `25.5px` |
-| md | `30.6px` |
-| lg | `40.8px` |
-| xlg | `43.35px` |
-| xl | `50.235px` |
-| xl-xxl | `70px` |
-| xxl | `80.325px` |
-| big | `114.75px` |
-| xxxl | `192.78px` |
-| jumbo | `321.3px` |
+| Social band | `#141414`, `1.75rem` top/bottom; icons `22 × 22px`, `#adadad`, centred, `2rem` apart, 44px tap area, hover accent |
+| Body | `#0d0d0d`; padding `3rem 1.5rem 2.5rem` (≥ 780px: `4rem 4rem 3.5rem`) |
+| Contact | Address, then email, then phone; centred in an `800px` column, `1.1rem` apart; links underlined `1px rgba(255,255,255,.45)` |
+| Small italic line | centred, `800px` max, Josefin Sans italic 300, `0.95rem` / 1.75, `rgba(255,255,255,.6)` (by eye) |
+| Divider | `1px solid rgba(255,255,255,.06)` |
+| Copyright | "© JOA Morocco {year}", `1.75rem` below |
+| Links | Terms & Conditions, Privacy Policy only; centred, `2.25rem` apart, hover accent |
+
+## 11. Mobile behaviour and breakpoints
+
+| Breakpoint | What changes |
+|---|---|
+| < 600px tall | Hero text gets extra top/bottom room |
+| ≤ 768px | Side padding 15px; text sections 56px padding |
+| < 780px | Phone header (icon menu) |
+| ≥ 768/769px | Side padding 25.5px; text sections 90px padding |
+| ≥ 780px | Desktop header (inline links) |
+| ≥ 1024px | Trips switch to the two-column layout |
+| ≥ 1100px | Header links centred |
+| ≥ 1200px | Header phone number shown |
+| hover-capable devices | Trip description/price revealed on hover |
+
+No sideways page scroll at any width. Every tap target is at least 40px
+(dots and icons use 44px hit areas).
+
+## 12. Motion
+
+- Button fades `0.5s ease`; header colour switch `0.25s`; blur band `0.3s`.
+- Hero crossfade `1000ms`, hero text fade-in `0.6s`, review fade `0.45s`.
+- Reduced motion: hero holds still on posters, fades and transitions are
+  removed. Reviews still rotate (owner's choice).
+
+## 13. Tour pages (converted: The Kingdom of Morocco Tour)
+
+Converted tour pages use everything above, scoped under `.ds-page`
+(`src/Components/DestinationPageConstructor/TourDesign.css`), so tours not
+yet converted keep their old look. A tour opts in with the `design` prop on
+`DestinationPage`; `src/App.js` lists converted routes in `isDesignTour`.
+
+- **Header and footer**: identical to the homepage (same components and
+  settings). The content area is `data-tone="light"`, so the menu icon and
+  links turn dark over it.
+- **Trips section**: the homepage's Explore Our Trips component, with this
+  page's own heading ("Choose Your Morocco"), subtitle and intro paragraph
+  (`17px / 25.5px`, `#fff`, `12.75px` above). Titles longer than 18
+  characters may wrap on desktop.
+- **Photo gallery**: homepage hero scrim; arrows are the homepage hero arrows
+  (`40px`, `rgba(0,0,0,.3)`, `1px rgba(255,255,255,.1)`); dots are the review
+  dots (`10px`, `#cacccf` / active `#2f2f2f`, `1px #fff` border, `8px` apart);
+  social icons `22px` white, `2rem` apart. Controls sit `25.5px` from the
+  bottom and side padding from the edges.
+- **Content area**: max-width `1369px`, side padding `15px` / `25.5px`,
+  `56px` / `90px` top and bottom (text-section padding); `51px` between the
+  content column and the booking panel on desktop.
+
+| Element | Style |
+|---|---|
+| Tour title | Hero headline style in `#2f2f2f`: League Gothic `45px` / `40.5px`, `2.5px`, uppercase, `12.75px` below |
+| Title stars | `16px`, accent (empty `#cacccf`) |
+| Price line | Text-section heading style: `18px`, `700`, `1.8px`, uppercase, `#2f2f2f`, `25.5px` below |
+| Description | Body: `17px` / `25.5px`, `0.85px`, `#52575c`, `25.5px` between paragraphs |
+| Info labels (Destination…) | Card meta style in `#2f2f2f`: `12px`, `700`, `0.6px`, uppercase |
+| Info text | Body |
+| Dividers | `1px solid rgba(0,0,0,.08)` |
+| Section headings (Tour Plan, Reviews) | Text-section heading, `90px` above (`56px` on phones), `25.5px` below |
+| Day number | `32px` circle, `#2f2f2f`, white `12px` / `700` |
+| Day title | Card title style in `#2f2f2f`: `16px` / `22.4px`, `700`, `1.5px`, uppercase |
+| Day details | Body; ✔ bullets in accent |
+| "Expand all days" | `12px`, `700`, `1.2px`, uppercase, `#2f2f2f`, underlined; hover accent |
+| Rating average | League Gothic `45px`, `#2f2f2f` |
+| Rating bars | `3px`, track `#cacccf`, fill `#2f2f2f`; labels `12px` / `700` uppercase |
+| Review stars | `14px`, accent |
+| Review form panel | `#f9f9f9`, `25.5px` padding, no border; heading = text-section heading |
+| Form labels | `12px`, `700`, `0.6px`, uppercase, `#2f2f2f` |
+| Form inputs | `1px solid #cacccf`, `border-radius: 3px`, `10px 12.75px` padding, `15px` text; focus border `#2f2f2f` |
+| Review cards | `25.5px` padding, `1px rgba(0,0,0,.08)` border, no radius, `25.5px` apart; avatar `40px` `#2f2f2f`; name = review-quote style in `#2f2f2f`; text `14px` / `21px` |
+| Review arrows | `40px` circles, `1px #cacccf` border, white, `#2f2f2f` icon |
+| Booking panel | `#f9f9f9`, `25.5px` padding, no border/radius/shadow; sticky `90px` from top on desktop |
+| Price tiers | rows `14px` / `21px`; prices `18px` / `700`, `#2f2f2f`; row dividers as above |
+| Family deal badge | Accent fill, `10px` / `700` / `0.5px`, uppercase, `border-radius: 3px` |
+| Start booking / Post review / Book Now | Standard `40px` black button; hover accent |
+| "Find an existing booking" | `12px`, `0.6px`, uppercase, underlined, `#52575c` |
+| Floating Book Now | Phones only (< 780px), `25.5px` from the bottom and side padding from the right |
+

@@ -1,0 +1,491 @@
+/* ══════════════════════════════════════════════
+   Tour pages on the homepage design system (DESIGN.md §13).
+   Everything is scoped under `.ds-page`, so tours that haven't been
+   converted keep their current look.
+══════════════════════════════════════════════ */
+.ds-page {
+	--ds-sans: "Josefin Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	--ds-display: "League Gothic", "Oswald", Impact, sans-serif;
+	--ds-pad: 15px;
+	background: #fff;
+	font-family: var(--ds-sans);
+	font-size: 17px;
+	line-height: 1.5;
+	letter-spacing: 0.85px;
+	color: #52575c;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+}
+.ds-page,
+.ds-page * {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+	-webkit-tap-highlight-color: transparent;
+}
+.ds-page h1, .ds-page h2, .ds-page h3, .ds-page h4, .ds-page h5, .ds-page h6,
+.ds-page p, .ds-page li, .ds-page td, .ds-page label, .ds-page input,
+.ds-page textarea, .ds-page button, .ds-page a {
+	font-family: var(--ds-sans);
+}
+.ds-page p { opacity: 1; }
+@media (min-width: 769px) {
+	.ds-page { --ds-pad: 25.5px; }
+}
+
+/* ── Shared button: the 40px standard button ── */
+.ds-page .book-cta-btn,
+.ds-page .review-submit-btn,
+.ds-page .floating-book-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	min-height: 40px;
+	padding: 10px 20px;
+	border: 1px solid #000;
+	border-radius: 3px;
+	background-color: #000;
+	box-shadow: none;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 12px;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+	transform: none;
+	transition: color 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, opacity 0.5s ease;
+}
+.ds-page .book-cta-btn:hover,
+.ds-page .review-submit-btn:hover,
+.ds-page .floating-book-btn:hover {
+	background-color: var(--primary-color);
+	border-color: var(--primary-color);
+	box-shadow: none;
+	transform: none;
+}
+.ds-page .book-cta-btn:focus-visible,
+.ds-page .review-submit-btn:focus-visible,
+.ds-page .floating-book-btn:focus-visible {
+	outline: 2px solid var(--primary-color);
+	outline-offset: 3px;
+}
+
+/* ════════ Photo gallery (top) ════════ */
+.ds-page .hero-gallery { background-color: #1a120b; }
+.ds-page .hero-gallery::after {
+	/* the homepage hero scrim, so white text and icons read on every photo */
+	background:
+		linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 22%),
+		linear-gradient(to top, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0.1) 75%);
+}
+/* homepage hero arrows: 40px, rgba(0,0,0,.3), faint border */
+.ds-page .hero-gallery-arrow {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 0 2px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 50%;
+	background-color: rgba(0, 0, 0, 0.3);
+	color: #fff;
+	font-size: 22px;
+	transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+}
+.ds-page .hero-gallery-arrow:hover { background-color: rgba(0, 0, 0, 0.6); }
+.ds-page .hero-gallery-arrow.prev { left: var(--ds-pad); }
+.ds-page .hero-gallery-arrow.next { right: var(--ds-pad); }
+.ds-page .hero-gallery-footer { bottom: 25.5px; gap: 12.75px; }
+/* homepage dots: 10px, 1px white border, #cacccf / active #2f2f2f */
+.ds-page .hero-gallery-dots { gap: 8px; }
+.ds-page .hero-gallery-dots button {
+	width: 10px;
+	height: 10px;
+	box-sizing: border-box;
+	border: 1px solid #fff;
+	background: #cacccf;
+}
+.ds-page .hero-gallery-dots button.active { background: #2f2f2f; }
+/* social icons: 22px, like the homepage footer, white on photos */
+.ds-page .hero-social .media-icons ul { gap: 2rem; }
+.ds-page .hero-social .media-icons a { width: 44px; height: 44px; color: #fff; filter: none; }
+.ds-page .hero-social .media-icons svg { width: 22px; height: 22px; }
+
+/* ════════ Content area ════════ */
+.ds-page .content-destination-page {
+	width: 100%;
+	max-width: 1369px;
+	padding: 0 var(--ds-pad);
+	background: #fff;
+}
+/* text-section padding: 56px phone, 90px from 768px */
+.ds-page .content-container { padding: 56px 0; }
+@media (min-width: 768px) {
+	.ds-page .content-container { padding: 90px 0; }
+}
+@media (min-width: 780px) {
+	.ds-page .content-container { gap: 51px; }
+}
+
+/* Title, stars, price, description */
+.ds-page .information-destination-page h1 {
+	margin: 0 0 12.75px;
+	font-family: var(--ds-display);
+	font-weight: 400;
+	font-size: 45px;
+	line-height: 40.5px;
+	letter-spacing: 2.5px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .title-stars { gap: 4px; margin: 0 0 12.75px; }
+.ds-page .title-stars .gold-star { font-size: 16px; }
+.ds-page .gold-star.filled { background: none; color: var(--primary-color); }
+.ds-page .title-stars .gold-star.empty { color: #cacccf; }
+.ds-page .information-destination-page h4 {
+	margin: 0 0 25.5px;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
+	letter-spacing: 1.8px;
+	line-height: 1.28;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .description p {
+	margin: 0 0 25.5px;
+	padding: 0;
+	font-size: 17px;
+	font-weight: 400;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .description p:last-child { margin-bottom: 0; }
+
+/* Destination / Departure / Dress code / Included */
+.ds-page .information-destination-page ul { margin: 51px 0 0; }
+.ds-page .information-destination-page li {
+	padding: 25.5px 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+.ds-page .information-destination-page h6 {
+	margin: 0 0 6.375px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+	line-height: 19.55px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .information-destination-page li p {
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+@media (min-width: 780px) {
+	.ds-page .info-item h6 { margin: 0; padding-top: 3px; }
+}
+
+/* "Tour Plan" / "Reviews": the text-section heading */
+.ds-page .content-heading {
+	margin: 90px 0 25.5px;
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 1.8px;
+	line-height: 1.28;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+@media (max-width: 767px) {
+	.ds-page .content-heading { margin-top: 56px; }
+}
+
+/* ════════ Tour plan ════════ */
+.ds-page .day-item { padding: 12.75px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.08); }
+.ds-page .day-number {
+	width: 32px;
+	height: 32px;
+	min-width: 32px;
+	margin-right: 17px;
+	margin-top: 5px;
+	background-color: #2f2f2f;
+	font-family: var(--ds-sans);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0;
+}
+.ds-page .day-content h3 {
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: 1.5px;
+	line-height: 22.4px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+/* the title sits in a button, which browsers reset to no text-transform */
+.ds-page .day-toggle { text-transform: inherit; letter-spacing: inherit; }
+.ds-page .day-chevron { border-color: #2f2f2f; }
+.ds-page .day-details-inner p { margin-top: 12.75px; }
+.ds-page .day-content p {
+	margin-bottom: 12.75px;
+	font-size: 17px;
+	line-height: 25.5px;
+	color: #52575c;
+}
+.ds-page .day-content ul li {
+	margin-bottom: 6.375px;
+	font-size: 17px;
+	line-height: 25.5px;
+	color: #52575c;
+}
+.ds-page .day-content ul li::before { top: 5px; color: var(--primary-color); }
+.ds-page .day-toggle-all {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+	text-underline-offset: 4px;
+}
+.ds-page .day-toggle-all:hover { color: var(--primary-color); }
+
+/* ════════ Reviews ════════ */
+.ds-page .reviews-summary {
+	padding: 12.75px 0 25.5px;
+	margin-bottom: 25.5px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.ds-page .reviews-avg strong {
+	font-family: var(--ds-display);
+	font-weight: 400;
+	font-size: 45px;
+	line-height: 45px;
+	letter-spacing: 2.25px;
+	color: #2f2f2f;
+}
+.ds-page .reviews-avg span,
+.ds-page .reviews-bar-row {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+	text-transform: uppercase;
+	color: #52575c;
+}
+.ds-page .rb-track { height: 3px; border-radius: 0; background: #cacccf; }
+.ds-page .rb-fill { border-radius: 0; background: #2f2f2f; }
+.ds-page .star { font-size: 14px; }
+.ds-page .star.filled { background: none; color: var(--primary-color); }
+.ds-page .star.empty { color: #cacccf; }
+
+/* "Share your experience" */
+.ds-page .add-review-card {
+	background: #f9f9f9;
+	border-left: 0;
+	padding: 25.5px;
+	margin-bottom: 25.5px;
+}
+.ds-page .add-review-card h3 {
+	margin: 0 0 6.375px;
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 1.8px;
+	line-height: 1.28;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .add-review-sub {
+	margin: 0 0 25.5px;
+	font-size: 14px;
+	line-height: 21px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .review-form-field { margin-bottom: 12.75px; }
+.ds-page .review-form-field label {
+	margin-bottom: 6.375px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .add-review-form input,
+.ds-page .add-review-form textarea {
+	padding: 10px 12.75px;
+	border: 1px solid #cacccf;
+	border-radius: 3px;
+	background: #fff;
+	font-size: 15px;
+	letter-spacing: 0.85px;
+	color: #2f2f2f;
+}
+.ds-page .add-review-form input:focus,
+.ds-page .add-review-form textarea:focus { border-color: #2f2f2f; }
+.ds-page .star-btn { font-size: 26px; color: #cacccf; }
+.ds-page .star-btn.active { color: var(--primary-color); }
+.ds-page .review-submit-btn { align-self: flex-start; margin-top: 6.375px; }
+.ds-page .review-error { font-size: 14px; }
+
+/* Review cards */
+.ds-page .review-content { gap: 25.5px; }
+@media (min-width: 700px) {
+	.ds-page .review-item { flex-basis: calc((100% - 25.5px) / 2); }
+}
+@media (min-width: 1100px) {
+	.ds-page .review-item { flex-basis: calc((100% - 51px) / 3); }
+}
+.ds-page .review-item {
+	gap: 12.75px;
+	padding: 25.5px;
+	border: 1px solid rgba(0, 0, 0, 0.08);
+	border-radius: 0;
+}
+.ds-page .review-avatar {
+	width: 40px;
+	height: 40px;
+	min-width: 40px;
+	background: #2f2f2f;
+	font-family: var(--ds-sans);
+	font-size: 14px;
+	font-weight: 700;
+}
+.ds-page .review-name {
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 1.5px;
+	line-height: 19.5px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .verified-badge {
+	margin-left: 6.375px;
+	padding: 2px 6px;
+	border-radius: 3px;
+	background: transparent;
+	border: 1px solid var(--primary-color);
+	color: var(--primary-color);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+.ds-page .review-review {
+	font-size: 14px;
+	line-height: 21px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+/* review carousel arrows: homepage round arrows, dark-on-white version */
+.ds-page .review-arrow {
+	width: 40px;
+	height: 40px;
+	border: 1px solid #cacccf;
+	background: #fff;
+	color: #2f2f2f;
+	font-size: 22px;
+	transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out;
+}
+.ds-page .review-arrow:hover:not(:disabled) { border-color: #2f2f2f; color: #2f2f2f; }
+
+/* ════════ "Book this tour" panel ════════ */
+.ds-page .book-cta-inner {
+	padding: 25.5px;
+	background: #f9f9f9;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+.ds-page .book-cta-inner h3 {
+	margin: 0 0 12.75px;
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 1.8px;
+	line-height: 1.28;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .price-tiers { margin: 0 0 12.75px; }
+.ds-page .price-tiers td {
+	padding: 12.75px 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	font-size: 14px;
+	line-height: 21px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .price-tiers strong {
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	color: #2f2f2f;
+}
+.ds-page .price-tiers td span { font-size: 12px; color: #52575c; }
+.ds-page .kids-promo {
+	margin: 0 0 25.5px;
+	padding: 0;
+	background: none;
+	border-radius: 0;
+	font-size: 14px;
+	line-height: 21px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .kids-promo-badge {
+	padding: 4px 8px;
+	border-radius: 3px;
+	background: var(--primary-color);
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	line-height: 10px;
+}
+.ds-page .book-cta-points { margin: 0 0 25.5px; }
+.ds-page .book-cta-points li {
+	margin-bottom: 6.375px;
+	font-size: 14px;
+	line-height: 21px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .book-cta-points li::before { color: var(--primary-color); font-weight: 700; }
+.ds-page .book-cta-btn { width: 100%; }
+.ds-page .book-cta-link {
+	margin-top: 12.75px;
+	font-size: 12px;
+	letter-spacing: 0.6px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #52575c;
+	text-underline-offset: 4px;
+}
+.ds-page .book-cta-link:hover { color: var(--primary-color); }
+@media (min-width: 780px) {
+	/* clears the 65px header */
+	.ds-page .book-cta { top: 90px; }
+}
+
+/* ════════ Floating Book Now (phones) ════════ */
+.ds-page .floating-book-btn {
+	right: var(--ds-pad);
+	bottom: 25.5px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+.ds-page .floating-book-btn:hover { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); }
+/* phones only, as before: the booking panel covers desktop */
+@media (min-width: 780px) {
+	.ds-page .floating-book-btn { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ds-page .book-cta-btn, .ds-page .review-submit-btn, .ds-page .floating-book-btn,
+	.ds-page .hero-gallery-arrow, .ds-page .review-arrow { transition: none; }
+}

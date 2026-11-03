@@ -48,7 +48,7 @@ const BookCta = ({ tour }) => {
 };
 
 const ContentSection = ({ information, tourPlan, reviews, tour }) => (
-	<section className="content-section">
+	<section className="content-section" data-tone="light">
 		<div className="content-destination-page">
 			<div className="content-container">
 				<div className="content">

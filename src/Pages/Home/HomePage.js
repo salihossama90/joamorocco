@@ -278,7 +278,13 @@ const Reviews = () => {
 };
 
 // ════════ 5. Explore Our Trips ════════
-const Explore = () => {
+// Also used on converted tour pages (wrapped in `.home`), with that page's
+// own heading text; the homepage uses the defaults.
+export const Explore = ({
+	title = "Explore Our Trips",
+	subtitle = "Three ways to travel, entirely private",
+	intro,
+}) => {
 	const trackRef = useRef(null);
 	const [edges, setEdges] = useState({ atStart: true, atEnd: false });
 
@@ -309,9 +315,11 @@ const Explore = () => {
 
 	return (
 		<section className="home-explore" id="explore-trips">
-			<div className="home-explore-head">
-				<h2 className="home-section-title">Explore Our Trips</h2>
-				<p className="home-subtitle">Three ways to travel, entirely private</p>
+			{/* the homepage's short title stays on one line; longer ones may wrap */}
+			<div className={`home-explore-head${title.length > 18 ? " home-explore-head--wrap" : ""}`}>
+				<h2 className="home-section-title">{title}</h2>
+				<p className="home-subtitle">{subtitle}</p>
+				{intro && <p className="home-explore-intro">{intro}</p>}
 			</div>
 			<div className="home-trips" ref={trackRef} onScroll={measure}>
 				{TRIPS.map((t) => (

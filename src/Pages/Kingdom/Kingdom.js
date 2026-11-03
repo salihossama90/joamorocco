@@ -10,6 +10,7 @@ function KingdomPage() {
 		<DestinationPage
 			tour="kingdom"
 			theme="moroccan"
+			design
 			information={information}
 			tourPlan={tourPlan}
 			gallery={gallery}
