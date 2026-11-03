@@ -213,3 +213,62 @@
     /* Hide social icons in horizontal nav */
     .nav-social { display: none; }
 }
+
+/* ══════════════════════════════════════════
+   Homepage header (DESIGN.md): transparent over the hero, solid white once
+   scrolled, Free Consultation button beside the menu
+══════════════════════════════════════════ */
+.navbar--home {
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+.navbar--home .nav-consult {
+    position: fixed;
+    top: 0.5rem;
+    right: 3.5rem;
+    z-index: 11;
+    min-height: 40px;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+}
+.navbar--home.menu-open .nav-consult { display: none; }
+.navbar--home.scrolled {
+    height: 76px;
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+.navbar--home.scrolled .hamburger:not(.open) .line {
+    background-color: #111;
+    border-color: #111;
+    box-shadow: none;
+}
+.App:has(.navbar--home) .logo-container { width: clamp(7rem, 30vw, 9rem); }
+.App:has(.navbar--home.scrolled) .logo-container { filter: none; }
+
+@media (min-width: 500px) {
+    .navbar--home .nav-consult { top: 1.5rem; right: 4.75rem; }
+    .navbar--home.scrolled { height: 88px; }
+}
+
+@media (min-width: 780px) {
+    .navbar--home {
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    .navbar--home.scrolled {
+        height: auto;
+        background: #fff;
+    }
+    .navbar--home.scrolled .nav-links a { color: #222; }
+    .navbar--home.scrolled .nav-links a:hover { color: var(--primary-color); }
+    .navbar--home .nav-consult {
+        position: static;
+        margin-left: 2.5rem;
+        min-height: 44px;
+        padding: 0.8rem 1.4rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.16em;
+    }
+    .App:has(.navbar--home) .logo-container { width: clamp(9rem, 14dvw, 11rem); }
+}

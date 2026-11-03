@@ -4,7 +4,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 
 import App from "./App";
-import ShowCase from "./Pages/ShowCase/ShowCase";
+import HomePage from "./Pages/Home/HomePage";
 import AboutPage from "./Pages/About/AboutPage";
 import ContactPage from "./Pages/Contact/Contact";
 
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
 		path: "/",
 		element: <App />,
 		children: [
-			{ index: true, element: <ShowCase /> },
+			{ index: true, element: <HomePage /> },
 			{ path: "about", element: <AboutPage /> },
 			{ path: "contact", element: <ContactPage /> },
 

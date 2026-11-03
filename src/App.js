@@ -38,7 +38,7 @@ function App() {
 				<ScrollToTop />
 				<div className="header">
 					<Logo />
-					<Navbar color="#fff" />
+					<Navbar home={isHome} />
 				</div>
 				<Outlet />
 				{!isHome && !isAppPage && (
@@ -48,7 +48,9 @@ function App() {
 					</>
 				)}
 				{isAppPage && <Footer />}
-				<ConsultButton />
+				{isHome && <Footer variant="home" />}
+				{/* Home has Free Consultation in its header instead */}
+				{!isHome && <ConsultButton />}
 			</div>
 		</ToastProvider>
 	);

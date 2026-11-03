@@ -1,40 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import SocialMediaIcons from "../SocialMediaIcons/SocialMediaIcons";
+import useScrolled from "../../hooks/useScrolled";
 import "./Navbar.css";
 
 // Rewritten from a class component that scanned every DOM node with
 // getComputedStyle on each scroll event (major jank). The hamburger color is now
 // driven purely by CSS state, and a passive rAF-throttled listener only toggles
 // a `scrolled` class.
-export default function Navbar() {
+//
+// `home`: transparent over the hero, solid white once scrolled, with the
+// Free Consultation button in the bar (see DESIGN.md)
+export default function Navbar({ home = false }) {
 	const [isOpen, setIsOpen] = useState(false);
-	const [scrolled, setScrolled] = useState(false);
+	const scrolled = useScrolled(60);
 	const location = useLocation();
 
 	// Any navigation (including the logo, which lives outside this menu)
 	// closes the menu, so the new page isn't hidden behind it
 	useEffect(() => setIsOpen(false), [location.key]);
 
-	useEffect(() => {
-		let ticking = false;
-		const onScroll = () => {
-			if (ticking) return;
-			ticking = true;
-			requestAnimationFrame(() => {
-				setScrolled(window.scrollY > 60);
-				ticking = false;
-			});
-		};
-		window.addEventListener("scroll", onScroll, { passive: true });
-		onScroll();
-		return () => window.removeEventListener("scroll", onScroll);
-	}, []);
-
 	const close = () => setIsOpen(false);
 
 	return (
-		<nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+		<nav
+			className={`navbar ${scrolled ? "scrolled" : ""} ${home ? "navbar--home" : ""} ${isOpen ? "menu-open" : ""}`}
+		>
 			<div
 				className={`hamburger ${isOpen ? "open" : ""}`}
 				onClick={() => setIsOpen((o) => !o)}
@@ -58,6 +49,12 @@ export default function Navbar() {
 					<SocialMediaIcons />
 				</div>
 			</div>
+
+			{home && (
+				<Link className="hbtn hbtn--accent nav-consult" to="/contact?topic=consultation">
+					Free Consultation
+				</Link>
+			)}
 		</nav>
 	);
 }
