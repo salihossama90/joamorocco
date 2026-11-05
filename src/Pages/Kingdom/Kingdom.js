@@ -4,7 +4,7 @@ import information from "./information.js";
 import tourPlan from "./tourPlan.js";
 import gallery from "./gallery.js";
 import reviews from "./reviews.js";
-import Images, { KingdomVideo } from "../../images";
+import Images from "../../images";
 
 function KingdomPage() {
 	return (
@@ -12,8 +12,8 @@ function KingdomPage() {
 			tour="kingdom"
 			theme="moroccan"
 			design
-			video={KingdomVideo}
-			poster={Images.KingdomHero}
+			heroImage={Images.KingdomHero}
+			country="Morocco"
 			information={information}
 			tourPlan={tourPlan}
 			gallery={gallery}

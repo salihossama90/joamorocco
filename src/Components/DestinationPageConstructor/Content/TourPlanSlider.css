@@ -1,0 +1,296 @@
+/* ══════════════════════════════════════════════
+   Tour plan, day by day (converted tour pages)
+   The homepage's dark Explore band (gradient, 60 / 85.5px padding, League
+   Gothic title, italic subtitle, see-through round arrows). Timeline, card
+   and detail sizes are set by eye on the DESIGN.md spacing steps.
+══════════════════════════════════════════════ */
+.tpd {
+	--tpd-pad: 15px;
+	--tpd-edge: max(var(--tpd-pad), calc((100% - 1369px) / 2 + var(--tpd-pad)));
+	background: linear-gradient(180deg, #4b4b4b 0%, #363636 45%, #2a2a2a 100%);
+	padding: 60px 0 85.5px;
+	color: #fff;
+	letter-spacing: 0.85px;
+	overflow: hidden;
+}
+@media (min-width: 769px) {
+	.tpd { --tpd-pad: 25.5px; }
+}
+.tpd .tpd-inner {
+	max-width: 1369px;
+	margin: 0 auto;
+	padding: 0 var(--tpd-pad);
+}
+
+/* ── Heading row: title left, arrows right ── */
+.tpd .tpd-head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 25.5px;
+}
+.tpd .tpd-title {
+	/* same type as the overview title (.ti-title); label above it, as there */
+	margin: 0;
+	font-family: var(--ds-sans);
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 18px;
+	letter-spacing: 2.6px;
+	text-transform: uppercase;
+	color: #fff;
+}
+.tpd .tpd-sub {
+	/* same type as the overview eyebrow (.ti-eyebrow) */
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 27.86px;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+	opacity: 1;
+}
+.tpd .tpd-arrows { display: flex; gap: 12.75px; flex-shrink: 0; }
+.tpd .tpd-arrows button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 43px;
+	height: 43px;
+	padding: 0 0 3px;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 100%;
+	background: transparent;
+	color: #fff;
+	font-size: 1.6rem;
+	line-height: 1;
+	cursor: pointer;
+	transition: background 0.5s ease, opacity 0.5s ease;
+}
+.tpd .tpd-arrows button:hover:not(:disabled) { background: rgba(0, 0, 0, 0.6); }
+.tpd .tpd-arrows button:disabled { opacity: 0.3; cursor: default; }
+.tpd .tpd-arrows button:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+
+/* ── Numbered timeline ── */
+.tpd .tpd-line {
+	position: relative;
+	margin: 38.25px 0 0;
+}
+.tpd .tpd-line-track {
+	position: absolute;
+	top: 16px; /* centre of the 32px dots */
+	left: 16px;
+	right: 16px;
+	height: 1px;
+	background: rgba(255, 255, 255, 0.25);
+}
+.tpd .tpd-line-fill {
+	display: block;
+	height: 100%;
+	background: var(--primary-color);
+	transition: width 0.5s ease;
+}
+.tpd .tpd-steps {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.tpd .tpd-steps button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6.375px;
+	width: 32px;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: #fff;
+	cursor: pointer;
+}
+/* one 32px circle, shrunk to a dot until its day is selected */
+.tpd .tpd-dot {
+	display: grid;
+	place-items: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.6);
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 0;
+	line-height: 1;
+	padding-top: 2px; /* Josefin Sans sits high */
+	color: #fff;
+	transform: scale(0.3);
+	transition: transform 0.35s ease, background-color 0.35s ease;
+}
+.tpd .tpd-steps button.is-past .tpd-dot { background: var(--primary-color); }
+.tpd .tpd-steps button:hover .tpd-dot { transform: scale(0.45); }
+.tpd .tpd-steps button.is-active .tpd-dot {
+	background: var(--primary-color);
+	transform: scale(1);
+}
+.tpd .tpd-num {
+	/* eyebrow type (.ti-eyebrow) */
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1.6px;
+	line-height: 27.86px;
+	color: rgba(255, 255, 255, 0.6);
+	transition: color 0.35s ease;
+}
+.tpd .tpd-steps button.is-active .tpd-num { color: var(--primary-color); }
+.tpd .tpd-steps button:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 3px; border-radius: 3px; }
+
+/* ── Photo cards: a scrolling row, lined up with the content edge ── */
+.tpd .tpd-track {
+	display: flex;
+	gap: 12.75px;
+	margin: 25.5px 0 0;
+	padding: 6.375px var(--tpd-edge);
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scroll-padding-left: var(--tpd-edge);
+	scrollbar-width: none;
+	/* cards scrolled past fade out at the left edge instead of being cut */
+	-webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--tpd-edge));
+	mask-image: linear-gradient(to right, transparent 0, #000 var(--tpd-edge));
+}
+.tpd .tpd-track::-webkit-scrollbar { display: none; }
+.tpd .tpd-card {
+	position: relative;
+	flex: 0 0 72%;
+	height: 240px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: 20px;
+	border: 0;
+	border-radius: 3px;
+	overflow: hidden;
+	color: #fff;
+	text-align: left;
+	scroll-snap-align: start;
+	cursor: pointer;
+	opacity: 0.6;
+	transition: opacity 0.35s ease, box-shadow 0.35s ease;
+}
+@media (min-width: 560px) {
+	.tpd .tpd-card { flex-basis: 260px; height: 320px; }
+}
+.tpd .tpd-card:hover { opacity: 0.9; }
+.tpd .tpd-card.is-active {
+	opacity: 1;
+	box-shadow: inset 0 0 0 2px var(--primary-color);
+}
+.tpd .tpd-card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 60%);
+}
+.tpd .tpd-card-day {
+	/* same type as the card title, top left of the card */
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1.6px;
+	line-height: 21px;
+	text-transform: uppercase;
+}
+.tpd .tpd-card-title {
+	/* label type (.ti-eyebrow size and spacing), lines closer for 2–3 line names */
+	position: relative;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1.6px;
+	line-height: 21px;
+	text-transform: uppercase;
+}
+.tpd .tpd-ph {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	/* small label type (12 / 700 / 1.2px) */
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── The selected day ── */
+.tpd .tpd-detail {
+	display: grid;
+	gap: 25.5px;
+	margin-top: 38.25px;
+	animation: tpdIn 0.5s ease both;
+}
+@media (min-width: 900px) {
+	.tpd .tpd-detail { grid-template-columns: 1fr 1fr; gap: 60px; }
+	.tpd .tpd-acts { padding-top: 27.86px; } /* first item level with the day label's line */
+}
+@keyframes tpdIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: none; }
+}
+.tpd .tpd-detail-day {
+	/* same type as the overview eyebrow (.ti-eyebrow) */
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1.6px;
+	line-height: 27.86px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+	opacity: 1;
+}
+.tpd .tpd-detail-title {
+	/* same type as the overview title (.ti-title) */
+	margin: 0 0 20px;
+	font-family: var(--ds-sans);
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 18px;
+	letter-spacing: 2.6px;
+	text-transform: uppercase;
+	color: #fff;
+}
+/* body text: same type as the overview paragraphs (.ti-body) */
+.tpd .tpd-detail-desc {
+	margin: 0;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #fff;
+	opacity: 1;
+}
+.tpd .tpd-acts { margin: 0; padding: 0; list-style: none; }
+.tpd .tpd-acts li {
+	position: relative;
+	margin: 0 0 6.375px;
+	padding-left: 25.5px;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: rgba(255, 255, 255, 0.85);
+}
+.tpd .tpd-acts li::before {
+	content: "✔";
+	position: absolute;
+	left: 0;
+	color: var(--primary-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.tpd .tpd-line-fill, .tpd .tpd-dot, .tpd .tpd-num, .tpd .tpd-card,
+	.tpd .tpd-arrows button { transition: none; }
+	.tpd .tpd-detail { animation: none; }
+}

@@ -130,7 +130,9 @@ const ReviewCarousel = ({ reviews }) => {
 
 const EMPTY_FORM = { reference: "", email: "", name: "", stars: 5, review: "" };
 
-const ReviewsContent = ({ info, tour, design }) => {
+// `aside` (converted tour pages): the review form sits beside it, the rating
+// summary is left out and the featured reviews follow under their own heading
+const ReviewsContent = ({ info, tour, design, aside }) => {
 	const toast = useToast();
 	const [dbReviews, setDbReviews] = useState([]);
 	const [form, setForm] = useState(EMPTY_FORM);
@@ -196,77 +198,98 @@ const ReviewsContent = ({ info, tour, design }) => {
 	}));
 	const avg = (allReviews.reduce((a, r) => a + r.stars, 0) / total).toFixed(1);
 
+	const summary = (
+		<div className="reviews-summary">
+			<div className="reviews-avg">
+				<strong>{avg}</strong>
+				<StarDisplay stars={Math.round(avg)} />
+				<span>{allReviews.length} reviews</span>
+			</div>
+			<div className="reviews-bars">
+				{dist.map(({ s, count }) => (
+					<div className="reviews-bar-row" key={s}>
+						<span className="rb-label">{s}★</span>
+						<div className="rb-track">
+							<div className="rb-fill" style={{ width: `${(count / total) * 100}%` }} />
+						</div>
+						<span className="rb-count">{count}</span>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+
+	const reviewForm = (
+		<div className="add-review-card">
+			<h3>Share Your Experience</h3>
+			<p className="add-review-sub">
+				Reviews are for confirmed guests — enter your confirmation code and email.
+			</p>
+
+			{submitStatus === "success" && (
+				<div className="review-success">Your review has been posted — thank you!</div>
+			)}
+
+			<form className="add-review-form" onSubmit={handleSubmit}>
+				<div className="review-form-row">
+					<div className="review-form-field">
+						<label htmlFor="rv-ref">Confirmation Code *</label>
+						<input id="rv-ref" name="reference" type="text" placeholder="JOA-XXXX-XXXX"
+							value={form.reference} onChange={handleChange} required />
+					</div>
+					<div className="review-form-field">
+						<label htmlFor="rv-email">Email *</label>
+						<input id="rv-email" name="email" type="email" placeholder="your@email.com"
+							value={form.email} onChange={handleChange} required />
+					</div>
+				</div>
+
+				<div className="review-form-row">
+					<div className="review-form-field">
+						<label htmlFor="rv-name">Display Name</label>
+						<input id="rv-name" name="name" type="text" placeholder="Optional"
+							value={form.name} onChange={handleChange} />
+					</div>
+					<div className="review-form-field">
+						<label>Rating</label>
+						<StarInput value={form.stars} onChange={(n) => setForm((f) => ({ ...f, stars: n }))} />
+					</div>
+				</div>
+
+				<div className="review-form-field">
+					<label htmlFor="rv-review">Review *</label>
+					<textarea id="rv-review" name="review" placeholder="Tell us about your experience..."
+						value={form.review} onChange={handleChange} required rows={4} />
+				</div>
+
+				{error && <p className="review-error">{error}</p>}
+
+				<button type="submit" className="review-submit-btn" disabled={submitStatus === "loading"}>
+					{submitStatus === "loading" ? "Posting…" : "Post Review"}
+				</button>
+			</form>
+		</div>
+	);
+
 	return (
 		<div className="reviews-wrapper">
-			<div className="reviews-summary">
-				<div className="reviews-avg">
-					<strong>{avg}</strong>
-					<StarDisplay stars={Math.round(avg)} />
-					<span>{allReviews.length} reviews</span>
+			{aside ? (
+				<div className="reviews-split">
+					{reviewForm}
+					{aside}
 				</div>
-				<div className="reviews-bars">
-					{dist.map(({ s, count }) => (
-						<div className="reviews-bar-row" key={s}>
-							<span className="rb-label">{s}★</span>
-							<div className="rb-track">
-								<div className="rb-fill" style={{ width: `${(count / total) * 100}%` }} />
-							</div>
-							<span className="rb-count">{count}</span>
-						</div>
-					))}
-				</div>
-			</div>
+			) : (
+				<>
+					{summary}
+					{reviewForm}
+				</>
+			)}
 
-			<div className="add-review-card">
-				<h3>Share Your Experience</h3>
-				<p className="add-review-sub">
-					Reviews are for confirmed guests — enter your confirmation code and email.
-				</p>
-
-				{submitStatus === "success" && (
-					<div className="review-success">Your review has been posted — thank you!</div>
-				)}
-
-				<form className="add-review-form" onSubmit={handleSubmit}>
-					<div className="review-form-row">
-						<div className="review-form-field">
-							<label htmlFor="rv-ref">Confirmation Code *</label>
-							<input id="rv-ref" name="reference" type="text" placeholder="JOA-XXXX-XXXX"
-								value={form.reference} onChange={handleChange} required />
-						</div>
-						<div className="review-form-field">
-							<label htmlFor="rv-email">Email *</label>
-							<input id="rv-email" name="email" type="email" placeholder="your@email.com"
-								value={form.email} onChange={handleChange} required />
-						</div>
-					</div>
-
-					<div className="review-form-row">
-						<div className="review-form-field">
-							<label htmlFor="rv-name">Display Name</label>
-							<input id="rv-name" name="name" type="text" placeholder="Optional"
-								value={form.name} onChange={handleChange} />
-						</div>
-						<div className="review-form-field">
-							<label>Rating</label>
-							<StarInput value={form.stars} onChange={(n) => setForm((f) => ({ ...f, stars: n }))} />
-						</div>
-					</div>
-
-					<div className="review-form-field">
-						<label htmlFor="rv-review">Review *</label>
-						<textarea id="rv-review" name="review" placeholder="Tell us about your experience..."
-							value={form.review} onChange={handleChange} required rows={4} />
-					</div>
-
-					{error && <p className="review-error">{error}</p>}
-
-					<button type="submit" className="review-submit-btn" disabled={submitStatus === "loading"}>
-						{submitStatus === "loading" ? "Posting…" : "Post Review"}
-					</button>
-				</form>
-			</div>
-
+			{aside && (
+				<h2 className="content-heading" id="tour-reviews">
+					Reviews
+				</h2>
+			)}
 			{design ? (
 				<div className="home tour-review-quotes">
 					<ReviewQuotes reviews={allReviews.filter((r) => r.stars === 5).slice(0, FEATURED)} />

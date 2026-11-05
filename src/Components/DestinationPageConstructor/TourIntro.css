@@ -1,0 +1,215 @@
+/* ══════════════════════════════════════════════
+   Tour page top: photo hero + overview + key facts
+   Laid out from the user's reference screenshot. Sizes are set by eye
+   until Computed-tab values arrive; spacing uses the DESIGN.md steps and
+   JOA orange replaces the reference's accent colours.
+══════════════════════════════════════════════ */
+
+/* ── Photo hero: title block centred ── */
+.ds-page .ti-hero {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* reference: window height minus 135px (697px in an 832px-tall window;
+	   ~136px short of the window in the full-width screenshot) */
+	height: calc(100vh - 135px);
+	height: calc(100svh - 135px);
+	min-height: 480px;
+	background-color: #1a120b;
+	background-position: center;
+	background-size: cover;
+	color: #fff;
+	text-align: center;
+}
+.ds-page .ti-hero-scrim {
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 22%),
+		rgba(0, 0, 0, 0.35);
+}
+.ds-page .ti-hero-text {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	padding: 85.5px var(--ds-pad) 0;
+}
+/* reference computed ("FRANCE & SPAIN"); same as the homepage hero eyebrow */
+.ds-page .ti-hero-country {
+	margin: 0 0 12.75px;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1.4px;
+	line-height: 21px;
+	text-transform: uppercase;
+	color: #fff;
+}
+/* reference computed at a 534px window ("IN SEARCH OF THE LOST GENERATION") */
+.ds-page .ti-hero-title {
+	margin: 0;
+	font-family: var(--ds-display);
+	font-weight: 400;
+	font-size: 45px;
+	line-height: 40.5px;
+	letter-spacing: 2.5px;
+	text-transform: uppercase;
+	color: #fff;
+}
+/* reference computed at a 534px window ("DISCOVER THE PLACES…") */
+.ds-page .ti-hero-sub {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 1.4px;
+	line-height: 21px;
+	text-transform: uppercase;
+	color: #fff;
+}
+/* wide screens: the reference title is larger in the full-width
+   screenshot — set by eye until a wide-window capture arrives */
+@media (min-width: 1200px) {
+	.ds-page .ti-hero-title { font-size: 64px; line-height: 57.6px; letter-spacing: 3.2px; }
+}
+
+/* ── Social rings: the homepage hero's (DESIGN.md §7/§10) ── */
+.ds-page .ti-hero-social {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 25.5px;
+	z-index: 2;
+	pointer-events: none;
+}
+.ds-page .ti-hero-social .media-icons ul {
+	display: flex;
+	justify-content: center;
+	gap: 25.5px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.ds-page .ti-hero-social .media-icons a {
+	pointer-events: auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 43px;
+	height: 43px;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 100%;
+	background: transparent;
+	color: #fff;
+	transition: color 0.25s ease, border-color 0.25s ease;
+}
+.ds-page .ti-hero-social .media-icons svg { width: 22px; height: 22px; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
+.ds-page .ti-hero-social .media-icons a:hover { color: var(--primary-color); border-color: var(--primary-color); }
+/* phones: one step up, clear of the floating Book Now */
+@media (max-width: 779px) {
+	.ds-page .ti-hero-social { bottom: 85.5px; }
+}
+@media (max-height: 600px) {
+	.ds-page .ti-hero-social { display: none; }
+}
+
+/* ── Overview section: 60px under the photo, like the homepage; 60px more
+   under the facts (on top of their 30.6px) before the dark tour plan ── */
+.ds-page .ti-overview {
+	background: #fff;
+	padding: 60px 0;
+}
+
+/* ── Overview: centred ── */
+/* text column: full width on phones (504px at a 534px window); ~860px in
+   the full-width screenshot (set by eye until a wide capture arrives) */
+.ds-page .ti-col {
+	max-width: calc(860px + 2 * var(--ds-pad));
+	margin: 0 auto;
+	padding: 0 var(--ds-pad);
+	text-align: center;
+}
+/* reference computed ("FRANCE, SPAIN"; their pink → JOA orange) */
+.ds-page .ti-eyebrow {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1.6px;
+	line-height: 27.86px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+}
+/* reference computed ("THE LOST GENERATION") */
+.ds-page .ti-title {
+	margin: 0 0 20px;
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 2.6px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #000;
+}
+/* reference computed (body paragraph) */
+.ds-page .ti-body {
+	margin: 0 0 20px;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+/* reference computed: the last paragraph has no bottom margin */
+.ds-page .ti-body:last-child { margin-bottom: 0; }
+.ds-page .ti-body strong { font-weight: 700; color: #2f2f2f; }
+
+/* ── Short rule ── */
+.ds-page .ti-rule {
+	width: 60px;
+	height: 0;
+	margin: 60px auto 38.25px;
+	border: 0;
+	border-top: 1px solid #cacccf;
+}
+
+/* ── Key facts: three centred columns ──
+   reference computed: each column a third of the row (flex-basis and
+   max-width 33.3333%), 15px left padding, 30.6px below; the row spans the
+   text column (full width on phones; ~860px on desktop, by eye) */
+/* row: reference computed flex, wrap, centred, -15px left margin (the
+   negative margin is folded into the left padding here) */
+.ds-page .ti-facts {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	max-width: calc(860px + 2 * var(--ds-pad));
+	margin: 0 auto;
+	padding: 0 var(--ds-pad) 0 calc(var(--ds-pad) - 15px);
+	text-align: center;
+}
+.ds-page .ti-facts > div {
+	flex: 0 0 33.3333%;
+	max-width: 33.3333%;
+	margin: 0 0 30.6px;
+	padding-left: 15px;
+}
+/* same type as the overview title (.ti-title), in JOA orange
+   (the reference used League Gothic 30px here) */
+.ds-page .ti-facts dt {
+	margin: 0 0 12.75px;
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 18px;
+	letter-spacing: 2.6px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+}
+/* reference computed ("October - April") */
+.ds-page .ti-facts dd {
+	margin: 0;
+	font-size: 17px;
+	font-style: italic;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+/* reference computed ("(based on 2 ppl sharing)") */
+.ds-page .ti-facts dd.ti-note { font-size: 14px; line-height: 21px; }

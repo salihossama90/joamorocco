@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import InformationContent from "./Information";
 import TourPlanContent from "./TourPlan";
+import TourPlanSlider from "./TourPlanSlider";
 import ReviewsContent from "./Reviews";
 import { getTour, KIDS_PROMO } from "../../../data/tours";
 
@@ -47,21 +48,67 @@ const BookCta = ({ tour }) => {
 	);
 };
 
-const ContentSection = ({ information, tourPlan, reviews, tour, design }) => (
-	<section className="content-section" data-tone="light">
-		<div className="content-destination-page">
-			<div className="content-container">
-				<div className="content">
-					<InformationContent info={information} reviews={reviews} />
-					<h2 className="content-heading">Tour Plan</h2>
-					<TourPlanContent info={tourPlan} />
-					<h2 className="content-heading" id="tour-reviews">Reviews</h2>
-					<ReviewsContent info={reviews} tour={tour} design={design} />
+// `design` pages: overview + booking panel, then the tour plan as a full-width
+// day slider, then reviews across the full content width
+const ContentSection = ({ information, tourPlan, reviews, tour, design, hideIntro }) =>
+	design ? (
+		<>
+			{hideIntro ? (
+				// the overview above already has the intro: day-by-day plan first,
+				// then the review form and the booking box side by side, reviews under
+				<>
+					<TourPlanSlider info={tourPlan} />
+					<section className="content-section" data-tone="light">
+						<div className="content-destination-page">
+							<div className="content-container content-container--solo">
+								<ReviewsContent info={reviews} tour={tour} design aside={<BookCta tour={tour} />} />
+							</div>
+						</div>
+					</section>
+				</>
+			) : (
+				<>
+					<section className="content-section" data-tone="light">
+						<div className="content-destination-page">
+							<div className="content-container">
+								<div className="content">
+									<InformationContent info={information} reviews={reviews} />
+								</div>
+								<BookCta tour={tour} />
+							</div>
+						</div>
+					</section>
+					<TourPlanSlider info={tourPlan} />
+				</>
+			)}
+			{!hideIntro && (
+				<section className="content-section" data-tone="light">
+					<div className="content-destination-page">
+						<div className="content-container">
+							<div className="content">
+								<h2 className="content-heading" id="tour-reviews">Reviews</h2>
+								<ReviewsContent info={reviews} tour={tour} design />
+							</div>
+						</div>
+					</div>
+				</section>
+			)}
+		</>
+	) : (
+		<section className="content-section" data-tone="light">
+			<div className="content-destination-page">
+				<div className="content-container">
+					<div className="content">
+						<InformationContent info={information} reviews={reviews} />
+						<h2 className="content-heading">Tour Plan</h2>
+						<TourPlanContent info={tourPlan} />
+						<h2 className="content-heading" id="tour-reviews">Reviews</h2>
+						<ReviewsContent info={reviews} tour={tour} />
+					</div>
+					<BookCta tour={tour} />
 				</div>
-				<BookCta tour={tour} />
 			</div>
-		</div>
-	</section>
-);
+		</section>
+	);
 
 export default ContentSection;

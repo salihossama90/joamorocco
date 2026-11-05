@@ -550,3 +550,84 @@
 	.ds-page .book-cta-btn, .ds-page .review-submit-btn, .ds-page .floating-book-btn,
 	.ds-page .hero-gallery-arrow, .ds-page .review-arrow { transition: none; }
 }
+
+/* Under the overview (TourIntro): review form left, booking box right,
+   featured reviews underneath (gaps on the DESIGN.md steps, by eye) */
+.ds-page .content-container--solo { display: block; }
+.ds-page .reviews-split {
+	display: grid;
+	gap: 60px;
+	align-items: start;
+}
+.ds-page .reviews-split .book-cta {
+	position: static;
+	width: auto;
+	margin: 0;
+	order: -1; /* phones: booking first */
+}
+@media (min-width: 900px) {
+	.ds-page .reviews-split { grid-template-columns: minmax(0, 1fr) 400px; gap: 85.5px; }
+	.ds-page .reviews-split .book-cta { order: 0; }
+}
+/* the form beside the box: no section padding or rule, left-aligned like the box */
+.ds-page .reviews-split .add-review-card {
+	max-width: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	text-align: left;
+}
+.ds-page .reviews-split .add-review-card h3 { margin: 0 0 12.75px; padding: 0; text-align: left; }
+.ds-page .reviews-split .add-review-sub { text-align: left; }
+.ds-page .reviews-split .review-submit-btn { align-self: flex-start; }
+@media (min-width: 900px) {
+	/* heading level with the box's (its 25.5px padding) */
+	.ds-page .reviews-split .add-review-card { padding-top: 25.5px; }
+}
+/* centred over the centred review quotes */
+.ds-page .content-container--solo .content-heading { margin-top: 85.5px; padding-left: 1.8px; text-align: center; }
+
+/* Section titles here use the same type as the overview title (.ti-title):
+   18px / 700 / 2.6px letter spacing / 18px line height, black */
+.ds-page .content-container--solo .add-review-card h3,
+.ds-page .content-container--solo .book-cta-inner h3,
+.ds-page .content-container--solo .content-heading {
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 2.6px;
+	line-height: 18px;
+	color: #000;
+}
+.ds-page .content-container--solo .content-heading { padding-left: 2.6px; }
+
+/* Small type here, in two styles (the featured review quotes keep the
+   homepage carousel's type):
+   small text   14px / 400 / 0.85px / 21px
+   small labels 12px / 700 / 1.2px / 18px, capitals */
+.ds-page .content-container--solo .price-tiers td,
+.ds-page .content-container--solo .price-tiers td span,
+.ds-page .content-container--solo .kids-promo,
+.ds-page .content-container--solo .book-cta-points li,
+.ds-page .content-container--solo .book-cta-link,
+.ds-page .content-container--solo .review-success,
+.ds-page .content-container--solo .review-error {
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 0.85px;
+	line-height: 21px;
+}
+.ds-page .content-container--solo .book-cta-link { text-transform: none; }
+.ds-page .content-container--solo .review-form-field label,
+.ds-page .content-container--solo .review-submit-btn,
+.ds-page .content-container--solo .book-cta-btn,
+.ds-page .content-container--solo .kids-promo-badge {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+}
+/* what guests type reads as body text (.ti-body) */
+.ds-page .content-container--solo .add-review-form input,
+.ds-page .content-container--solo .add-review-form textarea { font-size: 17px; letter-spacing: 0.85px; }
+.ds-page .content-container--solo .add-review-form input { line-height: 18px; }
