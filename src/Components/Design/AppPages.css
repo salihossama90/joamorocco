@@ -1,0 +1,490 @@
+/* ══════════════════════════════════════════════
+   Booking wizard, Find booking and the legal pages in the site's design
+   (Design.css). Only the look changes: these rules restyle the existing
+   markup (Booking.css, Calendar.css, Account.css, Legal.css), scoped to
+   each page's root so nothing else is touched.
+   Layout: the light grey band, white cards (15px corners, the day cards'
+   shadow), black 40px buttons, underlined fields, JOA orange accents.
+══════════════════════════════════════════════ */
+.ds-page.booking-page,
+.ds-page.account-page {
+	min-height: 100vh;
+	padding: calc(65px + 60px) var(--ds-pad) 85.5px;
+	background: var(--ds-grey);
+}
+
+/* ── Cards ── */
+.ds-page.booking-page .booking-shell { max-width: 1100px; gap: 25.5px; }
+.ds-page.booking-page .booking-main,
+.ds-page.booking-page .price-summary-inner,
+.ds-page.account-page .lookup-form,
+.ds-page.account-page .trip-card,
+.ds-page .modal {
+	background: #fff;
+	border: 0;
+	border-radius: 15px;
+	box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.2);
+	padding: 25.5px;
+}
+@media (min-width: 769px) {
+	.ds-page.booking-page .booking-main,
+	.ds-page.account-page .lookup-form,
+	.ds-page .modal { padding: 36.5px 45.5px 36.5px 35px; }
+	.ds-page.booking-page .price-summary-inner { padding: 36.5px 35px; }
+}
+.ds-page.booking-page .price-summary { top: 90px; }
+
+/* ── Headings and text ── */
+.ds-page.booking-page .step-head h1,
+.ds-page.booking-page .step-confirm h1,
+.ds-page.account-page .account-header h1 {
+	margin: 0 0 12.75px;
+	font-family: var(--ds-display);
+	font-weight: 400;
+	font-size: 40px;
+	line-height: 45px;
+	letter-spacing: 2.25px;
+	text-transform: uppercase;
+	color: #000;
+}
+.ds-page.booking-page .step-head p,
+.ds-page.booking-page .confirm-sub,
+.ds-page.account-page .account-header p {
+	margin: 0;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: var(--ds-text);
+	opacity: 1;
+}
+.ds-page.booking-page .step-head { margin-bottom: 38.25px; }
+.ds-page.account-page .account-header { margin: 0 0 38.25px; padding: 0; border: 0; text-align: center; }
+.ds-page.account-page .account-header > div { width: 100%; }
+.ds-page.account-page .account-shell.narrow { max-width: 560px; }
+.ds-page.booking-page h3,
+.ds-page.account-page h3,
+.ds-page .modal-head h3 {
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 27px;
+	text-transform: uppercase;
+	color: #000;
+}
+
+/* ── Buttons ── */
+.ds-page :is(.btn-primary, .btn-ghost) {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	height: 40px;
+	min-height: 40px;
+	padding: 12px 20px 10px; /* Josefin Sans sits high */
+	border: 1px solid #000;
+	border-radius: 3px;
+	box-shadow: none;
+	font-family: var(--ds-sans);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 12px;
+	text-transform: uppercase;
+	transform: none;
+	transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, opacity 0.25s ease;
+}
+.ds-page .btn-primary { background: #000; color: #fff; }
+.ds-page .btn-primary:hover:not(:disabled) { background: var(--primary-color); border-color: var(--primary-color); box-shadow: none; transform: none; }
+.ds-page .btn-primary:disabled { opacity: 0.3; }
+.ds-page .btn-ghost { background: transparent; color: #000; }
+.ds-page .btn-ghost:hover:not(:disabled) { background: #000; border-color: #000; color: #fff; }
+.ds-page :is(.btn-primary, .btn-ghost):active:not(:disabled) { transform: none; }
+.ds-page :is(.btn-primary, .btn-ghost):focus-visible { outline: 2px solid var(--primary-color); outline-offset: 3px; }
+.ds-page .link-btn,
+.ds-page .copy-btn {
+	font-family: var(--ds-sans);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: var(--ds-text);
+}
+.ds-page .link-btn { background: none; border: 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.ds-page .copy-btn { padding: 6px 10px 4px; border: 1px solid var(--ds-line); border-radius: 3px; background: #fff; }
+.ds-page :is(.link-btn, .copy-btn):hover { color: var(--primary-color); border-color: var(--primary-color); }
+.ds-page.booking-page .step-actions { margin-top: 38.25px; padding-top: 25.5px; border-top: 1px solid var(--ds-line); }
+/* phones: Back / Continue stay pinned to the bottom of the screen, on white */
+@media (max-width: 699px) {
+	.ds-page.booking-page .step-actions { margin-top: 25.5px; padding: 12.75px 0; background: #fff; }
+}
+
+/* ── Fields: small label over an underlined field ── */
+.ds-page :is(.booking-page, .account-page) .field { gap: 0; margin-bottom: 25.5px; }
+.ds-page .field-label,
+.ds-page.booking-page .field-label {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: var(--ds-ink);
+}
+.ds-page .field input,
+.ds-page .field textarea,
+.ds-page .modal input,
+.ds-page .modal textarea {
+	padding: 6.375px 0;
+	border: 0;
+	border-bottom: 1px solid var(--ds-line);
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	letter-spacing: 0.85px;
+	line-height: 27px;
+	color: var(--ds-ink);
+}
+.ds-page .field input::placeholder,
+.ds-page .field textarea::placeholder,
+.ds-page .modal :is(input, textarea)::placeholder { color: #a3a6a9; }
+.ds-page .field input:focus,
+.ds-page .field textarea:focus,
+.ds-page .modal :is(input, textarea):focus { outline: none; border-color: var(--primary-color); box-shadow: none; }
+.ds-page .field input.invalid { border-color: #c0392b; }
+.ds-page .form-error,
+.ds-page .form-hint { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; }
+.ds-page .form-error { color: #c0392b; }
+.ds-page .form-hint { color: var(--ds-text); }
+
+/* ── Progress rail: the itinerary's numbered line ── */
+.ds-page.booking-page .wiz-progress { margin-bottom: 38.25px; }
+.ds-page.booking-page .wiz-track::before,
+.ds-page.booking-page .wiz-fill { top: 16px; height: 1px; }
+.ds-page.booking-page .wiz-track::before { background: var(--ds-line); }
+.ds-page.booking-page .wiz-dot {
+	width: 32px;
+	height: 32px;
+	padding-top: 2px;
+	border: 1px solid var(--ds-line);
+	background: #fff;
+	box-shadow: none;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0;
+	color: var(--ds-text);
+}
+.ds-page.booking-page .wiz-node.done .wiz-dot { background: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+.ds-page.booking-page .wiz-node.active .wiz-dot { background: #000; border-color: #000; color: #fff; box-shadow: none; transform: none; }
+.ds-page.booking-page .wiz-label {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: var(--ds-text);
+}
+.ds-page.booking-page .wiz-node.active .wiz-label,
+.ds-page.booking-page .wiz-node.done .wiz-label { color: #000; }
+
+/* ── Step 1: the two tours, as the trips' cards ── */
+.ds-page.booking-page .tour-choice {
+	border: 0;
+	border-radius: 15px;
+	box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	transition: box-shadow 0.25s ease;
+}
+.ds-page.booking-page .tour-choice:hover { transform: none; box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px #000; }
+.ds-page.booking-page .tour-choice.selected { box-shadow: 0 0 0 2px var(--primary-color), 2px 3px 4px 0 rgba(0, 0, 0, 0.2); }
+.ds-page.booking-page .tour-choice-badge {
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.55);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+	color: #fff;
+}
+.ds-page.booking-page .tour-choice-body { padding: 25.5px; }
+.ds-page.booking-page .tour-choice-body h3 { margin: 0 0 6.375px; }
+.ds-page.booking-page .tour-choice-tag { font-size: 17px; line-height: 25.5px; color: var(--ds-text); opacity: 1; }
+.ds-page.booking-page .tour-choice-highlights li {
+	position: relative;
+	padding-left: 20px;
+	font-size: 17px;
+	line-height: 25.5px;
+	color: var(--ds-text);
+}
+.ds-page.booking-page .tour-choice-highlights li::before {
+	content: "";
+	top: 8.75px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--primary-color);
+}
+.ds-page.booking-page .tour-choice-tiers { border-radius: 0; background: none; padding: 0; }
+.ds-page.booking-page .tct-row {
+	padding: 9px 0;
+	border-bottom: 1px solid var(--ds-line);
+	font-size: 14px;
+	letter-spacing: 0.85px;
+	color: var(--ds-text);
+}
+.ds-page.booking-page .tct-row:first-child { border-top: 1px solid var(--ds-line); }
+.ds-page.booking-page .tct-row strong { font-family: var(--ds-sans); font-size: 17px; font-weight: 700; color: #000; }
+.ds-page.booking-page .tour-choice-kids { font-size: 14px; line-height: 21px; color: var(--ds-text); background: none; padding: 0; }
+/* "Select this tour": the 40px outline button; black once chosen */
+.ds-page.booking-page .tour-choice-select {
+	margin: auto 25.5px 25.5px;
+	height: 40px;
+	padding: 12px 20px 10px;
+	border: 1px solid #000;
+	border-radius: 3px;
+	background: transparent;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 12px;
+	text-transform: uppercase;
+	color: #000;
+}
+.ds-page.booking-page .tour-choice.selected .tour-choice-select { background: #000; color: #fff; }
+.ds-page.booking-page .tour-choice-radio { border-color: currentColor; }
+.ds-page.booking-page .tour-choice-check { background: var(--primary-color); }
+
+/* ── Step 2: calendar ── */
+.ds-page .cal {
+	--cal-accent: var(--primary-color);
+	border: 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	padding: 0;
+	font-family: var(--ds-sans);
+}
+.ds-page .cal-title {
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	text-transform: uppercase;
+	color: #000;
+}
+.ds-page .cal-nav {
+	width: 36px;
+	height: 36px;
+	border: 1px solid var(--ds-line);
+	border-radius: 100%;
+	background: #fff;
+	color: #000;
+}
+.ds-page .cal-nav:hover:not(:disabled) { background: #000; border-color: #000; color: #fff; }
+.ds-page .cal-weekdays span { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; color: var(--ds-text); }
+.ds-page .cal-cell { border-radius: 3px; font-size: 15px; font-weight: 400; letter-spacing: 0; color: var(--ds-ink); }
+.ds-page .cal-available { background: var(--ds-grey); }
+.ds-page .cal-available:hover { background: #000; color: #fff; transform: none; }
+.ds-page .cal-too-soon { color: #c4c6c9; }
+.ds-page .cal-cell.cal-selected,
+.ds-page .cal-cell.cal-selected.cal-in-span { background: var(--primary-color); color: #fff; }
+.ds-page .cal-legend li { font-size: 12px; letter-spacing: 0.85px; color: var(--ds-text); }
+.ds-page.booking-page .date-selected-card {
+	border: 1px solid var(--ds-line);
+	border-radius: 15px;
+	background: #fff;
+	box-shadow: none;
+}
+.ds-page.booking-page .date-selected-label { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; color: var(--ds-ink); }
+.ds-page.booking-page .date-selected-card strong { font-family: var(--ds-sans); font-size: 18px; font-weight: 700; letter-spacing: 0.85px; color: #000; }
+.ds-page.booking-page .date-selected-days,
+.ds-page.booking-page .date-selected-empty { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; color: var(--ds-text); }
+
+/* ── Step 3: guests ── */
+.ds-page.booking-page .guests-card { border: 0; border-radius: 0; background: none; box-shadow: none; padding: 0; }
+.ds-page.booking-page .guest-row { padding: 20px 0; border-bottom: 1px solid var(--ds-line); }
+.ds-page.booking-page .guest-row:first-child { border-top: 1px solid var(--ds-line); }
+.ds-page.booking-page .guest-row:last-of-type { border-bottom: 1px solid var(--ds-line); }
+.ds-page.booking-page .guest-label strong { font-size: 18px; font-weight: 700; letter-spacing: 0.85px; text-transform: uppercase; color: #000; }
+.ds-page.booking-page .guest-label span { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; color: var(--ds-text); }
+.ds-page .counter-btn {
+	width: 36px;
+	height: 36px;
+	border: 1px solid var(--ds-line);
+	border-radius: 100%;
+	background: #fff;
+	font-size: 18px;
+	color: #000;
+}
+.ds-page .counter-btn:hover:not(:disabled) { background: #000; border-color: #000; color: #fff; transform: none; }
+.ds-page .counter-value { font-family: var(--ds-sans); font-size: 18px; font-weight: 700; color: #000; }
+.ds-page.booking-page .capacity-bar { height: 3px; border-radius: 0; background: var(--ds-line); }
+.ds-page.booking-page .capacity-fill { border-radius: 0; }
+.ds-page.booking-page .capacity-text { font-size: 14px; letter-spacing: 0.85px; color: var(--ds-text); }
+
+/* ── Step 4: requests ── */
+.ds-page.booking-page .luxury-toggle {
+	border: 1px solid var(--ds-line);
+	border-radius: 15px;
+	background: #fff;
+	padding: 25.5px;
+}
+.ds-page.booking-page .luxury-toggle.on { border-color: var(--primary-color); background: #fff; box-shadow: inset 0 0 0 1px var(--primary-color); }
+.ds-page.booking-page .luxury-copy strong { font-size: 18px; font-weight: 700; letter-spacing: 0.85px; text-transform: uppercase; color: #000; }
+.ds-page.booking-page .luxury-copy span { font-size: 17px; line-height: 25.5px; color: var(--ds-text); }
+.ds-page.booking-page .luxury-check { border-radius: 3px; border-color: var(--ds-line); }
+
+/* ── Step 5: payment ── */
+.ds-page.booking-page .method-tab {
+	white-space: nowrap;
+	height: 32px;
+	padding: 9px 14px 7px;
+	border: 1px solid var(--ds-line);
+	border-radius: 3px;
+	background: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 12px;
+	text-transform: uppercase;
+	color: var(--ds-ink);
+}
+.ds-page.booking-page .method-tab:hover { border-color: #000; }
+.ds-page.booking-page .method-tab.active { background: #000; border-color: #000; color: #fff; }
+.ds-page.booking-page .method-note,
+.ds-page.booking-page .zelle-steps { border-radius: 15px; font-size: 14px; line-height: 21px; letter-spacing: 0.85px; }
+.ds-page .pay-sim-note { font-size: 12px; letter-spacing: 0.85px; color: var(--ds-text); }
+.ds-page.booking-page .wallet-btn { border-radius: 3px; height: 40px; }
+
+/* ── Price summary ── */
+.ds-page.booking-page .ps-tour { margin: 0 0 20px; }
+.ds-page.booking-page .ps-facts,
+.ds-page.booking-page .ps-lines { border-color: var(--ds-line); }
+.ds-page.booking-page .ps-fact,
+.ds-page.booking-page .ps-line { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; color: var(--ds-text); }
+.ds-page.booking-page .ps-fact span { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ds-ink); }
+.ds-page.booking-page .ps-fact strong { font-weight: 700; color: #000; }
+.ds-page.booking-page .ps-muted strong { color: #a3a6a9; font-weight: 400; }
+.ds-page.booking-page .ps-total { border-color: var(--ds-line); }
+.ds-page.booking-page .ps-total span { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ds-ink); }
+.ds-page.booking-page .ps-total-amount { font-family: var(--ds-display); font-size: 40px; line-height: 45px; letter-spacing: 1px; color: #000; }
+.ds-page.booking-page :is(.ps-pending, .ps-note) { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; color: var(--ds-text); }
+
+/* ── Step 6: confirmation ── */
+.ds-page.booking-page .confirm-ref { border: 1px solid var(--ds-line); border-radius: 15px; background: #fff; }
+.ds-page.booking-page .confirm-ref > span { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; color: var(--ds-ink); }
+.ds-page.booking-page .confirm-ref-row strong { font-family: var(--ds-display); font-size: 40px; font-weight: 400; letter-spacing: 2.25px; color: #000; }
+.ds-page.booking-page .confirm-card { border: 0; border-radius: 15px; background: var(--ds-grey); box-shadow: none; }
+.ds-page.booking-page .confirm-line { font-size: 14px; letter-spacing: 0.85px; color: var(--ds-text); border-color: var(--ds-line); }
+.ds-page.booking-page .confirm-line span { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ds-ink); }
+.ds-page.booking-page .confirm-line.total strong { font-family: var(--ds-sans); font-size: 18px; font-weight: 700; color: #000; }
+.ds-page.booking-page .confirm-instructions { border-radius: 15px; }
+.ds-page.booking-page .confirm-instructions strong { color: #000; }
+
+/* ── Find booking: the trip card ── */
+.ds-page.account-page .lookup-form { display: block; }
+.ds-page.account-page .lookup-form .btn-primary { display: flex; width: 100%; margin-top: 0; }
+.ds-page.account-page .trip-card { padding: 0; overflow: hidden; }
+.ds-page.account-page .trip-summary { padding: 25.5px; }
+.ds-page.account-page .trip-thumb { border-radius: 10px; }
+.ds-page.account-page .trip-info p { font-size: 14px; letter-spacing: 0.85px; color: var(--ds-text); }
+.ds-page.account-page .trip-status { border-radius: 3px; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+.ds-page.account-page .trip-meta strong { font-family: var(--ds-sans); font-size: 18px; font-weight: 700; color: #000; }
+.ds-page.account-page .trip-ref { font-size: 12px; letter-spacing: 1.2px; color: var(--ds-text); }
+.ds-page.account-page .trip-detail { padding: 0 25.5px 25.5px; }
+.ds-page.account-page .trip-detail-grid { border-radius: 15px; background: var(--ds-grey); }
+.ds-page.account-page .trip-detail-grid span { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ds-ink); }
+.ds-page.account-page .trip-detail-grid strong { font-size: 14px; color: #000; }
+.ds-page.account-page .link-btn { display: block; margin: 25.5px auto 0; }
+.ds-page .modal-overlay { background: rgba(0, 0, 0, 0.55); }
+.ds-page .star-btn.active { color: var(--primary-color); }
+
+/* ── Terms & Privacy: a centred reading column ── */
+.ds-page.legal-page { padding: calc(65px + 60px) 0 85.5px; background: #fff; }
+.ds-page.legal-page .legal-doc {
+	max-width: calc(860px + 2 * var(--ds-pad));
+	margin: 0 auto;
+	padding: 0 var(--ds-pad);
+	border: 0;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+}
+.ds-page.legal-page h1 {
+	margin: 0 0 12.75px;
+	font-family: var(--ds-display);
+	font-weight: 400;
+	font-size: 40px;
+	line-height: 45px;
+	letter-spacing: 2.25px;
+	text-transform: uppercase;
+	color: #000;
+}
+.ds-page.legal-page .legal-effective {
+	margin: 0 0 38.25px;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 1.6px;
+	line-height: 27.86px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+}
+.ds-page.legal-page section { margin-top: 51px; }
+.ds-page.legal-page h2 {
+	margin: 0 0 20px;
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 2.6px;
+	line-height: 25.5px;
+	text-transform: uppercase;
+	color: #000;
+}
+.ds-page.legal-page h3 {
+	margin: 25.5px 0 12.75px;
+	font-family: var(--ds-sans);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 19.5px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+}
+.ds-page.legal-page :is(p, li, address) {
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: var(--ds-text);
+	font-style: normal;
+}
+.ds-page.legal-page p { margin: 0 0 20px; }
+.ds-page.legal-page ul { margin: 0 0 20px; padding: 0; list-style: none; }
+.ds-page.legal-page li { position: relative; margin: 0 0 6.375px; padding-left: 25.5px; }
+.ds-page.legal-page li::before {
+	content: "";
+	position: absolute;
+	top: 8.75px;
+	left: 0;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--primary-color);
+}
+.ds-page.legal-page address span { display: block; }
+.ds-page.legal-page .legal-switch { margin-top: 51px; padding-top: 25.5px; border-top: 1px solid var(--ds-line); }
+.ds-page.legal-page .legal-switch a {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #000;
+	text-underline-offset: 4px;
+}
+.ds-page.legal-page .legal-switch a:hover { color: var(--primary-color); }
+
+@media (prefers-reduced-motion: reduce) {
+	.ds-page :is(.btn-primary, .btn-ghost), .ds-page.booking-page .tour-choice { transition: none; }
+}

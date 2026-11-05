@@ -1,17 +1,22 @@
 import React from "react";
 import DestinationPage from "../../Components/DestinationPageConstructor/DestinationPageConstructor.js";
 import information from "./information.js";
-import tourPlan from "./tourPlan.js";
+import tourPlan, { stops } from "./tourPlan.js";
 import gallery from "./gallery.js";
 import reviews from "./reviews.js";
+import Images from "../../images";
 
 function DesertPage() {
 	return (
 		<DestinationPage
 			tour="desert"
 			theme="desert"
+			design
+			heroImage={Images.DesertHero}
+			country="Morocco"
 			information={information}
 			tourPlan={tourPlan}
+			stops={stops}
 			gallery={gallery}
 			reviews={reviews}
 		/>

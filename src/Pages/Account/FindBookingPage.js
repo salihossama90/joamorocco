@@ -29,7 +29,7 @@ export default function FindBookingPage() {
 	};
 
 	return (
-		<main className="account-page">
+		<main className="ds-page account-page" data-tone="light">
 			<div className="account-shell narrow">
 				<header className="account-header">
 					<div>

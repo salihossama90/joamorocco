@@ -16,6 +16,14 @@
     --primary-color: #ff681a;
 }
 
+/* Converted tour pages (the homepage design) use JOA orange, whatever
+   their old theme */
+.ds-page.theme-desert {
+    --primary-color: #ff681a;
+    --secondary-background-color: #fff;
+    --primary-text-color: #2f2f2f;
+}
+
 /* ── Floating Book Now button (mobile only) ── */
 .floating-book-btn {
     position: fixed;

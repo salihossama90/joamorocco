@@ -113,7 +113,7 @@ export default function BookingWizard() {
 	const shared = { data, update, next, back, quote };
 
 	return (
-		<main className="booking-page">
+		<main className="ds-page booking-page" data-tone="light">
 			<div className="booking-shell">
 				<div className="booking-main">
 					<WizardProgress steps={STEPS} step={step} maxReached={maxReached} onJump={goTo} />

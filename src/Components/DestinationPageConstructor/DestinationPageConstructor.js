@@ -20,7 +20,7 @@ const FloatingBookBtn = ({ tour }) => (
 // so tours that haven't been converted keep their current look.
 // `heroImage` (design pages): a full-width photo with the title on it, then a
 // centred overview with When / Price / How long, instead of the gallery.
-const DestinationPage = ({ reviews, information, tourPlan, gallery, theme, tour, design, heroImage, country }) => (
+const DestinationPage = ({ reviews, information, tourPlan, stops, gallery, theme, tour, design, heroImage, country }) => (
 	<div className={`destination-page-container${theme ? ` theme-${theme}` : ""}${design ? " ds-page" : ""}`}>
 		{heroImage ? (
 			<>
@@ -39,6 +39,7 @@ const DestinationPage = ({ reviews, information, tourPlan, gallery, theme, tour,
 			hideIntro={Boolean(heroImage)}
 			information={information}
 			tourPlan={tourPlan}
+			stops={stops}
 			reviews={reviews}
 			tour={tour}
 			design={design}

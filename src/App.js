@@ -3,12 +3,12 @@ import { Outlet, useLocation } from "react-router-dom";
 import Logo from "./Nav-Logo-Footer/Logo/Logo";
 import Navbar from "./Nav-Logo-Footer/Navbar/Navbar";
 import Footer from "./Nav-Logo-Footer/Footer/Footer";
-import PopularAdventuresSection from "./Nav-Logo-Footer/PopularSection";
 import { Explore } from "./Pages/Home/HomePage";
 import ScrollToTop from "./ScrollToTop";
-import ConsultButton from "./Components/ConsultButton/ConsultButton";
 import { ToastProvider } from "./Components/Toast/ToastProvider";
 import "./App.css";
+import "./Components/Design/Design.css";
+import "./Components/Design/AppPages.css";
 
 // Per-route document titles (SEO + tab clarity in an SPA)
 const TITLES = {
@@ -25,13 +25,10 @@ const TITLES = {
 
 function App() {
 	const pathname = useLocation().pathname;
-	const isHome = pathname === "/";
-	// Full-bleed app pages provide their own footer/spacing.
-	const isAppPage = ["/book", "/find-booking", "/terms", "/privacy"].includes(pathname);
-	// Pages already converted to the homepage design system (DESIGN.md): they
-	// share its header, trips section and footer
-	const isDesignTour = pathname === "/kingdom-of-morocco";
-	const isDesignPage = isHome || isDesignTour;
+	// Every page uses the homepage design system (DESIGN.md): its header and
+	// footer. The trips band closes the tour, About and Contact pages; the
+	// booking, lookup and legal pages end straight at the footer.
+	const showTrips = ["/kingdom-of-morocco", "/desert", "/about", "/contact"].includes(pathname);
 
 	useEffect(() => {
 		document.title = TITLES[pathname] || TITLES["/"];
@@ -43,16 +40,10 @@ function App() {
 				<ScrollToTop />
 				<div className="header">
 					<Logo />
-					<Navbar home={isDesignPage} />
+					<Navbar home />
 				</div>
 				<Outlet />
-				{!isDesignPage && !isAppPage && (
-					<>
-						<PopularAdventuresSection />
-						<Footer />
-					</>
-				)}
-				{isDesignTour && (
+				{showTrips && (
 					<div className="home">
 						{/* Same trips section as the homepage, with this page's own heading */}
 						<Explore
@@ -62,10 +53,7 @@ function App() {
 						/>
 					</div>
 				)}
-				{isAppPage && <Footer />}
-				{isDesignPage && <Footer variant="home" />}
-				{/* Converted pages carry Free Consultation in their header instead */}
-				{!isDesignPage && <ConsultButton />}
+				<Footer variant="home" />
 			</div>
 		</ToastProvider>
 	);

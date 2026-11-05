@@ -1,461 +1,91 @@
 /* ══════════════════════════════════════════════
-   Contact — a postcard home. Mobile-first; the
-   page clips its decorations, never scrolls
-   sideways.
+   Contact: under the photo hero, the form and "Find us" as white cards on
+   the light grey band (Design.css: .ds-card, .ds-field, .ds-input, .ds-btn)
 ══════════════════════════════════════════════ */
-.contact-page {
-	--sand-paper: #fbf5ea;
-	--sand-deep: #efe3cd;
-	--ink: #3b2f23;
-	--ink-soft: #6f6152;
-	background: var(--sand-paper);
-	overflow-x: clip;
-}
-
-.contact-eyebrow {
-	display: block;
-	font-size: 0.72rem;
-	font-weight: 700;
-	letter-spacing: 3px;
-	text-transform: uppercase;
-	color: #ffb98a;
-	margin-bottom: 0.7rem;
-}
-
-/* ── Hero ── */
-.contact-hero {
-	position: relative;
-	background-size: cover;
-	background-position: center;
-	background-color: #1a1208;
-	min-height: 58vh;
-	display: flex;
-	align-items: flex-end;
-	overflow: hidden;
-}
-
-.contact-hero::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(
-		to bottom,
-		rgba(26, 14, 4, 0.2) 0%,
-		rgba(26, 14, 4, 0.3) 55%,
-		rgba(26, 14, 4, 0.66) 100%
-	);
-	pointer-events: none;
-}
-
-.contact-hero-text {
-	position: relative;
-	z-index: 2;
-	padding: 6rem 1.5rem clamp(4.5rem, 13vw, 8rem);
-	max-width: var(--max-width-content);
-	width: 100%;
-	margin: 0 auto;
-	animation: fadeUp 0.9s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.contact-hero-text h1 {
-	font-size: clamp(2.4rem, 9vw, 4.5rem);
-	font-family: var(--heading-font);
-	font-weight: 400;
-	color: #fff;
-	margin: 0 0 0.5rem;
-	line-height: 1.08;
-	text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
-}
-
-.contact-hero-text p {
-	font-size: clamp(0.95rem, 2.4vw, 1.15rem);
-	color: rgba(255, 244, 228, 0.88);
-	font-style: italic;
-	margin: 0;
-	opacity: 1;
-	padding: 0;
-	max-width: 44ch;
-}
-
-.contact-hero-dunes {
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: -1px;
-	z-index: 1;
-	pointer-events: none;
-}
-
-/* ── Body layout ── */
-.contact-body {
-	max-width: 1240px;
-	margin: 0 auto;
-	padding: clamp(2.5rem, 7vw, 5rem) 1.25rem clamp(3.5rem, 9vw, 6rem);
+.ds-page.contact-page .contact-body {
 	display: grid;
-	grid-template-columns: 1fr;
-	gap: 3rem;
+	gap: 25.5px;
 	align-items: start;
+	max-width: calc(930px + 2 * var(--ds-pad));
 }
-
-/* ── Postcard ── */
-.postcard-wrap {
-	min-width: 0; /* long select options must not widen the grid column */
-	scroll-margin-top: 5.5rem; /* land below the fixed top bar */
+@media (min-width: 900px) {
+	.ds-page.contact-page .contact-body { grid-template-columns: minmax(0, 1fr) 320px; }
 }
+/* the form lands below the fixed header when opened with ?topic= */
+.ds-page.contact-page .contact-card { scroll-margin-top: 90px; }
 
-.postcard-heading {
-	display: flex;
-	align-items: flex-end;
-	gap: 1rem;
-	margin-bottom: 1.4rem;
+.ds-page.contact-page .contact-row { display: grid; gap: 0 25.5px; }
+@media (min-width: 600px) {
+	.ds-page.contact-page .contact-row { grid-template-columns: 1fr 1fr; }
 }
+.ds-page.contact-page select.ds-input { appearance: none; cursor: pointer;
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%232f2f2f' stroke-width='1.5'/%3E%3C/svg%3E") right 2px center / 12px 8px no-repeat; padding-right: 22px; }
+.ds-page.contact-page .contact-message { min-height: 135px; resize: vertical; }
 
-.postcard-heading h2 {
-	font-size: clamp(1.7rem, 6vw, 2.4rem);
-	margin: 0;
-	color: var(--ink);
-}
-
-.postcard-plane {
-	width: clamp(90px, 22vw, 150px);
-	color: var(--primary-color);
-	margin-bottom: 0.4rem;
-	flex-shrink: 0;
-}
-
-.postcard {
+/* About: one choice, as small outlined buttons; the chosen one is black */
+.ds-page.contact-page .contact-pills { display: flex; flex-wrap: wrap; gap: 6.375px; margin-top: 6.375px; }
+.ds-page.contact-page .contact-pill {
 	position: relative;
-	background: #fffdf8;
-	border: 1px solid var(--sand-deep);
-	border-radius: 6px;
-	box-shadow: 0 14px 44px rgba(59, 47, 35, 0.12);
-	padding: 1.4rem 1.25rem 1.5rem;
-	display: grid;
-	grid-template-areas:
-		"address"
-		"message"
-		"send";
-	grid-template-columns: minmax(0, 1fr);
-	gap: 1.5rem;
-}
-
-.postcard-stamp {
-	position: absolute;
-	top: 0.9rem;
-	right: 0.9rem;
-	width: clamp(64px, 17vw, 88px);
-	color: var(--primary-color);
-	opacity: 0.85;
-	transform: rotate(8deg);
-	pointer-events: none;
-}
-
-/* Address side — ruled lines, like a real postcard */
-.postcard-address {
-	grid-area: address;
-	display: flex;
-	flex-direction: column;
-	gap: 1.1rem;
-	padding-right: clamp(72px, 18vw, 96px); /* keep clear of the stamp */
-}
-
-.postcard-to {
-	font-family: var(--heading-font);
-	font-style: italic;
-	font-size: 1rem;
-	color: var(--ink-soft);
-}
-
-.address-line {
-	display: flex;
-	align-items: baseline;
-	gap: 0.7rem;
-}
-
-.address-line span {
-	font-size: 0.68rem;
-	font-weight: 700;
-	letter-spacing: 1.5px;
-	text-transform: uppercase;
-	color: var(--ink-soft);
-	width: 3.1rem;
-	flex-shrink: 0;
-}
-
-.address-line input {
-	flex: 1;
-	min-width: 0;
-	border: none;
-	border-bottom: 1px solid var(--sand-deep);
-	background: transparent;
-	font-family: inherit;
-	font-size: 0.95rem;
-	color: var(--ink);
-	padding: 0.35rem 0.1rem;
-	border-radius: 0;
-	transition: border-color 0.2s ease;
-}
-.address-line input:focus {
-	outline: none;
-	border-bottom-color: var(--primary-color);
-}
-.address-line input::placeholder {
-	color: #b9ab97;
-}
-
-.address-line select {
-	flex: 1;
-	min-width: 0;
-	border: none;
-	border-bottom: 1px solid var(--sand-deep);
-	background: transparent;
-	font-family: inherit;
-	font-size: 0.95rem;
-	color: var(--ink);
-	padding: 0.35rem 0;
-	border-radius: 0;
-}
-.address-line select:focus {
-	outline: none;
-	border-bottom-color: var(--primary-color);
-}
-
-/* Phones: only the top lines sit beside the stamp; About and below
-   take the full width */
-.postcard-address > :nth-child(n + 4) {
-	margin-right: calc(-1 * clamp(72px, 18vw, 96px));
-}
-
-/* About: one choice, as pill buttons */
-.address-line[role="radiogroup"] {
+	display: inline-flex;
 	align-items: center;
-}
-.postcard-pills {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.4rem;
-}
-.postcard-pill {
-	position: relative;
-	font-size: 0.82rem;
-	color: var(--ink-soft);
-	border: 1px solid var(--sand-deep);
-	border-radius: 999px;
-	padding: 0.4rem 0.8rem;
-	cursor: pointer;
-	transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-.postcard-pill input {
-	position: absolute;
-	opacity: 0;
-	pointer-events: none;
-}
-.postcard-pill:has(input:checked) {
-	background: var(--primary-color);
-	border-color: var(--primary-color);
-	color: #fff;
-}
-.postcard-pill:has(input:focus-visible) {
-	outline: 2px solid var(--primary-color);
-	outline-offset: 2px;
-}
-
-.postcard-note {
-	font-size: 0.78rem;
-	font-style: italic;
-	color: var(--ink-soft);
-}
-
-/* Message side */
-.postcard-message {
-	grid-area: message;
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-}
-
-.postcard-message-label {
-	font-size: 0.68rem;
+	height: 32px;
+	padding: 9px 14px 7px;
+	border: 1px solid var(--ds-line);
+	border-radius: 3px;
+	font-size: 12px;
 	font-weight: 700;
-	letter-spacing: 1.5px;
+	letter-spacing: 1.2px;
+	line-height: 12px;
 	text-transform: uppercase;
-	color: var(--ink-soft);
-}
-
-.postcard-message textarea {
-	width: 100%;
-	min-height: 160px;
-	resize: vertical;
-	border: none;
-	background:
-		repeating-linear-gradient(
-			to bottom,
-			transparent 0,
-			transparent 31px,
-			var(--sand-deep) 31px,
-			var(--sand-deep) 32px
-		);
-	background-attachment: local;
-	font-family: inherit;
-	font-size: 0.98rem;
-	line-height: 32px;
-	color: var(--ink);
-	padding: 0 0.1rem;
-	border-radius: 0;
-}
-.postcard-message textarea:focus {
-	outline: none;
-}
-.postcard-message textarea::placeholder {
-	color: #b9ab97;
-	font-style: italic;
-}
-
-.postcard-send {
-	grid-area: send;
-	justify-self: end;
-	font-family: inherit;
-	font-size: 0.8rem;
-	font-weight: 700;
-	letter-spacing: 2px;
-	text-transform: uppercase;
-	color: #fff;
-	background: var(--primary-color);
-	border: none;
-	border-radius: 8px;
-	padding: 0.85rem 1.9rem;
+	color: var(--ds-ink);
 	cursor: pointer;
-	box-shadow: 0 6px 18px color-mix(in srgb, var(--primary-color) 32%, transparent);
-	transition: transform 0.12s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+	transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
-.postcard-send:hover:not(:disabled) {
-	transform: translateY(-2px);
-	box-shadow: 0 10px 26px color-mix(in srgb, var(--primary-color) 42%, transparent);
-}
-.postcard-send:active:not(:disabled) {
-	transform: scale(0.97);
-}
-.postcard-send:disabled {
-	opacity: 0.55;
-	cursor: wait;
+.ds-page.contact-page .contact-pill input { position: absolute; opacity: 0; pointer-events: none; }
+.ds-page.contact-page .contact-pill:hover { border-color: #000; }
+.ds-page.contact-page .contact-pill:has(input:checked) { background: #000; border-color: #000; color: #fff; }
+.ds-page.contact-page .contact-pill:has(input:focus-visible) { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+.ds-page.contact-page .contact-note {
+	margin: -12.75px 0 25.5px;
+	font-size: 14px;
+	font-style: italic;
+	line-height: 21px;
+	color: var(--ds-text);
 }
 
 /* ── Find us ── */
-.contact-info {
-	position: relative;
-	padding: 1.9rem 1.5rem;
-	border: 1px dashed color-mix(in srgb, var(--primary-color) 45%, transparent);
-	border-radius: 10px;
-	overflow: hidden;
-}
-
-.contact-info-compass {
-	position: absolute;
-	right: -28px;
-	bottom: -28px;
-	width: 130px;
-	color: var(--primary-color);
-	opacity: 0.12;
-	pointer-events: none;
-}
-
-.contact-info h2 {
-	font-size: clamp(1.4rem, 5vw, 1.8rem);
-	margin: 0 0 1.2rem;
-	color: var(--ink);
-}
-
-.contact-info-rows {
-	list-style: none;
-	margin: 0 0 1.4rem;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 0.85rem;
-}
-
-.contact-info-rows li {
-	display: flex;
-	align-items: baseline;
-	gap: 0.9rem;
-	font-size: 0.95rem;
-	color: var(--ink);
-}
-
-.contact-info-label {
-	font-size: 0.68rem;
+.ds-page.contact-page .contact-info-rows { margin: 0 0 25.5px; padding: 0; list-style: none; }
+.ds-page.contact-page .contact-info-rows li { padding: 12.75px 0; border-bottom: 1px solid var(--ds-line); }
+.ds-page.contact-page .contact-info-rows li:first-child { border-top: 1px solid var(--ds-line); }
+.ds-page.contact-page .contact-info-label {
+	display: block;
+	font-size: 12px;
 	font-weight: 700;
-	letter-spacing: 1.5px;
+	letter-spacing: 1.2px;
+	line-height: 18px;
 	text-transform: uppercase;
-	color: var(--ink-soft);
-	width: 3.6rem;
-	flex-shrink: 0;
+	color: var(--ds-ink);
 }
-
-.contact-info-rows a {
-	color: var(--ink);
+.ds-page.contact-page .contact-info-rows li > :not(.contact-info-label) {
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: var(--ds-text);
 	text-decoration: none;
-	border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 55%, transparent);
-	transition: color 0.15s ease;
-	word-break: break-word;
 }
-.contact-info-rows a:hover {
-	color: var(--primary-color);
+.ds-page.contact-page .contact-info-rows a:hover { color: var(--primary-color); }
+/* social icons: the tour heroes' rings, dark on white */
+.ds-page.contact-page .contact-info .media-icons ul { display: flex; gap: 12.75px; margin: 0; padding: 0; list-style: none; }
+.ds-page.contact-page .contact-info .media-icons a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 43px;
+	height: 43px;
+	border: 1px solid var(--ds-line);
+	border-radius: 100%;
+	color: var(--ds-ink);
+	transition: color 0.25s ease, border-color 0.25s ease;
 }
-
-.contact-info .media-icons ul {
-	display: flex;
-	gap: 1.5rem;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-.contact-info .media-icons ul li a {
-	color: var(--ink);
-}
-.contact-info .media-icons ul li a:hover {
-	color: var(--primary-color);
-}
-
-/* ── ≥ 860px: postcard layout — message left, address side right. The
-   address side holds the consultation choices, so it gets the wider half
-   and the card grows with its content instead of a fixed ratio ── */
-@media (min-width: 860px) {
-	.postcard {
-		grid-template-areas:
-			"message address"
-			"send    send";
-		grid-template-columns: minmax(0, 9fr) minmax(0, 11fr);
-		gap: 0 2rem;
-		padding: 1.75rem 1.75rem 1.5rem;
-		min-height: 420px;
-	}
-
-	/* Dashed divider between message and address, like the printed line */
-	.postcard-address {
-		border-left: 1px dashed var(--sand-deep);
-		padding-left: 2rem;
-		padding-right: 0;
-		padding-top: 4.6rem; /* clear the stamp */
-	}
-	.postcard-address > :nth-child(n + 4) {
-		margin-right: 0;
-	}
-
-	.postcard-message textarea {
-		flex: 1;
-		min-height: 0;
-	}
-
-	.postcard-send {
-		margin-top: 1.25rem;
-	}
-}
-
-/* ── ≥ 1180px: room for the Find us card beside the postcard ── */
-@media (min-width: 1180px) {
-	.contact-body {
-		grid-template-columns: minmax(0, 5fr) minmax(0, 2fr);
-		gap: 3rem;
-	}
-}
+.ds-page.contact-page .contact-info .media-icons svg { width: 20px; height: 20px; }
+.ds-page.contact-page .contact-info .media-icons a:hover { color: var(--primary-color); border-color: var(--primary-color); }

@@ -30,7 +30,7 @@ const Block = ({ item }) => {
 const LegalPage = ({ doc }) => {
 	const { title, intro, sections } = doc === "privacy" ? PRIVACY : TERMS;
 	return (
-		<main className="legal-page">
+		<main className="ds-page legal-page" data-tone="light">
 			<article className="legal-doc">
 				<h1>JOA — {title}</h1>
 				<p className="legal-effective">Effective Date: {EFFECTIVE_DATE}</p>

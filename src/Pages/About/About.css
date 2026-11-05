@@ -1,68 +1,19 @@
-/* About — one column on the site's cream paper. The top padding
-   clears the fixed logo (left) and menu icon (right) on phones. */
-.about-page {
-	--sand-paper: #fbf5ea;
-	--ink: #3b2f23;
-	--ink-soft: #6f6152;
-	background: var(--sand-paper);
-	padding: 7rem 1.5rem 4rem;
+/* About: the story under the photo hero, in the tour overview's type
+   (TourIntro.css .ti-body), closing on its last line in the display face */
+.ds-page.about-page .about-story { padding-bottom: 85.5px; }
+.ds-page.about-page .about-story .ti-col p:not(.ti-eyebrow) {
+	margin: 0 0 20px;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
 }
-
-.about-article {
-	max-width: 680px;
-	margin: 0 auto;
-}
-
-.about-eyebrow {
-	display: block;
-	font-size: 0.72rem;
-	font-weight: 700;
-	letter-spacing: 3px;
+.ds-page.about-page .about-story .ti-col p.about-closing {
+	margin: 38.25px 0 0;
+	font-family: var(--ds-display);
+	font-size: 40px;
+	line-height: 45px;
+	letter-spacing: 2.25px;
 	text-transform: uppercase;
-	color: var(--primary-color);
-	margin-bottom: 0.5rem;
-}
-
-.about-article h1 {
-	font-family: var(--heading-font);
-	font-size: clamp(1.8rem, 5vw, 2.6rem);
-	line-height: 1.1;
-	color: var(--ink);
-	margin: 0 0 1.75rem;
-}
-
-.about-photo {
-	display: block;
-	width: 100%;
-	height: auto;
-	aspect-ratio: 4 / 3;
-	object-fit: cover;
-	object-position: center 60%;
-	border-radius: 12px;
-	margin-bottom: 2rem;
-	background: #efe3cd;
-}
-
-.about-article p {
-	font-size: 1rem;
-	line-height: 1.75;
-	color: var(--ink-soft);
-	margin: 0 0 1.1rem;
-	opacity: 1;
-}
-
-.about-article .about-closing {
-	font-family: var(--heading-font);
-	font-size: clamp(1.3rem, 4.5vw, 1.7rem);
-	line-height: 1.4;
-	color: var(--ink);
-	margin: 2.5rem 0 0;
-	padding-top: 1.75rem;
-	border-top: 1px solid #efe3cd;
-}
-
-@media (min-width: 780px) {
-	.about-page {
-		padding: 9rem 2rem 6rem;
-	}
+	color: #000;
 }

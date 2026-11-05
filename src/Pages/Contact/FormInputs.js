@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import emailjs from "emailjs-com";
 import { useToast } from "../../Components/Toast/ToastProvider";
-import { Stamp, PlaneTrail } from "../../Components/Motifs/Motifs";
 
 const SERVICE = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const TEMPLATE = import.meta.env.VITE_EMAILJS_TEMPLATE_CONTACT;
@@ -115,125 +114,90 @@ const FormInputs = () => {
 	};
 
 	return (
-		<section className="postcard-wrap" ref={formRef}>
-			<div className="postcard-heading">
-				<h2>Contact us</h2>
-				<div className="postcard-plane" aria-hidden="true">
-					<PlaneTrail />
-				</div>
-			</div>
-
-			<form className="postcard" onSubmit={handleSubmit}>
-				<div className="postcard-stamp" aria-hidden="true">
-					<Stamp />
-				</div>
-
-				<div className="postcard-address">
-					<span className="postcard-to">To: JOA Morocco, Marrakech</span>
-					<label className="address-line">
-						<span>From</span>
-						<input
-							type="text"
-							name="name"
-							placeholder="Your name"
-							value={formData.name}
-							onChange={handleChange}
-							autoComplete="name"
-						/>
+		<section className="ds-card contact-card" ref={formRef} aria-labelledby="contact-title">
+			<p className="ds-label">Get in touch</p>
+			<h2 className="ds-heading" id="contact-title">
+				Contact us
+			</h2>
+			<form className="contact-form" onSubmit={handleSubmit}>
+				<div className="contact-row">
+					<label className="ds-field">
+						<span>Name</span>
+						<input className="ds-input" type="text" name="name" placeholder="Your name"
+							value={formData.name} onChange={handleChange} autoComplete="name" />
 					</label>
-					<label className="address-line">
-						<span>Email</span>
-						<input
-							type="email"
-							name="email"
-							placeholder="your@email.com"
-							required
-							value={formData.email}
-							onChange={handleChange}
-							autoComplete="email"
-						/>
+					<label className="ds-field">
+						<span>Email *</span>
+						<input className="ds-input" type="email" name="email" placeholder="your@email.com" required
+							value={formData.email} onChange={handleChange} autoComplete="email" />
 					</label>
-					<div className="address-line" role="radiogroup" aria-label="About">
-						<span>About</span>
-						<div className="postcard-pills">
-							{ABOUT.map((a) => (
-								<label key={a} className="postcard-pill">
-									<input
-										type="radio"
-										name="about"
-										value={a}
-										checked={formData.about === a}
-										onChange={handleChange}
-									/>
-									{a}
-								</label>
-							))}
-						</div>
+				</div>
+
+				<div className="ds-field" role="radiogroup" aria-label="About">
+					<span className="ds-field-label">About</span>
+					<div className="contact-pills">
+						{ABOUT.map((a) => (
+							<label key={a} className="contact-pill">
+								<input type="radio" name="about" value={a}
+									checked={formData.about === a} onChange={handleChange} />
+								{a}
+							</label>
+						))}
 					</div>
-					{isConsult && (
-						<>
-							<label className="address-line">
-								<span>Day</span>
-								<select name="day" required value={formData.day} onChange={handleChange}>
+				</div>
+
+				{isConsult && (
+					<>
+						<div className="contact-row">
+							<label className="ds-field">
+								<span>Day *</span>
+								<select className="ds-input" name="day" required value={formData.day} onChange={handleChange}>
 									<option value="">Pick a day</option>
 									{DAYS.map((d) => (
 										<option key={d.value} value={d.value}>{d.label}</option>
 									))}
 								</select>
 							</label>
-							<label className="address-line">
-								<span>Time</span>
-								<select name="time" required value={formData.time} onChange={handleChange}>
+							<label className="ds-field">
+								<span>Time *</span>
+								<select className="ds-input" name="time" required value={formData.time} onChange={handleChange}>
 									<option value="">Pick a time</option>
 									{SLOTS.map((t) => (
 										<option key={t.value} value={t.value}>{t.label}</option>
 									))}
 								</select>
 							</label>
-							<label className="address-line">
-								<span>Meet</span>
-								<select name="method" required value={formData.method} onChange={handleChange}>
-									<option value="">How should we meet?</option>
-									{METHODS.map((m) => (
-										<option key={m.value} value={m.value}>{m.value}</option>
-									))}
-								</select>
+						</div>
+						<label className="ds-field">
+							<span>Meet by *</span>
+							<select className="ds-input" name="method" required value={formData.method} onChange={handleChange}>
+								<option value="">How should we meet?</option>
+								{METHODS.map((m) => (
+									<option key={m.value} value={m.value}>{m.value}</option>
+								))}
+							</select>
+						</label>
+						{needsPhone(formData.method) && (
+							<label className="ds-field">
+								<span>Phone *</span>
+								<input className="ds-input" type="tel" name="phone" required
+									placeholder={formData.method.startsWith("Phone") ? "US number only" : "WhatsApp, with country code"}
+									value={formData.phone} onChange={handleChange} autoComplete="tel" />
 							</label>
-							{needsPhone(formData.method) && (
-								<label className="address-line">
-									<span>Phone</span>
-									<input
-										type="tel"
-										name="phone"
-										placeholder={formData.method.startsWith("Phone") ? "US number only" : "WhatsApp, with country code"}
-										required
-										value={formData.phone}
-										onChange={handleChange}
-										autoComplete="tel"
-									/>
-								</label>
-							)}
-							<span className="postcard-note">Times are in your time zone ({TIME_ZONE}).</span>
-						</>
-					)}
-				</div>
+						)}
+						<p className="contact-note">Times are in your time zone ({TIME_ZONE}).</p>
+					</>
+				)}
 
-				<div className="postcard-message">
-					<label className="postcard-message-label" htmlFor="pc-message">
-						Your message
-					</label>
-					<textarea
-						id="pc-message"
-						name="message"
-						placeholder="Dear JOA Morocco…"
-						required
-						value={formData.message}
-						onChange={handleChange}
-					/>
-				</div>
+				<label className="ds-field">
+					<span>Message *</span>
+					<textarea className="ds-input contact-message" id="pc-message" name="message"
+						placeholder="Dear JOA Morocco…" required rows={5}
+						value={formData.message} onChange={handleChange} />
+				</label>
 
-				<button type="submit" className="postcard-send" disabled={busy}>
-					{busy ? "Sending…" : "Send it off"}
+				<button type="submit" className="ds-btn ds-btn--block" disabled={busy}>
+					{busy ? "Sending…" : "Send message"}
 				</button>
 			</form>
 		</section>

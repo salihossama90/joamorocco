@@ -2,17 +2,21 @@ import { Link } from "react-router-dom";
 import InformationContent from "./Information";
 import TourPlanContent from "./TourPlan";
 import TourPlanSlider from "./TourPlanSlider";
-import ReviewsContent from "./Reviews";
+import TourItinerary from "./TourItinerary";
 import TourContact from "./TourContact";
+import ReviewsContent from "./Reviews";
 import { getTour, KIDS_PROMO } from "../../../data/tours";
 
 import "./ContentSection.css";
+import "./TourBook.css";
 
-const BookCta = ({ tour }) => {
+// `eyebrow`: a small label over the heading (converted tour pages)
+const BookCta = ({ tour, eyebrow }) => {
 	const t = getTour(tour);
 	return (
 		<aside className="book-cta" id="book-form">
 			<div className="book-cta-inner">
+				{eyebrow && <p className="ds-eyebrow">{eyebrow}</p>}
 				<h3>Book this tour</h3>
 
 				{/* Full per-person pricing up front — no checkout surprises */}
@@ -51,13 +55,15 @@ const BookCta = ({ tour }) => {
 
 // `design` pages: overview + booking panel, then the tour plan as a full-width
 // day slider, then reviews across the full content width
-const ContentSection = ({ information, tourPlan, reviews, tour, design, hideIntro }) =>
+const ContentSection = ({ information, tourPlan, stops, reviews, tour, design, hideIntro }) =>
 	design ? (
 		<>
 			{hideIntro ? (
-				// the overview above already has the intro: featured reviews right
-				// under it, then the day-by-day plan, then Contact us beside the booking box
+				// the overview above already has the intro: the day-by-day
+				// itinerary, the featured reviews, then Contact us + Book this tour
+				// as cards in the itinerary's style
 				<>
+					{stops && <TourItinerary tourPlan={tourPlan} stops={stops} tour={tour} />}
 					<section className="content-section" data-tone="light">
 						<div className="content-destination-page">
 							<div className="content-container content-container--solo content-container--reviews">
@@ -68,13 +74,22 @@ const ContentSection = ({ information, tourPlan, reviews, tour, design, hideIntr
 							</div>
 						</div>
 					</section>
-					<TourPlanSlider info={tourPlan} />
-					<section className="content-section" data-tone="light">
-						<div className="content-destination-page">
-							<div className="content-container content-container--solo">
-								<div className="tour-book-row">
-									<TourContact tour={tour} />
-									<BookCta tour={tour} />
+					<section className="tbk" id="book" data-tone="light" aria-labelledby="tbk-title">
+						<div className="tbk-inner">
+							<div className="tbk-main">
+								<h2 className="tbk-title" id="tbk-title">
+									Plan your journey
+								</h2>
+								<p className="tbk-intro">
+									Questions first? Send us a message. Ready to go? Choose your group and book.
+								</p>
+								<div className="tbk-row">
+									<div className="tbk-card">
+										<TourContact tour={tour} />
+									</div>
+									<div className="tbk-card">
+										<BookCta tour={tour} eyebrow={`From ${getTour(tour)?.tiers?.at(-1)?.pp}pp`} />
+									</div>
 								</div>
 							</div>
 						</div>

@@ -1,0 +1,376 @@
+/* ══════════════════════════════════════════════
+   Day-by-day itinerary (converted tour pages)
+   Laid out from the user's reference screenshots (a 1728px-wide window;
+   sizes below are read off them, so by eye until Computed values arrive).
+   Their blue → JOA orange; type in the page's own styles.
+══════════════════════════════════════════════ */
+.tit {
+	--tit-pad: 15px;
+	background: #f8f8f8;
+	padding: 60px 0 85.5px;
+	color: #2f2f2f;
+	letter-spacing: 0.85px;
+}
+@media (min-width: 769px) {
+	.tit { --tit-pad: 25.5px; }
+}
+.tit .tit-inner {
+	max-width: 1369px;
+	margin: 0 auto;
+	padding: 0 var(--tit-pad);
+}
+@media (min-width: 1100px) {
+	/* content column (~930px in the reference) + the route map */
+	.tit .tit-inner {
+		display: grid;
+		/* reference: the day card measures 930px at a 1728px window, after the
+		   line's 51px; the map takes what's left, out to the screen edge */
+		grid-template-columns: minmax(0, 981px) minmax(300px, 1fr);
+		gap: 0;
+		align-items: start;
+	}
+}
+
+/* ── Dotted line down the left, a dot per day ── */
+.tit .tit-main { position: relative; }
+@media (min-width: 769px) {
+	.tit .tit-main { padding-left: 51px; }
+}
+.tit .tit-line {
+	display: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0; /* reference: the line sits at the page margin, 51px left of the cards */
+	border-left: 1px dashed var(--primary-color);
+}
+@media (min-width: 769px) {
+	.tit .tit-line { display: block; }
+}
+
+/* ── A place: big name, intro, "Days 2–3" ── */
+.tit .tit-stop + .tit-stop { margin-top: 85.5px; }
+/* reference computed ("PARIS": 45px / 45px / 2.25px). Their condensed face
+   (AlternateGotNo1D) has shorter capitals than League Gothic: theirs measure
+   30px tall on screen, so ours is set at 40px to match what you see */
+.tit .tit-place {
+	/* 12.75px computed, plus 3.5px so the gap to the paragraph looks the same
+	   with League Gothic's taller line (measured off the screenshots) */
+	margin: 0 0 16.25px;
+	font-family: var(--ds-display);
+	font-weight: 400;
+	font-size: 40px;
+	line-height: 45px;
+	letter-spacing: 2.25px;
+	text-transform: uppercase;
+	color: #000;
+}
+/* reference computed (the paragraph under "PARIS") */
+.tit .tit-intro {
+	margin: 0;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+	opacity: 1;
+}
+/* reference computed ("DAYS 1-3"; their blue rgb(30,110,159) → JOA orange).
+   The gaps around it are measured off the screenshots: 50px from the last
+   line of the paragraph, 39px down to the card (text edge to edge) */
+.tit .tit-days {
+	margin: 39.5px 0 29.75px;
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 27px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+	opacity: 1;
+}
+
+/* ── A day: white rounded card, text + photos (alternating sides) ── */
+.tit .tit-day {
+	position: relative;
+	display: grid;
+	background: #fff;
+	/* reference computed (the day card; it also has 51px below it) */
+	border-radius: 15px;
+	box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.2);
+}
+.tit .tit-day + .tit-day { margin-top: 51px; }
+@media (min-width: 769px) {
+	.tit .tit-day { grid-template-columns: 57.6% 42.4%; min-height: 480px; }
+	.tit .tit-day--flip { grid-template-columns: 42.4% 57.6%; }
+	.tit .tit-day--flip .tit-photos { order: -1; border-radius: 15px 0 0 15px; }
+}
+/* the day's dot on the line, level with the card's top edge */
+.tit .tit-dot {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: -58px; /* centred on the line */
+	/* measured off the reference screenshots: 15px, top level with the card */
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	background: var(--primary-color);
+}
+@media (min-width: 769px) {
+	.tit .tit-dot { display: block; }
+}
+/* desktop padding measured off the reference screenshots (1728px window):
+   "DAY n" starts 40px below the card's top edge and 36px in from its left
+   edge on every card; 45.5px on the right keeps "DAY 1" 443px wide, as
+   computed. Phones keep 25.5px (by eye). */
+.tit .tit-day-text { padding: 25.5px; }
+@media (min-width: 769px) {
+	.tit .tit-day-text { padding: 36.5px 45.5px 36.5px 35px; }
+}
+/* reference computed ("DAY 1"; their blue → JOA orange) */
+.tit .tit-day-label {
+	margin: 0 0 6.375px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 19.5px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+	opacity: 1;
+}
+/* reference computed (the day title) */
+.tit .tit-day-title {
+	margin: 0 0 12.75px;
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 27px;
+	text-transform: uppercase;
+	color: #000;
+}
+/* reference computed (the day's body text: 18px / 27px, 15px between
+   paragraphs); the activities below use the same type */
+.tit .tit-day-desc {
+	margin: 0 0 15px;
+	font-size: 18px;
+	line-height: 27px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+	opacity: 1;
+}
+.tit .tit-acts { margin: 0; padding: 0; list-style: none; }
+.tit .tit-acts li {
+	position: relative;
+	margin: 0 0 6.375px;
+	padding-left: 25.5px;
+	font-size: 18px;
+	line-height: 27px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+/* 6px orange dots, centred on the first line (27px tall) */
+.tit .tit-acts li::before {
+	content: "";
+	position: absolute;
+	top: 9.5px; /* Josefin Sans sits high */
+	left: 0;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--primary-color);
+}
+
+/* ── Photo slider ── */
+.tit .tit-photos {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: 4 / 3;
+	border-radius: 15px 15px 0 0;
+	background: #e9e9e9;
+	order: -1; /* phones: photo on top */
+	touch-action: pan-y;
+}
+@media (min-width: 769px) {
+	.tit .tit-photos { order: 0; aspect-ratio: auto; border-radius: 0 15px 15px 0; }
+}
+.tit .tit-photos img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transition: opacity 0.6s ease;
+}
+.tit .tit-photos img.is-active { opacity: 1; }
+.tit .tit-photo-dots {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 20px;
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+}
+.tit .tit-photo-dots button {
+	width: 10px;
+	height: 10px;
+	padding: 0;
+	border: 1.5px solid #fff;
+	border-radius: 50%;
+	background: transparent;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+}
+.tit .tit-photo-dots button.is-active { background: #fff; }
+.tit .tit-photo-dots button:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+
+/* ── Route map: stays in view beside the days (wide screens only) ── */
+.tit .tit-map { display: none; }
+@media (min-width: 1100px) {
+	.tit .tit-map {
+		display: flex;
+		flex-direction: column;
+		position: sticky;
+		top: 90px; /* clears the 65px header */
+		/* runs past the page's right margin to the screen edge, like the reference */
+		margin-right: calc(-1 * max(var(--tit-pad), (100vw - 1369px) / 2 + var(--tit-pad)));
+	}
+}
+.tit .tit-map-svg {
+	display: block;
+	width: 100%;
+	height: auto; /* sized by the column's width, like the reference map */
+	/* the land runs off the right edge of the screen; its top and bottom
+	   fade out instead of ending in a hard line */
+	-webkit-mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 85%, transparent);
+	mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 85%, transparent);
+}
+/* land: the reference map's sand (rgb(229, 223, 204)); borders drawn in
+   the section's background colour */
+.tit .tit-map-land {
+	fill: #e5dfcc;
+	stroke: #f8f8f8;
+	stroke-width: 2;
+	stroke-linejoin: round;
+}
+.tit .tit-map-land--near { fill: #ece7d8; }
+/* sizes below are in the map's own units: it's drawn at about 1× on a
+   1440px screen. Dot: reference computed r 10 (their terracotta
+   rgb(154, 59, 31) → JOA orange); the rest by eye until measured */
+.tit .tit-map-region {
+	font-family: var(--ds-sans);
+	font-size: 14px;
+	font-style: italic;
+	letter-spacing: 0.85px;
+	fill: #a3a6a9;
+}
+.tit .tit-map-leg {
+	stroke: #a3a6a9;
+	stroke-width: 1.5;
+	stroke-dasharray: 2 5;
+	stroke-linecap: round;
+	transition: stroke 0.4s ease;
+}
+.tit .tit-map-leg.is-done { stroke: var(--primary-color); stroke-width: 2.5; stroke-dasharray: none; }
+.tit .tit-map-stop circle { fill: #2f2f2f; transition: fill 0.4s ease; }
+.tit .tit-map-stop.is-done circle { fill: var(--primary-color); }
+.tit .tit-map-stop text {
+	font-family: var(--ds-sans);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	text-transform: uppercase;
+	fill: #2f2f2f;
+	transition: fill 0.4s ease;
+}
+.tit .tit-map-stop.is-done text { fill: var(--primary-color); }
+
+/* ── Book this tour, on the map above Tangier ── */
+.tit .tit-map-book {
+	/* in the map column's flow, so it sits above Tangier at any screen height */
+	flex: none;
+	position: relative;
+	z-index: 1;
+	margin: 25.5px 0 0; /* a step down from the top, then the map below it */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6.375px;
+}
+/* small label type */
+.tit .tit-map-price {
+	margin: 0;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+	opacity: 1;
+}
+/* the site's small black button (homepage hero buttons) */
+.tit .tit-map-btn {
+	display: inline-flex;
+	align-items: center;
+	height: 40px;
+	padding: 12px 20px 10px; /* Josefin Sans sits high */
+	border: 1px solid #000;
+	border-radius: 3px;
+	background: #000;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 12px;
+	text-transform: uppercase;
+	text-decoration: none;
+	box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.2);
+	transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.tit .tit-map-btn:hover { background-color: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+
+/* drawing the eye: every few seconds a light sweeps across the button and
+   an orange ring pulses out from it (stops on hover and for reduced motion) */
+.tit .tit-map-btn {
+	position: relative;
+	background-image: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+	background-size: 250% 100%;
+	background-position: 150% 0;
+	background-repeat: no-repeat;
+	animation: titShine 3.2s ease-in-out 1s infinite;
+}
+.tit .tit-map-btn::after {
+	content: "";
+	position: absolute;
+	inset: -1px;
+	border-radius: 3px;
+	pointer-events: none;
+	animation: titPulse 3.2s ease-out 1s infinite;
+}
+.tit .tit-map-btn:hover,
+.tit .tit-map-btn:hover::after { animation: none; }
+/* and the label + button drift gently, like something floating on the map */
+.tit .tit-map-book { animation: titFloat 5s ease-in-out infinite; }
+.tit .tit-map-book:hover { animation-play-state: paused; }
+@keyframes titFloat {
+	0%, 100% { transform: translate(0, 0); }
+	25% { transform: translate(4px, -5px); }
+	50% { transform: translate(0, -8px); }
+	75% { transform: translate(-4px, -4px); }
+}
+@keyframes titShine {
+	0% { background-position: 150% 0; }
+	35%, 100% { background-position: -50% 0; }
+}
+@keyframes titPulse {
+	0% { box-shadow: 0 0 0 0 rgba(255, 104, 26, 0.6); }
+	45%, 100% { box-shadow: 0 0 0 14px rgba(255, 104, 26, 0); }
+}
+.tit .tit-map-btn:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+	.tit .tit-photos img, .tit .tit-map-leg, .tit .tit-map-stop circle,
+	.tit .tit-map-stop text { transition: none; }
+	.tit .tit-map-btn, .tit .tit-map-btn::after, .tit .tit-map-book { animation: none; }
+}

@@ -1,0 +1,255 @@
+/* ══════════════════════════════════════════════
+   Contact us + Book this tour (converted tour pages), under the reviews.
+   Built in the itinerary's style (TourItinerary.css): the same light grey
+   band, the day cards' 930px width (centred here, as there's no map beside
+   it), a place-style heading and intro, and two white cards with the day
+   cards' corners, shadow, padding and type. The two cards are the same
+   height and their buttons sit on one line.
+══════════════════════════════════════════════ */
+.tbk {
+	--tbk-pad: 15px;
+	background: #f8f8f8;
+	padding: 60px 0 85.5px;
+	color: #2f2f2f;
+	letter-spacing: 0.85px;
+}
+@media (min-width: 769px) {
+	.tbk { --tbk-pad: 25.5px; }
+}
+.tbk .tbk-inner {
+	max-width: 1369px;
+	margin: 0 auto;
+	padding: 0 var(--tbk-pad);
+}
+.tbk .tbk-main { max-width: 930px; margin: 0 auto; }
+
+/* heading + intro: the itinerary's place name and paragraph */
+.ds-page .tbk .tbk-title {
+	margin: 0 0 16.25px;
+	font-family: var(--ds-display);
+	font-weight: 400;
+	font-size: 40px;
+	line-height: 45px;
+	letter-spacing: 2.25px;
+	text-align: center;
+	text-transform: uppercase;
+	color: #000;
+}
+.ds-page .tbk .tbk-intro {
+	margin: 0 0 39px;
+	text-align: center;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+	opacity: 1;
+}
+
+/* two cards side by side, the day cards' 51px apart */
+.tbk .tbk-row { display: grid; gap: 51px; align-items: stretch; }
+@media (min-width: 900px) {
+	.tbk .tbk-row { grid-template-columns: 1fr 1fr; gap: 25.5px; }
+}
+.tbk .tbk-card {
+	display: flex;
+	flex-direction: column;
+	background: #fff;
+	border-radius: 15px;
+	box-shadow: 2px 3px 4px 0 rgba(0, 0, 0, 0.2);
+	padding: 25.5px;
+}
+@media (min-width: 769px) {
+	.tbk .tbk-card { padding: 36.5px 45.5px 36.5px 35px; }
+}
+
+/* labels: the day cards' "DAY n" */
+.ds-page .tbk .ds-eyebrow {
+	margin: 0 0 6.375px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 19.5px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+}
+/* titles: the day cards' title */
+.ds-page .tbk .tour-contact-title,
+.ds-page .tbk .book-cta-inner h3 {
+	margin: 0 0 12.75px;
+	padding: 0;
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 27px;
+	text-align: left;
+	text-transform: uppercase;
+	color: #000;
+}
+/* body: the day cards' body text */
+.ds-page .tbk .tour-contact-sub {
+	margin: 0 0 25.5px;
+	font-size: 18px;
+	line-height: 27px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+
+/* ── Contact form: underlined fields; the message box grows so Send message
+   lines up with Start booking in the card beside it ── */
+.ds-page .tbk .tour-contact,
+.ds-page .tbk .tour-contact-form { display: flex; flex-direction: column; flex: 1 1 auto; padding: 0; }
+.ds-page .tbk .tour-contact-form > .tour-contact-field:last-of-type { display: flex; flex-direction: column; flex: 1 1 auto; }
+.ds-page .tbk .tour-contact-form > .tour-contact-field:last-of-type textarea { flex: 1 1 auto; }
+.ds-page .tbk .tour-contact-row { display: grid; gap: 0 25.5px; width: 100%; }
+@media (min-width: 1200px) {
+	.ds-page .tbk .tour-contact-row { grid-template-columns: 1fr 1fr; }
+}
+.ds-page .tbk .tour-contact-field { display: block; width: 100%; margin: 0 0 25.5px; }
+.ds-page .tbk .tour-contact-field span {
+	display: block;
+	margin: 0;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .tbk .tour-contact-field input,
+.ds-page .tbk .tour-contact-field textarea {
+	display: block;
+	width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	padding: 6.375px 0;
+	border: 0;
+	border-bottom: 1px solid #cacccf;
+	border-radius: 0;
+	background: transparent;
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	letter-spacing: 0.85px;
+	line-height: 27px;
+	color: #2f2f2f;
+	transition: border-color 0.25s ease;
+}
+.ds-page .tbk .tour-contact-field textarea { min-height: 108px; resize: vertical; }
+.ds-page .tbk .tour-contact-field input:focus,
+.ds-page .tbk .tour-contact-field textarea:focus { outline: none; border-color: var(--primary-color); }
+
+/* ── Booking card: no box of its own (the card is the box) ── */
+.ds-page .tbk .book-cta { position: static; display: flex; flex-direction: column; flex: 1 1 auto; width: auto; max-width: none; margin: 0; }
+.ds-page .tbk .book-cta-inner { display: flex; flex-direction: column; flex: 1 1 auto; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; }
+/* Start booking + its link sit at the card's foot */
+.ds-page .tbk .book-cta-btn { margin-top: auto; }
+.ds-page .tbk .price-tiers { width: 100%; margin: 0 0 25.5px; border-collapse: collapse; }
+.ds-page .tbk .price-tiers td {
+	padding: 12.75px 0;
+	border-bottom: 1px solid #cacccf;
+	font-size: 18px;
+	font-weight: 400;
+	letter-spacing: 0.85px;
+	line-height: 27px;
+	color: #52575c;
+}
+.ds-page .tbk .price-tiers tr:first-child td { border-top: 1px solid #cacccf; }
+.ds-page .tbk .price-tiers td:last-child { text-align: right; }
+.ds-page .tbk .price-tiers strong { font-family: var(--ds-sans); font-size: 18px; font-weight: 700; letter-spacing: 0.85px; color: #000; }
+.ds-page .tbk .price-tiers td span { font-size: 14px; letter-spacing: 0.85px; color: #52575c; }
+/* family deal: an orange label over the offer */
+.ds-page .tbk .kids-promo {
+	display: block;
+	margin: 0 0 25.5px;
+	padding: 0;
+	background: none;
+	font-size: 18px;
+	line-height: 27px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .tbk .kids-promo-badge {
+	display: block;
+	margin: 0 0 2px;
+	padding: 0;
+	background: none;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	line-height: 19.5px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+}
+/* points: the day cards' activities, with orange dots */
+.ds-page .tbk .book-cta-points { margin: 0 0 25.5px; padding: 0; list-style: none; }
+.ds-page .tbk .book-cta-points li {
+	position: relative;
+	margin: 0 0 6.375px;
+	padding-left: 25.5px;
+	font-size: 18px;
+	line-height: 27px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .tbk .book-cta-points li::before {
+	content: "";
+	position: absolute;
+	top: 9.5px; /* Josefin Sans sits high */
+	left: 0;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--primary-color);
+}
+
+/* ── Buttons: the site's small black button, full width ── */
+.ds-page .tbk .tour-contact-btn,
+.ds-page .tbk .book-cta-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 40px;
+	padding: 12px 20px 10px; /* Josefin Sans sits high */
+	border: 1px solid #000;
+	border-radius: 3px;
+	background: #000;
+	color: #fff;
+	font-family: var(--ds-sans);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 12px;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.ds-page .tbk .tour-contact-btn:hover:not(:disabled),
+.ds-page .tbk .book-cta-btn:hover { background: var(--primary-color); border-color: var(--primary-color); color: #fff; }
+.ds-page .tbk .tour-contact-btn:disabled { opacity: 0.6; cursor: default; }
+/* the space "Find an existing booking" takes under Start booking */
+.ds-page .tbk .tour-contact-btn { flex: none; margin-bottom: 30.75px; }
+@media (max-width: 899px) {
+	.ds-page .tbk .tour-contact-btn { margin-bottom: 0; }
+}
+.ds-page .tbk .tour-contact-btn:focus-visible,
+.ds-page .tbk .book-cta-btn:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 3px; }
+.ds-page .tbk .book-cta-link {
+	display: block;
+	margin-top: 12.75px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-align: center;
+	text-transform: uppercase;
+	color: #52575c;
+	text-underline-offset: 4px;
+}
+.ds-page .tbk .book-cta-link:hover { color: var(--primary-color); }
+
+@media (prefers-reduced-motion: reduce) {
+	.ds-page .tbk .tour-contact-btn, .ds-page .tbk .book-cta-btn,
+	.ds-page .tbk .tour-contact-field input, .ds-page .tbk .tour-contact-field textarea { transition: none; }
+}

@@ -47,6 +47,7 @@ const TourContact = ({ tour }) => {
 
 	return (
 		<div className="tour-contact">
+			<p className="ds-eyebrow">Get in touch</p>
 			<h3 className="tour-contact-title">Contact us</h3>
 			<p className="tour-contact-sub">Questions about {name}? Send us a message.</p>
 			<form className="tour-contact-form" onSubmit={handleSubmit}>

@@ -1,14 +1,13 @@
 import React from "react";
 import SocialMediaIcons from "../../Nav-Logo-Footer/SocialMediaIcons/SocialMediaIcons";
-import { CompassRose } from "../../Components/Motifs/Motifs";
 
 const FormHeading = () => {
 	return (
-		<aside className="contact-info">
-			<div className="contact-info-compass" aria-hidden="true">
-				<CompassRose />
-			</div>
-			<h2>Find us</h2>
+		<aside className="ds-card contact-info" aria-labelledby="find-us-title">
+			<p className="ds-label">Our office</p>
+			<h2 className="ds-heading" id="find-us-title">
+				Find us
+			</h2>
 			<ul className="contact-info-rows">
 				<li>
 					<span className="contact-info-label">Office</span>
