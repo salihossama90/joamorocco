@@ -3,6 +3,7 @@ import InformationContent from "./Information";
 import TourPlanContent from "./TourPlan";
 import TourPlanSlider from "./TourPlanSlider";
 import ReviewsContent from "./Reviews";
+import TourContact from "./TourContact";
 import { getTour, KIDS_PROMO } from "../../../data/tours";
 
 import "./ContentSection.css";
@@ -54,14 +55,27 @@ const ContentSection = ({ information, tourPlan, reviews, tour, design, hideIntr
 	design ? (
 		<>
 			{hideIntro ? (
-				// the overview above already has the intro: day-by-day plan first,
-				// then the review form and the booking box side by side, reviews under
+				// the overview above already has the intro: featured reviews right
+				// under it, then the day-by-day plan, then Contact us beside the booking box
 				<>
+					<section className="content-section" data-tone="light">
+						<div className="content-destination-page">
+							<div className="content-container content-container--solo content-container--reviews">
+								<h2 className="content-heading" id="tour-reviews">
+									Reviews
+								</h2>
+								<ReviewsContent info={reviews} tour={tour} design quotesOnly />
+							</div>
+						</div>
+					</section>
 					<TourPlanSlider info={tourPlan} />
 					<section className="content-section" data-tone="light">
 						<div className="content-destination-page">
 							<div className="content-container content-container--solo">
-								<ReviewsContent info={reviews} tour={tour} design aside={<BookCta tour={tour} />} />
+								<div className="tour-book-row">
+									<TourContact tour={tour} />
+									<BookCta tour={tour} />
+								</div>
 							</div>
 						</div>
 					</section>

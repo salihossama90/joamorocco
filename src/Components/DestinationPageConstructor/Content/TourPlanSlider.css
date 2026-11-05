@@ -214,9 +214,13 @@
 	text-transform: uppercase;
 }
 .tpd .tpd-ph {
+	/* middle of the card, clear of the day label */
 	position: absolute;
-	top: 20px;
-	right: 20px;
+	top: 50%;
+	left: 0;
+	right: 0;
+	text-align: center;
+	transform: translateY(-50%);
 	/* small label type (12 / 700 / 1.2px) */
 	font-size: 12px;
 	font-weight: 700;
@@ -282,11 +286,16 @@
 	letter-spacing: 0.85px;
 	color: rgba(255, 255, 255, 0.85);
 }
+/* 6px orange dot, centred on the first line (25.5px tall) */
 .tpd .tpd-acts li::before {
-	content: "✔";
+	content: "";
 	position: absolute;
+	top: 8.75px; /* 1px up: Josefin Sans sits high */
 	left: 0;
-	color: var(--primary-color);
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--primary-color);
 }
 
 @media (prefers-reduced-motion: reduce) {

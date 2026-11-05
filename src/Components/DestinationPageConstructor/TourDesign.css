@@ -551,45 +551,108 @@
 	.ds-page .hero-gallery-arrow, .ds-page .review-arrow { transition: none; }
 }
 
-/* Under the overview (TourIntro): review form left, booking box right,
-   featured reviews underneath (gaps on the DESIGN.md steps, by eye) */
+/* Under the overview (TourIntro): featured reviews straight after the key
+   facts (the overview's 60px bottom padding is the gap), the tour plan, then
+   Contact us left of the booking box (gaps on the DESIGN.md steps, by eye) */
 .ds-page .content-container--solo { display: block; }
-.ds-page .reviews-split {
+.ds-page .content-container--reviews { padding-top: 0; }
+.ds-page .tour-book-row {
 	display: grid;
 	gap: 60px;
 	align-items: start;
 }
-.ds-page .reviews-split .book-cta {
+.ds-page .tour-book-row .book-cta {
 	position: static;
 	width: auto;
 	margin: 0;
 	order: -1; /* phones: booking first */
 }
 @media (min-width: 900px) {
-	.ds-page .reviews-split { grid-template-columns: minmax(0, 1fr) 400px; gap: 85.5px; }
-	.ds-page .reviews-split .book-cta { order: 0; }
-}
-/* the form beside the box: no section padding or rule, left-aligned like the box */
-.ds-page .reviews-split .add-review-card {
-	max-width: none;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	text-align: left;
-}
-.ds-page .reviews-split .add-review-card h3 { margin: 0 0 12.75px; padding: 0; text-align: left; }
-.ds-page .reviews-split .add-review-sub { text-align: left; }
-.ds-page .reviews-split .review-submit-btn { align-self: flex-start; }
-@media (min-width: 900px) {
+	.ds-page .tour-book-row { grid-template-columns: minmax(0, 1fr) 400px; gap: 85.5px; }
+	.ds-page .tour-book-row .book-cta { order: 0; }
 	/* heading level with the box's (its 25.5px padding) */
-	.ds-page .reviews-split .add-review-card { padding-top: 25.5px; }
+	.ds-page .tour-contact { padding-top: 25.5px; }
 }
+
+/* Contact us, in the page's type: title (.ti-title), body (.ti-body), small
+   labels (12 / 700 / 1.2px capitals), body-size typing, the black button */
+.ds-page .tour-contact-title {
+	margin: 0 0 12.75px;
+	font-family: var(--ds-sans);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 2.6px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #000;
+}
+.ds-page .tour-contact-sub {
+	margin: 0 0 25.5px;
+	font-size: 17px;
+	line-height: 25.5px;
+	letter-spacing: 0.85px;
+	color: #52575c;
+}
+.ds-page .tour-contact-form { display: flex; flex-direction: column; align-items: flex-start; }
+.ds-page .tour-contact-row { display: grid; gap: 0 25.5px; width: 100%; }
+@media (min-width: 600px) {
+	.ds-page .tour-contact-row { grid-template-columns: 1fr 1fr; }
+}
+.ds-page .tour-contact-field { display: block; width: 100%; margin: 0 0 25.5px; }
+.ds-page .tour-contact-field span {
+	display: block;
+	margin: 0 0 6.375px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: #2f2f2f;
+}
+.ds-page .tour-contact-field input,
+.ds-page .tour-contact-field textarea {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px 12.75px;
+	border: 1px solid #cacccf;
+	border-radius: 3px;
+	background: #fff;
+	font-family: var(--ds-sans);
+	font-size: 17px;
+	letter-spacing: 0.85px;
+	line-height: 18px;
+	color: #2f2f2f;
+	transition: border-color 0.25s ease;
+}
+.ds-page .tour-contact-field input { height: 40px; }
+.ds-page .tour-contact-field textarea { min-height: 140px; line-height: 25.5px; resize: vertical; }
+.ds-page .tour-contact-field input:focus,
+.ds-page .tour-contact-field textarea:focus { outline: none; border-color: #2f2f2f; }
+.ds-page .tour-contact-btn {
+	height: 40px;
+	padding: 12px 20px 10px; /* Josefin Sans sits high */
+	border: 1px solid #000;
+	border-radius: 3px;
+	background: #000;
+	color: #fff;
+	font-family: var(--ds-sans);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 12px;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+.ds-page .tour-contact-btn:hover:not(:disabled) { background: var(--primary-color); border-color: var(--primary-color); }
+.ds-page .tour-contact-btn:disabled { opacity: 0.6; cursor: default; }
+.ds-page .tour-contact-btn:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 3px; }
 /* centred over the centred review quotes */
-.ds-page .content-container--solo .content-heading { margin-top: 85.5px; padding-left: 1.8px; text-align: center; }
+.ds-page .content-container--solo .content-heading { margin: 0; text-align: center; }
 
 /* Section titles here use the same type as the overview title (.ti-title):
    18px / 700 / 2.6px letter spacing / 18px line height, black */
-.ds-page .content-container--solo .add-review-card h3,
 .ds-page .content-container--solo .book-cta-inner h3,
 .ds-page .content-container--solo .content-heading {
 	font-size: 18px;
@@ -600,25 +663,20 @@
 }
 .ds-page .content-container--solo .content-heading { padding-left: 2.6px; }
 
-/* Small type here, in two styles (the featured review quotes keep the
-   homepage carousel's type):
+/* Small type in the booking box, in two styles:
    small text   14px / 400 / 0.85px / 21px
    small labels 12px / 700 / 1.2px / 18px, capitals */
 .ds-page .content-container--solo .price-tiers td,
 .ds-page .content-container--solo .price-tiers td span,
 .ds-page .content-container--solo .kids-promo,
 .ds-page .content-container--solo .book-cta-points li,
-.ds-page .content-container--solo .book-cta-link,
-.ds-page .content-container--solo .review-success,
-.ds-page .content-container--solo .review-error {
+.ds-page .content-container--solo .book-cta-link {
 	font-size: 14px;
 	font-weight: 400;
 	letter-spacing: 0.85px;
 	line-height: 21px;
 }
 .ds-page .content-container--solo .book-cta-link { text-transform: none; }
-.ds-page .content-container--solo .review-form-field label,
-.ds-page .content-container--solo .review-submit-btn,
 .ds-page .content-container--solo .book-cta-btn,
 .ds-page .content-container--solo .kids-promo-badge {
 	font-size: 12px;
@@ -627,7 +685,13 @@
 	line-height: 18px;
 	text-transform: uppercase;
 }
-/* what guests type reads as body text (.ti-body) */
-.ds-page .content-container--solo .add-review-form input,
-.ds-page .content-container--solo .add-review-form textarea { font-size: 17px; letter-spacing: 0.85px; }
-.ds-page .content-container--solo .add-review-form input { line-height: 18px; }
+
+/* Booking points: 6px orange dots instead of ticks, centred on the first line (21px tall) */
+.ds-page .content-container--solo .book-cta-points li::before {
+	content: "";
+	top: 6.5px; /* 1px up: Josefin Sans sits high */
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--primary-color);
+}

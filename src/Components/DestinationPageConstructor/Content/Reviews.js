@@ -130,9 +130,9 @@ const ReviewCarousel = ({ reviews }) => {
 
 const EMPTY_FORM = { reference: "", email: "", name: "", stars: 5, review: "" };
 
-// `aside` (converted tour pages): the review form sits beside it, the rating
-// summary is left out and the featured reviews follow under their own heading
-const ReviewsContent = ({ info, tour, design, aside }) => {
+// `quotesOnly` (converted tour pages): just the featured reviews carousel —
+// no rating summary and no form to post a review
+const ReviewsContent = ({ info, tour, design, quotesOnly }) => {
 	const toast = useToast();
 	const [dbReviews, setDbReviews] = useState([]);
 	const [form, setForm] = useState(EMPTY_FORM);
@@ -271,28 +271,23 @@ const ReviewsContent = ({ info, tour, design, aside }) => {
 		</div>
 	);
 
+	const featured = allReviews.filter((r) => r.stars === 5).slice(0, FEATURED);
+
+	if (quotesOnly)
+		return (
+			<div className="home tour-review-quotes">
+				<ReviewQuotes reviews={featured} />
+			</div>
+		);
+
 	return (
 		<div className="reviews-wrapper">
-			{aside ? (
-				<div className="reviews-split">
-					{reviewForm}
-					{aside}
-				</div>
-			) : (
-				<>
-					{summary}
-					{reviewForm}
-				</>
-			)}
+			{summary}
+			{reviewForm}
 
-			{aside && (
-				<h2 className="content-heading" id="tour-reviews">
-					Reviews
-				</h2>
-			)}
 			{design ? (
 				<div className="home tour-review-quotes">
-					<ReviewQuotes reviews={allReviews.filter((r) => r.stars === 5).slice(0, FEATURED)} />
+					<ReviewQuotes reviews={featured} />
 				</div>
 			) : (
 				<ReviewCarousel reviews={allReviews} />
