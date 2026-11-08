@@ -29,6 +29,10 @@ export async function sendConfirmationEmail(booking) {
 		end_date: prettyDate(booking.endDate),
 		guests: `${booking.adults} adult(s), ${booking.children} child(ren), ${booking.toddlers} toddler(s)`,
 		total: centsToUSD(booking.totalCents || 0),
+		// payment schedule: optional in the template ({{paid_today}} etc.)
+		paid_today: centsToUSD(booking.payment?.paidCents || 0),
+		balance: centsToUSD(booking.payment?.balanceCents || 0),
+		balance_due: booking.payment?.balanceCents ? prettyDate(booking.payment.balanceDueDate) : "Paid in full",
 	};
 	try {
 		await emailjs.send(SERVICE, TEMPLATE, params, PUBLIC_KEY);

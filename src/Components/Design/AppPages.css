@@ -380,8 +380,27 @@
 .ds-page.booking-page .confirm-line { font-size: 14px; letter-spacing: 0.85px; color: var(--ds-text); border-color: var(--ds-line); }
 .ds-page.booking-page .confirm-line span { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ds-ink); }
 .ds-page.booking-page .confirm-line.total strong { font-family: var(--ds-sans); font-size: 18px; font-weight: 700; color: #000; }
-.ds-page.booking-page .confirm-instructions { border-radius: 15px; }
-.ds-page.booking-page .confirm-instructions strong { color: #000; }
+.ds-page.booking-page .confirm-sub { max-width: 52ch; margin: 0 auto 25.5px; text-align: center; }
+.ds-page.booking-page .confirm-sub a,
+.ds-page.booking-page .confirm-instructions a { color: var(--primary-color); font-weight: 700; text-underline-offset: 3px; }
+.ds-page.booking-page .confirm-instructions {
+	max-width: 460px;
+	margin: 0 auto 25.5px;
+	padding: 20px 25.5px;
+	border: 1px solid var(--ds-line);
+	border-radius: 15px;
+	background: #fff;
+	text-align: left;
+}
+.ds-page.booking-page .confirm-instructions strong {
+	margin-bottom: 6.375px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.85px;
+	text-transform: uppercase;
+	color: var(--primary-color);
+}
+.ds-page.booking-page .confirm-instructions p { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; color: var(--ds-text); }
 
 /* ── Find booking: the trip card ── */
 .ds-page.account-page .lookup-form { display: block; }
@@ -488,3 +507,59 @@
 @media (prefers-reduced-motion: reduce) {
 	.ds-page :is(.btn-primary, .btn-ghost), .ds-page.booking-page .tour-choice { transition: none; }
 }
+
+/* ── Payment step: what's due today and later, then Stripe's form ── */
+.ds-page.booking-page .pay-due {
+	margin: 0 0 25.5px;
+	padding: 12.75px 0;
+	border-top: 1px solid var(--ds-line);
+	border-bottom: 1px solid var(--ds-line);
+}
+.ds-page.booking-page .pay-due-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 12.75px;
+	padding: 6.375px 0;
+}
+.ds-page.booking-page .pay-due-row span {
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 1.2px;
+	line-height: 18px;
+	text-transform: uppercase;
+	color: var(--ds-ink);
+}
+.ds-page.booking-page .pay-due-row strong {
+	font-family: var(--ds-display);
+	font-size: 32px;
+	font-weight: 400;
+	line-height: 36px;
+	letter-spacing: 1px;
+	color: #000;
+}
+.ds-page.booking-page .pay-due-later span { font-weight: 400; letter-spacing: 0.85px; text-transform: none; font-size: 14px; color: var(--ds-text); }
+.ds-page.booking-page .pay-due-note { margin: 6.375px 0 0; font-size: 14px; line-height: 21px; color: var(--ds-text); }
+.ds-page.booking-page .pay-start { display: flex; width: 100%; }
+.ds-page.booking-page .pay-edit { margin-top: -6.375px; }
+.ds-page.booking-page .field input:disabled { color: var(--ds-text); opacity: 0.8; }
+.ds-page.booking-page .ps-schedule .ps-line strong { color: #000; }
+
+/* Pop-ups that hold Stripe's form scroll inside the screen */
+.ds-page .modal { max-height: calc(100vh - 40px); overflow-y: auto; }
+/* amount lines in the pop-ups ("Balance due by …  $2,380") */
+.ds-page .mini-delta {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 12.75px;
+	margin: 0 0 20px;
+	padding: 12.75px 0;
+	border-top: 1px solid var(--ds-line);
+	border-bottom: 1px solid var(--ds-line);
+	border-radius: 0;
+	background: none;
+}
+.ds-page .mini-delta span { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; color: var(--ds-text); }
+.ds-page .mini-delta strong { font-family: var(--ds-display); font-size: 32px; font-weight: 400; line-height: 36px; letter-spacing: 1px; color: #000; }
+.ds-page .mini-note { font-size: 14px; line-height: 21px; letter-spacing: 0.85px; color: var(--ds-text); }

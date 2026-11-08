@@ -25,7 +25,7 @@ export default function StepConfirmation({ result, onStartOver }) {
 	const booking = result.booking;
 	const tour = getTour(booking.tourKey);
 	const b = booking.breakdown || {};
-	const pending = result.paymentStatus === "pending";
+	const pay = booking.payment || result.payment || null;
 
 	const copyRef = () => {
 		navigator.clipboard?.writeText(booking.reference).then(
@@ -93,12 +93,27 @@ export default function StepConfirmation({ result, onStartOver }) {
 					<span>Total</span>
 					<strong>{centsToUSD(booking.totalCents)}</strong>
 				</div>
+				{pay && (
+					<>
+						<div className="confirm-line">
+							<span>Paid today</span>
+							<strong>{centsToUSD(pay.paidCents)}</strong>
+						</div>
+						<div className="confirm-line">
+							<span>{pay.balanceCents > 0 ? `Balance due by ${prettyDate(pay.balanceDueDate)}` : "Balance"}</span>
+							<strong>{pay.balanceCents > 0 ? centsToUSD(pay.balanceCents) : "Paid in full"}</strong>
+						</div>
+					</>
+				)}
 			</div>
 
-			{pending && result.instructions && (
+			{pay?.balanceCents > 0 && (
 				<div className="confirm-instructions">
-					<strong>Complete your payment</strong>
-					<p>{result.instructions}</p>
+					<strong>Paying the balance</strong>
+					<p>
+						Pay the remaining {centsToUSD(pay.balanceCents)} any time before {prettyDate(pay.balanceDueDate)} from{" "}
+						<Link to="/find-booking">Find your booking</Link>, using your confirmation code and email.
+					</p>
 				</div>
 			)}
 

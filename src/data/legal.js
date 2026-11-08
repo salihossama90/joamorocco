@@ -36,8 +36,11 @@ export const TERMS = {
 		{
 			h: "3. Payments",
 			body: [
-				"Payment requirements will be communicated to you before booking.",
-				"Depending on the trip, JOA may require a deposit to secure your reservation, with the remaining balance due before the beginning of your trip.",
+				"A deposit of 30% of the trip price is due at the time of booking to secure your reservation.",
+				"The remaining balance is due 45 days before your trip's start date. Bookings made within 45 days of the start date must be paid in full at the time of booking.",
+				"You can pay the balance at any time before it is due from the Find your booking page, using your confirmation code and the email you booked with.",
+				"Guests added to an existing booking are charged on the same terms: their share of the deposit at the time they are added, or the full amount if the balance is already due.",
+				"Payments are processed securely by Stripe. JOA does not store your card details.",
 				"Failure to make required payments by the stated deadline may result in cancellation of your reservation and forfeiture of applicable deposits.",
 			],
 		},

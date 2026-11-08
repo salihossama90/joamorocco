@@ -10,16 +10,23 @@ export default function FindBookingPage() {
 	const [error, setError] = useState("");
 	const [booking, setBooking] = useState(null);
 
+	const lookup = async () => {
+		const data = await api.post("/api/lookup-booking", {
+			reference: reference.trim(),
+			email: email.trim(),
+		});
+		setBooking({ ...data.booking, payment: data.payment });
+	};
+
+	// after paying the balance or adding guests: show the updated trip
+	const refresh = () => lookup().catch(() => setBooking(null));
+
 	const submit = async (e) => {
 		e.preventDefault();
 		setError("");
 		setBusy(true);
 		try {
-			const data = await api.post("/api/lookup-booking", {
-				reference: reference.trim(),
-				email: email.trim(),
-			});
-			setBooking(data.booking);
+			await lookup();
 		} catch (err) {
 			setError(err.message);
 			setBooking(null);
@@ -57,7 +64,7 @@ export default function FindBookingPage() {
 
 				{booking && (
 					<>
-						<TripCard booking={booking} auth={{ email: email.trim() }} onChanged={() => setBooking(null)} />
+						<TripCard booking={booking} auth={{ email: email.trim() }} onChanged={refresh} />
 						<button className="link-btn" onClick={() => setBooking(null)}>Look up another booking</button>
 					</>
 				)}

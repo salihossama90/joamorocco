@@ -1,6 +1,7 @@
 import { getDb } from "./_lib/db.mjs";
 import { json, error, requireMethod, parseBody } from "./_lib/respond.mjs";
 import { findOwnedBooking, serializeBooking } from "./_lib/bookings.mjs";
+import { paymentSummary } from "./_lib/finalize.mjs";
 
 export const handler = async (event) => {
   const bad = requireMethod(event, "POST");
@@ -32,6 +33,7 @@ export const handler = async (event) => {
       ...serializeBooking(row, { includeContact: true }),
       hasReview: hasReview.rows.length > 0,
     },
+    payment: await paymentSummary(db, row),
     transactions: tx.rows.map((t) => ({
       amountCents: t.amount_cents,
       method: t.method,

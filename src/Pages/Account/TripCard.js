@@ -5,6 +5,8 @@ import { MAX_TRAVELERS } from "@shared/tourMeta.mjs";
 import { getTour } from "../../data/tours";
 import { api } from "../../lib/api";
 import { useToast } from "../../Components/Toast/ToastProvider";
+import StripePay from "../../Components/StripePay/StripePay";
+import { balanceIsDue, depositCents } from "@shared/payments.mjs";
 
 async function downloadPdf(booking) {
 	const { downloadBookingPdf } = await import("../../lib/generatePdf");
@@ -15,7 +17,9 @@ async function downloadPdf(booking) {
 export default function TripCard({ booking, onChanged, auth }) {
 	const tour = getTour(booking.tourKey);
 	const [open, setOpen] = useState(false);
-	const [modal, setModal] = useState(null); // 'seats' | 'review' | null
+	const [modal, setModal] = useState(null); // 'seats' | 'balance' | 'review' | null
+	const pay = booking.payment;
+	const owes = pay && pay.balanceCents > 0 && booking.status !== "cancelled";
 
 	const statusClass =
 		booking.status === "cancelled" ? "cancelled" : booking.status === "pending" ? "pending" : "confirmed";
@@ -45,11 +49,23 @@ export default function TripCard({ booking, onChanged, auth }) {
 						<div><span>Guests</span><strong>{booking.adults}A · {booking.children}C · {booking.toddlers}T</strong></div>
 						<div><span>Duration</span><strong>{tour?.days} days</strong></div>
 						<div><span>Reference</span><strong>{booking.reference}</strong></div>
+						{pay && <div><span>Paid</span><strong>{centsToUSD(pay.paidCents)}</strong></div>}
+						{pay && (
+							<div>
+								<span>{owes ? `Balance · due ${prettyDate(pay.balanceDueDate)}` : "Balance"}</span>
+								<strong>{owes ? centsToUSD(pay.balanceCents) : "Paid in full"}</strong>
+							</div>
+						)}
 					</div>
 					{booking.specialRequests && (
 						<p className="trip-requests"><span>Requests:</span> {booking.specialRequests}</p>
 					)}
 					<div className="trip-actions">
+						{owes && (
+							<button className="btn-primary sm" onClick={() => setModal("balance")}>
+								Pay balance · {centsToUSD(pay.balanceCents)}
+							</button>
+						)}
 						<button className="btn-ghost sm" onClick={() => downloadPdf(booking)}>Download PDF</button>
 						{booking.status !== "cancelled" && (
 							<button className="btn-ghost sm" onClick={() => setModal("seats")}>Add seats</button>
@@ -62,6 +78,9 @@ export default function TripCard({ booking, onChanged, auth }) {
 				</div>
 			)}
 
+			{modal === "balance" && (
+				<PayBalanceModal booking={booking} auth={auth} onClose={() => setModal(null)} ondone={() => { setModal(null); onChanged?.(); }} />
+			)}
 			{modal === "seats" && (
 				<AddSeatsModal booking={booking} auth={auth} onClose={() => setModal(null)} ondone={() => { setModal(null); onChanged?.(); }} />
 			)}
@@ -72,11 +91,63 @@ export default function TripCard({ booking, onChanged, auth }) {
 	);
 }
 
+/* ── Pay balance ── */
+function PayBalanceModal({ booking, auth, onClose, ondone }) {
+	const toast = useToast();
+	const [intent, setIntent] = useState(null);
+	const [busy, setBusy] = useState(false);
+
+	const start = async () => {
+		setBusy(true);
+		try {
+			setIntent(await api.post("/api/payment-intent", { purpose: "balance", reference: booking.reference, email: auth?.email }));
+		} catch (e) {
+			toast.error(e.message);
+		} finally {
+			setBusy(false);
+		}
+	};
+
+	const onPaid = async (pi) => {
+		try {
+			await api.post("/api/confirm-payment", { paymentIntentId: pi.id });
+			toast.success("Balance paid — thank you! Your trip is paid in full.");
+			onDoneSafe(ondone);
+		} catch (e) {
+			toast.error(e.message);
+		}
+	};
+
+	return (
+		<Modal title="Pay your balance" onClose={onClose}>
+			<div className="mini-delta">
+				<span>Balance due by {prettyDate(booking.payment.balanceDueDate)}</span>
+				<strong>{centsToUSD(booking.payment.balanceCents)}</strong>
+			</div>
+			{intent ? (
+				<StripePay
+					clientSecret={intent.clientSecret}
+							amountCents={intent.amountCents}
+					label={`Pay ${centsToUSD(intent.amountCents)}`}
+					onPaid={onPaid}
+					onError={(m) => toast.error(m)}
+				/>
+			) : (
+				<button className="btn-primary" onClick={start} disabled={busy}>
+					{busy ? <span className="btn-spinner" /> : "Continue to payment"}
+				</button>
+			)}
+		</Modal>
+	);
+}
+
 /* ── Add seats ── */
+// Added guests pay their share now: 30% before the balance is due, in full
+// after (the server prices it; this is the preview)
 function AddSeatsModal({ booking, auth, onClose, ondone }) {
 	const toast = useToast();
 	const [add, setAdd] = useState({ a: 0, c: 0, t: 0 });
-	const [card, setCard] = useState({ cardNumber: "", expiry: "", cvc: "" });
+	const [intent, setIntent] = useState(null);
 	const [busy, setBusy] = useState(false);
 
 	const newA = booking.adults + add.a;
@@ -89,29 +160,47 @@ function AddSeatsModal({ booking, auth, onClose, ondone }) {
 	const oldQuote = computeQuote(booking.tourKey, booking.adults, booking.children, booking.toddlers);
 	const newQuote = computeQuote(booking.tourKey, newA, newC, newT);
 	const delta = Math.max(0, newQuote.totalCents - oldQuote.totalCents);
-	const needsPayment = delta > 0;
+	const paid = booking.payment?.paidCents ?? oldQuote.totalCents;
+	const owedNow = balanceIsDue(booking.startDate) ? newQuote.totalCents : depositCents(newQuote.totalCents);
+	const dueNow = Math.max(0, owedNow - paid);
 
-	const inc = (k, d) => setAdd((s) => ({ ...s, [k]: Math.max(0, s[k] + d) }));
+	const inc = (k, d) => {
+		setIntent(null);
+		setAdd((s) => ({ ...s, [k]: Math.max(0, s[k] + d) }));
+	};
 
-	const submit = async () => {
+	const start = async () => {
 		if (!addedAny) return toast.error("Add at least one guest.");
 		if (overCap) return toast.error(`Maximum ${MAX_TRAVELERS} travelers per tour.`);
 		setBusy(true);
 		try {
-			await api.post("/api/add-seats", {
+			const res = await api.post("/api/payment-intent", {
+				purpose: "add_seats",
 				reference: booking.reference,
 				email: auth?.email,
 				addAdults: add.a,
 				addChildren: add.c,
 				addToddlers: add.t,
-				payment: needsPayment
-					? { method: "card", cardNumber: card.cardNumber, expiry: card.expiry, cvc: card.cvc }
-					: undefined,
 			});
-			toast.success(delta > 0 ? `Added — ${centsToUSD(delta)} charged.` : "Guests added.");
+			if (res.applied) {
+				toast.success("Guests added.");
+				onDoneSafe(ondone);
+			} else {
+				setIntent(res);
+			}
+		} catch (e) {
+			toast.error(e.message);
+		} finally {
+			setBusy(false);
+		}
+	};
+
+	const onPaid = async (pi) => {
+		try {
+			await api.post("/api/confirm-payment", { paymentIntentId: pi.id });
+			toast.success("Guests added — thank you!");
 			onDoneSafe(ondone);
 		} catch (e) {
-			setBusy(false);
 			toast.error(e.message);
 		}
 	};
@@ -135,25 +224,29 @@ function AddSeatsModal({ booking, auth, onClose, ondone }) {
 				{overCap && " — over capacity"}
 			</p>
 			<div className="mini-delta">
-				<span>Additional charge</span>
+				<span>Trip total goes up by</span>
 				<strong>{centsToUSD(delta)}</strong>
 			</div>
-			{needsPayment && (
-				<div className="mini-card">
-					<input placeholder="Card number" value={card.cardNumber}
-						onChange={(e) => setCard({ ...card, cardNumber: e.target.value.replace(/\D/g, "").slice(0,19).replace(/(.{4})/g,"$1 ").trim() })} />
-					<div className="field-row">
-						<input placeholder="MM/YY" value={card.expiry}
-							onChange={(e) => { const d=e.target.value.replace(/\D/g,"").slice(0,4); setCard({ ...card, expiry: d.length>2?`${d.slice(0,2)}/${d.slice(2)}`:d }); }} />
-						<input placeholder="CVC" value={card.cvc}
-							onChange={(e) => setCard({ ...card, cvc: e.target.value.replace(/\D/g,"").slice(0,4) })} />
-					</div>
-					<p className="pay-sim-note">Test mode — use 4242 4242 4242 4242.</p>
-				</div>
+			{addedAny && (
+				<p className="mini-note">
+					{dueNow > 0
+						? `Due now: ${centsToUSD(dueNow)}${balanceIsDue(booking.startDate) ? "" : " (30%) — the rest joins your balance"}.`
+						: "Nothing to pay now — it's added to your trip."}
+				</p>
 			)}
-			<button className="btn-primary" onClick={submit} disabled={busy || !addedAny || overCap}>
-				{busy ? <span className="btn-spinner" /> : needsPayment ? `Pay ${centsToUSD(delta)}` : "Add guests"}
-			</button>
+			{intent ? (
+				<StripePay
+					clientSecret={intent.clientSecret}
+							amountCents={intent.amountCents}
+					label={`Pay ${centsToUSD(intent.amountCents)}`}
+					onPaid={onPaid}
+					onError={(m) => toast.error(m)}
+				/>
+			) : (
+				<button className="btn-primary" onClick={start} disabled={busy || !addedAny || overCap}>
+					{busy ? <span className="btn-spinner" /> : dueNow > 0 ? "Continue to payment" : "Add guests"}
+				</button>
+			)}
 		</Modal>
 	);
 }

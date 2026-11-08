@@ -1,0 +1,11 @@
+/* The Pay button under Stripe's form: the site's 40px button, full width */
+.stripe-pay { display: flex; flex-direction: column; gap: 20px; }
+.stripe-pay .stripe-pay-btn { width: 100%; }
+.stripe-pay-note {
+	margin: -6px 0 0;
+	font-size: 12px;
+	letter-spacing: 0.85px;
+	line-height: 18px;
+	text-align: center;
+	color: #52575c;
+}

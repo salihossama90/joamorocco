@@ -109,13 +109,31 @@ const STATEMENTS = [
   `CREATE INDEX IF NOT EXISTS idx_reviews_tour ON reviews(tour_key)`,
 ];
 
+// Added for Stripe (Nov 2026): the PaymentIntent a booking was paid with, so
+// a payment can only ever create one booking. ADD COLUMN isn't idempotent in
+// SQLite, so it runs only when the column is missing.
+async function migrate(db) {
+  const cols = await db.execute(`PRAGMA table_info(bookings)`);
+  if (!cols.rows.some((c) => c.name === "stripe_intent")) {
+    await db.execute(`ALTER TABLE bookings ADD COLUMN stripe_intent TEXT`);
+  }
+  await db.execute(
+    `CREATE UNIQUE INDEX IF NOT EXISTS idx_bookings_stripe_intent ON bookings(stripe_intent) WHERE stripe_intent IS NOT NULL`
+  );
+  // One transaction per Stripe payment (balance payments, added seats)
+  await db.execute(
+    `CREATE UNIQUE INDEX IF NOT EXISTS idx_transactions_provider_ref ON transactions(provider_ref) WHERE provider_ref IS NOT NULL`
+  );
+}
+
 async function main() {
   loadEnv();
   const db = resolveClient();
   for (const sql of STATEMENTS) {
     await db.execute(sql);
   }
-  console.log("✓ Schema ready (users, bookings, transactions, reviews).");
+  await migrate(db);
+  console.log("✓ Schema ready (users, bookings, transactions, reviews; Stripe columns).");
 }
 
 main().catch((err) => {

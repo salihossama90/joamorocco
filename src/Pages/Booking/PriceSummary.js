@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { centsToUSD } from "@shared/pricing.mjs";
 import { prettyDate, endDateFor } from "@shared/dates.mjs";
+import { dueAtBooking, balanceDueDate } from "@shared/payments.mjs";
 import { getTour } from "../../data/tours";
 
 // Animate a dollar total when it changes (count-up "ticker").
@@ -101,6 +102,24 @@ export default function PriceSummary({ data, quote, showPrice }) {
 							<span>Total</span>
 							<strong className="ps-total-amount">{centsToUSD(animatedTotal)}</strong>
 						</div>
+						{/* 30% today, the rest 45 days before the trip (or all today) */}
+						{data.startDate && (() => {
+							const due = dueAtBooking(quote.totalCents, data.startDate);
+							return (
+								<div className="ps-lines ps-schedule">
+									<div className="ps-line">
+										<span>{due.kind === "full" ? "Due today (in full)" : "Due today (30%)"}</span>
+										<strong>{centsToUSD(due.cents)}</strong>
+									</div>
+									{due.kind === "deposit" && (
+										<div className="ps-line">
+											<span>Balance by {prettyDate(balanceDueDate(data.startDate))}</span>
+											<span>{centsToUSD(quote.totalCents - due.cents)}</span>
+										</div>
+									)}
+								</div>
+							);
+						})()}
 					</>
 				) : (
 					<p className="ps-pending">Your total appears once you choose who's travelling.</p>
