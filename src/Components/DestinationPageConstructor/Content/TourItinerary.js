@@ -121,6 +121,14 @@ const TourItinerary = ({ tourPlan, stops, tour }) => {
 	const from = getTour(tour)?.tiers?.at(-1)?.pp;
 	const [active, setActive] = useState(0);
 	const stopRefs = useRef([]);
+	// phones: each day is a compact row that opens on tap (desktop shows all)
+	const [open, setOpen] = useState(() => new Set());
+	const toggle = (day) =>
+		setOpen((prev) => {
+			const next = new Set(prev);
+			next.has(day) ? next.delete(day) : next.add(day);
+			return next;
+		});
 
 	// the place whose section has reached the upper third of the screen
 	useEffect(() => {
@@ -162,9 +170,27 @@ const TourItinerary = ({ tourPlan, stops, tour }) => {
 								const d = byDay[n];
 								if (!d) return null;
 								return (
-									<article className={`tit-day${d.day % 2 === 0 ? " tit-day--flip" : ""}`} key={n}>
+									<article
+										className={`tit-day${d.day % 2 === 0 ? " tit-day--flip" : ""}${open.has(d.day) ? " is-open" : ""}`}
+										key={n}
+									>
 										<span className="tit-dot" aria-hidden="true" />
-										<div className="tit-day-text">
+										{/* phones only: the day's row, tap to open */}
+										<button
+											type="button"
+											className="tit-day-toggle"
+											aria-expanded={open.has(d.day)}
+											aria-controls={`tit-day-${d.day}`}
+											onClick={() => toggle(d.day)}
+										>
+											{d.images?.[0] && <img className="tit-day-thumb" src={d.images[0]} alt="" loading="lazy" />}
+											<span className="tit-day-toggle-text">
+												<span className="tit-day-label">Day {d.day}</span>
+												<span className="tit-day-toggle-title">{d.title}</span>
+											</span>
+											<span className="tit-day-plus" aria-hidden="true" />
+										</button>
+										<div className="tit-day-text" id={`tit-day-${d.day}`}>
 											<p className="tit-day-label">Day {d.day}</p>
 											<h3 className="tit-day-title">{d.title}</h3>
 											<p className="tit-day-desc">{d.description}</p>
